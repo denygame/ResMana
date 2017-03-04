@@ -10,6 +10,7 @@ CREATE TABLE NhanVien
 	tenNhanVien NVARCHAR(100) NOT NULL,
 	ngaySinh DATE NOT NULL,
 	gioiTinh NVARCHAR(3) NOT NULL,
+	chucVu NVARCHAR(100) NOT NULL, 
 	queQuan NVARCHAR(100),
 	email VARCHAR(100),
 	diaChi NVARCHAR(100),
