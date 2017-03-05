@@ -1,0 +1,11 @@
+E:\QLNHhqtcsdl\Source\QuanLyNhaHang\QuanLyNhaHang\bin\Debug\QuanLyNhaHang.exe.config
+E:\QLNHhqtcsdl\Source\QuanLyNhaHang\QuanLyNhaHang\bin\Debug\QuanLyNhaHang.exe
+E:\QLNHhqtcsdl\Source\QuanLyNhaHang\QuanLyNhaHang\bin\Debug\QuanLyNhaHang.pdb
+E:\QLNHhqtcsdl\Source\QuanLyNhaHang\QuanLyNhaHang\obj\Debug\QuanLyNhaHang.csprojResolveAssemblyReference.cache
+E:\QLNHhqtcsdl\Source\QuanLyNhaHang\QuanLyNhaHang\obj\Debug\QuanLyNhaHang.FrmManage.resources
+E:\QLNHhqtcsdl\Source\QuanLyNhaHang\QuanLyNhaHang\obj\Debug\QuanLyNhaHang.Properties.Resources.resources
+E:\QLNHhqtcsdl\Source\QuanLyNhaHang\QuanLyNhaHang\obj\Debug\QuanLyNhaHang.csproj.GenerateResource.Cache
+E:\QLNHhqtcsdl\Source\QuanLyNhaHang\QuanLyNhaHang\obj\Debug\QuanLyNhaHang.exe
+E:\QLNHhqtcsdl\Source\QuanLyNhaHang\QuanLyNhaHang\obj\Debug\QuanLyNhaHang.pdb
+E:\QLNHhqtcsdl\Source\QuanLyNhaHang\QuanLyNhaHang\obj\Debug\QuanLyNhaHang.GUI.FrmAddFood.resources
+E:\QLNHhqtcsdl\Source\QuanLyNhaHang\QuanLyNhaHang\obj\Debug\QuanLyNhaHang.GUI.FrmBookTable.resources

@@ -14,7 +14,7 @@ CREATE TABLE NhanVien
 	queQuan NVARCHAR(100),
 	email VARCHAR(100),
 	diaChi NVARCHAR(100),
-	tel VARCHAR(15),
+	tel INT NOT	NULL,
 )
 
 CREATE TABLE TaiKhoan
@@ -39,7 +39,7 @@ CREATE TABLE BanAn
 	tenBan NVARCHAR(100) DEFAULT N'Chưa đặt tên bàn',
 	choNgoi INT NOT NULL, 
 	idSanh INT NOT NULL,
-	trangThai INT DEFAULT 0, -- 0: Trống || 1: Có Người
+	trangThai INT DEFAULT 0, -- 0: Trống || 1: Có Người || 2: Bàn Đặt Chỗ
 
 	FOREIGN KEY (idSanh) REFERENCES dbo.Sanh(idSanh)
 )
@@ -47,7 +47,7 @@ CREATE TABLE BanAn
 CREATE TABLE DanhMuc
 (
 	idMenu INT IDENTITY PRIMARY KEY,
-	tenMenu NVARCHAR(100) DEFAULT N'Chưa đặt tên Menu',
+	tenMenu NVARCHAR(100) DEFAULT N'Chưa đặt tên danh mục',
 )
 
 CREATE TABLE ThucAn
@@ -77,9 +77,10 @@ CREATE TABLE HoaDon
 CREATE TABLE ChiTietHoaDon
 (
 	idCTHD INT IDENTITY PRIMARY KEY,
-	idHoaDon INT NOT NULL,
-	idThucAn INT NOT NULL,
-	soLuong INT NOT NULL,
+	idHoaDon INT,
+	idThucAn INT,
+	soLuong INT,
+	chiPhiPhuThem INT, -- đặt chỗ
 
 	FOREIGN KEY (idHoaDon) REFERENCES dbo.HoaDon(idHoaDon),
 	FOREIGN KEY (idThucAn) REFERENCES dbo.ThucAn(idThucAn)
