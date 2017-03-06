@@ -1,0 +1,7 @@
+﻿Sử dụng mô hình 3 lớp Three Layer ( Presentation Layers <GUI>, Business Logic Layers <BLL>, Data Access Layers <DAL>)
+- Không sử dụng lớp BLL
+- Sử dụng 1 lớp phụ là DTO
+
+GUI là lớp chứa giao diện cho người dùng (forms)
+DAL là lớp truy xuất Database
+DTO là lớp trả về < tức là sau khi gọi câu truy vấn SQL thì trả về cái gì? >

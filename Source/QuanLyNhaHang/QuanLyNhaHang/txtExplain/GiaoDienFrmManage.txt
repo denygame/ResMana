@@ -1,0 +1,18 @@
+﻿- 1. Dùng class Bitmap chèn hình vào button
+
+- 2. Nhiều form hoạt động cùng lúc dùng lệnh OpenForms trong Application:
+			Application.OpenForms["tênForm"] == null ......
+		Lưu ý: dùng focus form cũng dùng OpenForms: Application.....["tenForm"].Focus()
+
+- 3. ComboBox có thể truyền List vào bằng cách: cb.DataSource = list;
+		Lưu ý: nếu list đó là 1 list class có nhiều trường dữ liệu phải truyền trường
+			hiển thị bằng: cb.DisplayMember = "Trường muốn hiển thị";
+
+- 4. Dùng flowLayoutPanel để hiển thị các bàn ăn. Cái này sẽ tự động sắp xếp vị trí
+	 của các controls khác
+
+- 5. Sử dụng Tag để lưu trữ tất cả các BanAn tại button bàn ăn đó	< trong method loadBanTheoIdSanh >
+
+- 6. Sử dụng sender trong event Btn_Click để lấy dữ liệu bàn ăn 
+		VD: ((sender as Button).Tag as BanAn).IdBanAn lấy ra id
+	 Để làm được thì phải qua bước 5 (Tag tất cả bàn ăn)

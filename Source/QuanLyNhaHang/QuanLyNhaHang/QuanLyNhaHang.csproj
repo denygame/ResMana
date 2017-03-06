@@ -62,6 +62,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAL\BanAnDAL.cs" />
+    <Compile Include="DAL\DatabaseExecute.cs" />
+    <Compile Include="DAL\SanhDAL.cs" />
+    <Compile Include="DTO\BanAn.cs" />
+    <Compile Include="DTO\Sanh.cs" />
+    <Compile Include="GUI\Constant.cs" />
     <Compile Include="GUI\FrmAddFood.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -127,9 +133,11 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DAL\" />
-    <Folder Include="DTO\" />
     <Folder Include="Img\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="txtExplain\GiaoDienFrmManage.txt" />
+    <Content Include="txtExplain\MoHinh.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

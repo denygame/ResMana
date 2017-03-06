@@ -85,3 +85,78 @@ CREATE TABLE ChiTietHoaDon
 	FOREIGN KEY (idHoaDon) REFERENCES dbo.HoaDon(idHoaDon),
 	FOREIGN KEY (idThucAn) REFERENCES dbo.ThucAn(idThucAn)
 )
+
+
+
+
+--- TEST
+INSERT dbo.Sanh
+        ( tenSanh )
+VALUES  ( N'Sảnh 1'  -- tenSanh - nvarchar(100)
+          )
+		  INSERT dbo.Sanh
+        ( tenSanh )
+VALUES  ( N'Sảnh 2'  -- tenSanh - nvarchar(100)
+          )
+
+DECLARE @i INT =0
+WHILE @i<10
+BEGIN
+	INSERT dbo.BanAn
+	        ( tenBan ,
+	          choNgoi ,
+	          idSanh ,
+	          trangThai
+	        )
+	VALUES  ( 
+	          N'Bàn '+CAST((@i+1) AS NVARCHAR(100)) , -- tenBan - nvarchar(100)
+	          2 , -- choNgoi - int
+	          1 , -- idSanh - int
+	          0  -- trangThai - int
+	        )
+	SET @i = @i +1
+END
+GO
+INSERT dbo.BanAn
+	        ( tenBan ,
+	          choNgoi ,
+	          idSanh ,
+	          trangThai
+	        )
+	VALUES  ( 
+	          N'Bàn 11',
+	          2 , -- choNgoi - int
+	          1 , -- idSanh - int
+	          2  -- trangThai - int
+	        )
+DECLARE @j INT =0
+WHILE @j<30
+BEGIN
+	INSERT dbo.BanAn
+	        ( tenBan ,
+	          choNgoi ,
+	          idSanh ,
+	          trangThai
+	        )
+	VALUES  ( 
+	          N'Bàn '+CAST((@j+1) AS NVARCHAR(100)) , -- tenBan - nvarchar(100)
+	          4, -- choNgoi - int
+	          2 , -- idSanh - int
+	          0  -- trangThai - int
+	        )
+	SET @j = @j +1
+END
+GO
+INSERT dbo.BanAn
+	        ( tenBan ,
+	          choNgoi ,
+	          idSanh ,
+	          trangThai
+	        )
+	VALUES  ( 
+	          N'Bàn 12',
+	          2 , -- choNgoi - int
+	          1 , -- idSanh - int
+	          1  -- trangThai - int
+	        )
+SELECT* FROM dbo.BanAn
