@@ -13,7 +13,7 @@ namespace QuanLyNhaHang.DAL
         public static List<BanAn> layDsBanAn(int idSanh)
         {
             List<BanAn> list = new List<BanAn>();
-            DataTable data = DatabaseExecute.ExecuteQuery("SELECT * FROM BanAn WHERE idSanh = "+ idSanh);
+            DataTable data = DatabaseExecute.sqlQuery("SELECT * FROM BanAn WHERE idSanh = "+ idSanh);
             foreach(DataRow i in data.Rows)
             {
                 BanAn test = new BanAn(i);

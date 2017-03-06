@@ -1,0 +1,9 @@
+﻿// Không dùng được hoặc chưa dùng
+
+
+ truy vấn: select * from sysdatabases where dbid > 4 sẽ hiển thị ra tên Database
+
+3 câu truy vấn hiển thị server name
+SELECT @@SERVERNAME AS 'Server Name'
+Select * From sys.Servers
+Select * From sys.sysServers

@@ -80,11 +80,23 @@
     <Compile Include="GUI\FrmBookTable.Designer.cs">
       <DependentUpon>FrmBookTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\FrmLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmLogin.Designer.cs">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\FrmManage.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI\FrmManage.Designer.cs">
       <DependentUpon>FrmManage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmSqlConnection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmSqlConnection.Designer.cs">
+      <DependentUpon>FrmSqlConnection.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -94,8 +106,14 @@
     <EmbeddedResource Include="GUI\FrmBookTable.resx">
       <DependentUpon>FrmBookTable.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmLogin.resx">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmManage.resx">
       <DependentUpon>FrmManage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmSqlConnection.resx">
+      <DependentUpon>FrmSqlConnection.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -136,6 +154,8 @@
     <Folder Include="Img\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="txtExplain\chuoiKetNoi.txt" />
+    <Content Include="txtExplain\DangNho.txt" />
     <Content Include="txtExplain\GiaoDienFrmManage.txt" />
     <Content Include="txtExplain\MoHinh.txt" />
   </ItemGroup>

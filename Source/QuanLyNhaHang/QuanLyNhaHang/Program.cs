@@ -1,8 +1,11 @@
-﻿using System;
+﻿using QuanLyNhaHang.DAL;
+using QuanLyNhaHang.GUI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace QuanLyNhaHang
 {
@@ -16,7 +19,18 @@ namespace QuanLyNhaHang
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FrmManage());
+
+            try
+            {
+                DatabaseExecute.conn.Open();
+                DatabaseExecute.conn.Close();
+                Application.Run(new FrmLogin());
+            }
+            catch (Exception)
+            {
+                QuanLyNhaHang.Properties.Settings.Default.Reset();
+                Application.Run(new FrmSqlConnection());
+            }
         }
     }
 }

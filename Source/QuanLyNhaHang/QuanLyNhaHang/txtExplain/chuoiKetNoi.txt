@@ -1,0 +1,12 @@
+﻿<Giải thích hàm ketNoi trong FrmSqlConnection >
+
+- Vào Properties -> Setting của project tạo một biến lưu trữ thông tin
+- T đặt strConnetion, cái này sẽ lưu thông tin của server nếu ta kết nối thành công,
+ngược lại sẽ xóa (code)
+- Tạo SqlConnection conn và Open. Nếu thành công lưu vào strConnection
+
+
+Lưu ý: kể từ lúc connection thành công thì file strConnection chính là chuỗi kết nối
+	   => bên class DatabaseExecute sẽ dùng SqlConnection ... new (...strConnection)
+
+Chú ý: file config strConnection trong thư mục AppData\Local

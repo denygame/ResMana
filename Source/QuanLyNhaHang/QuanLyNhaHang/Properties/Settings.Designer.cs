@@ -22,5 +22,17 @@ namespace QuanLyNhaHang.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string strConnection {
+            get {
+                return ((string)(this["strConnection"]));
+            }
+            set {
+                this["strConnection"] = value;
+            }
+        }
     }
 }

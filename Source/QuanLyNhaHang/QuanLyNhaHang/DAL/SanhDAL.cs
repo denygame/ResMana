@@ -13,7 +13,7 @@ namespace QuanLyNhaHang.DAL
         public static List<Sanh> layDsSanh()
         {
             List<Sanh> list = new List<Sanh>();
-            DataTable data = DatabaseExecute.ExecuteQuery("SELECT * FROM Sanh");
+            DataTable data = DatabaseExecute.sqlQuery("SELECT * FROM Sanh");
             foreach(DataRow i in data.Rows)
             {
                 Sanh test = new Sanh(i);
