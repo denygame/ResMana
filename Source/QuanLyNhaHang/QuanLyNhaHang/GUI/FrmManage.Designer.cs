@@ -38,8 +38,11 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.quảnLýToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.thôngTinTàiKhoảnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.thôngTinCaNhânToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.đăngXuâtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.danhSachĐătChôToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelHoaDon = new System.Windows.Forms.Panel();
-            this.lvHoaDon = new System.Windows.Forms.ListView();
+            this.listView_HoaDon = new System.Windows.Forms.ListView();
             this.panelDkBan = new System.Windows.Forms.Panel();
             this.btnGopBan = new System.Windows.Forms.Button();
             this.cbGopBan2 = new System.Windows.Forms.ComboBox();
@@ -56,14 +59,6 @@
             this.nUDslXoa = new System.Windows.Forms.NumericUpDown();
             this.btnXoaMon = new System.Windows.Forms.Button();
             this.btnThemMon = new System.Windows.Forms.Button();
-            this.quanLyNhânViênToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.quanLyThưcĐơnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.quanLySanhBanĂnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.quanLyTaiKhoanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.xemDoanhThuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.thôngTinCaNhânToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.đăngXuâtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.danhSachĐătChôToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelSanh.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panelHoaDon.SuspendLayout();
@@ -167,15 +162,10 @@
             // 
             // quảnLýToolStripMenuItem
             // 
-            this.quảnLýToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.quanLyThưcĐơnToolStripMenuItem,
-            this.quanLyNhânViênToolStripMenuItem,
-            this.quanLyTaiKhoanToolStripMenuItem,
-            this.quanLySanhBanĂnToolStripMenuItem,
-            this.xemDoanhThuToolStripMenuItem});
             this.quảnLýToolStripMenuItem.Name = "quảnLýToolStripMenuItem";
             this.quảnLýToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
             this.quảnLýToolStripMenuItem.Text = "Hệ Thống";
+            this.quảnLýToolStripMenuItem.Click += new System.EventHandler(this.quảnLýToolStripMenuItem_Click);
             // 
             // thôngTinTàiKhoảnToolStripMenuItem
             // 
@@ -186,25 +176,43 @@
             this.thôngTinTàiKhoảnToolStripMenuItem.Size = new System.Drawing.Size(77, 20);
             this.thôngTinTàiKhoảnToolStripMenuItem.Text = "Tài Khoản: ";
             // 
+            // thôngTinCaNhânToolStripMenuItem
+            // 
+            this.thôngTinCaNhânToolStripMenuItem.Name = "thôngTinCaNhânToolStripMenuItem";
+            this.thôngTinCaNhânToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.thôngTinCaNhânToolStripMenuItem.Text = "Thông Tin Cá Nhân";
+            // 
+            // đăngXuâtToolStripMenuItem
+            // 
+            this.đăngXuâtToolStripMenuItem.Name = "đăngXuâtToolStripMenuItem";
+            this.đăngXuâtToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.đăngXuâtToolStripMenuItem.Text = "Đăng Xuất";
+            // 
+            // danhSachĐătChôToolStripMenuItem
+            // 
+            this.danhSachĐătChôToolStripMenuItem.Name = "danhSachĐătChôToolStripMenuItem";
+            this.danhSachĐătChôToolStripMenuItem.Size = new System.Drawing.Size(121, 20);
+            this.danhSachĐătChôToolStripMenuItem.Text = "Danh Sách Đặt Chỗ";
+            // 
             // panelHoaDon
             // 
             this.panelHoaDon.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelHoaDon.Controls.Add(this.lvHoaDon);
+            this.panelHoaDon.Controls.Add(this.listView_HoaDon);
             this.panelHoaDon.Location = new System.Drawing.Point(700, 96);
             this.panelHoaDon.Name = "panelHoaDon";
             this.panelHoaDon.Size = new System.Drawing.Size(404, 448);
             this.panelHoaDon.TabIndex = 3;
             // 
-            // lvHoaDon
+            // listView_HoaDon
             // 
-            this.lvHoaDon.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.listView_HoaDon.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lvHoaDon.Location = new System.Drawing.Point(3, 3);
-            this.lvHoaDon.Name = "lvHoaDon";
-            this.lvHoaDon.Size = new System.Drawing.Size(398, 442);
-            this.lvHoaDon.TabIndex = 0;
-            this.lvHoaDon.UseCompatibleStateImageBehavior = false;
+            this.listView_HoaDon.Location = new System.Drawing.Point(3, 3);
+            this.listView_HoaDon.Name = "listView_HoaDon";
+            this.listView_HoaDon.Size = new System.Drawing.Size(398, 442);
+            this.listView_HoaDon.TabIndex = 0;
+            this.listView_HoaDon.UseCompatibleStateImageBehavior = false;
             // 
             // panelDkBan
             // 
@@ -336,7 +344,7 @@
             // 
             this.checkBoxXoa.AutoSize = true;
             this.checkBoxXoa.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxXoa.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.checkBoxXoa.ForeColor = System.Drawing.Color.Blue;
             this.checkBoxXoa.Location = new System.Drawing.Point(266, 3);
             this.checkBoxXoa.Name = "checkBoxXoa";
             this.checkBoxXoa.Size = new System.Drawing.Size(111, 17);
@@ -378,54 +386,6 @@
             this.btnThemMon.UseVisualStyleBackColor = true;
             this.btnThemMon.Click += new System.EventHandler(this.btnThemMon_Click);
             // 
-            // quanLyNhânViênToolStripMenuItem
-            // 
-            this.quanLyNhânViênToolStripMenuItem.Name = "quanLyNhânViênToolStripMenuItem";
-            this.quanLyNhânViênToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.quanLyNhânViênToolStripMenuItem.Text = "Quản Lý Nhân Viên";
-            // 
-            // quanLyThưcĐơnToolStripMenuItem
-            // 
-            this.quanLyThưcĐơnToolStripMenuItem.Name = "quanLyThưcĐơnToolStripMenuItem";
-            this.quanLyThưcĐơnToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.quanLyThưcĐơnToolStripMenuItem.Text = "Quản Lý Thực Đơn";
-            // 
-            // quanLySanhBanĂnToolStripMenuItem
-            // 
-            this.quanLySanhBanĂnToolStripMenuItem.Name = "quanLySanhBanĂnToolStripMenuItem";
-            this.quanLySanhBanĂnToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.quanLySanhBanĂnToolStripMenuItem.Text = "Quản Lý Sảnh - Bàn Ăn";
-            // 
-            // quanLyTaiKhoanToolStripMenuItem
-            // 
-            this.quanLyTaiKhoanToolStripMenuItem.Name = "quanLyTaiKhoanToolStripMenuItem";
-            this.quanLyTaiKhoanToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.quanLyTaiKhoanToolStripMenuItem.Text = "Quản Lý Tài Khoản";
-            // 
-            // xemDoanhThuToolStripMenuItem
-            // 
-            this.xemDoanhThuToolStripMenuItem.Name = "xemDoanhThuToolStripMenuItem";
-            this.xemDoanhThuToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.xemDoanhThuToolStripMenuItem.Text = "Xem Doanh Thu";
-            // 
-            // thôngTinCaNhânToolStripMenuItem
-            // 
-            this.thôngTinCaNhânToolStripMenuItem.Name = "thôngTinCaNhânToolStripMenuItem";
-            this.thôngTinCaNhânToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
-            this.thôngTinCaNhânToolStripMenuItem.Text = "Thông Tin Cá Nhân";
-            // 
-            // đăngXuâtToolStripMenuItem
-            // 
-            this.đăngXuâtToolStripMenuItem.Name = "đăngXuâtToolStripMenuItem";
-            this.đăngXuâtToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
-            this.đăngXuâtToolStripMenuItem.Text = "Đăng Xuất";
-            // 
-            // danhSachĐătChôToolStripMenuItem
-            // 
-            this.danhSachĐătChôToolStripMenuItem.Name = "danhSachĐătChôToolStripMenuItem";
-            this.danhSachĐătChôToolStripMenuItem.Size = new System.Drawing.Size(121, 20);
-            this.danhSachĐătChôToolStripMenuItem.Text = "Danh Sách Đặt Chỗ";
-            // 
             // FrmManage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -466,12 +426,11 @@
         private System.Windows.Forms.Panel panelSanh;
         private System.Windows.Forms.ComboBox cbSanh;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem quảnLýToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem thôngTinTàiKhoảnToolStripMenuItem;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtBan;
         private System.Windows.Forms.Panel panelHoaDon;
-        private System.Windows.Forms.ListView lvHoaDon;
+        private System.Windows.Forms.ListView listView_HoaDon;
         private System.Windows.Forms.Panel panelDkBan;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
@@ -490,14 +449,10 @@
         private System.Windows.Forms.NumericUpDown nUDslXoa;
         private System.Windows.Forms.CheckBox checkBoxXoa;
         private System.Windows.Forms.Button btnDatCho;
-        private System.Windows.Forms.ToolStripMenuItem quanLyNhânViênToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem quanLyThưcĐơnToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem quanLySanhBanĂnToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem quanLyTaiKhoanToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem xemDoanhThuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem thôngTinCaNhânToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem đăngXuâtToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem danhSachĐătChôToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem quảnLýToolStripMenuItem;
     }
 }
 

@@ -20,7 +20,7 @@ namespace QuanLyNhaHang
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            try
+            /*try
             {
                 DatabaseExecute.conn.Open();
                 DatabaseExecute.conn.Close();
@@ -30,7 +30,8 @@ namespace QuanLyNhaHang
             {
                 QuanLyNhaHang.Properties.Settings.Default.Reset();
                 Application.Run(new FrmSqlConnection());
-            }
+            }*/
+            Application.Run(new FrmManage());
         }
     }
 }

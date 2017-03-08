@@ -20,7 +20,6 @@ namespace QuanLyNhaHang
             InitializeComponent();
 
             khoiTaoCbSanh();
-
         }
 
         #region Events
@@ -32,20 +31,21 @@ namespace QuanLyNhaHang
             Sanh sanhCB = cbSanh.SelectedItem as Sanh;
             khoiTaoBanTheoIdSanh(sanhCB.IdSanh);
         }
-        
 
+        private void quảnLýToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmSystem f = new FrmSystem();
+            if (Application.OpenForms["FrmSystem"] == null) f.Show();
+            else Application.OpenForms["FrmSystem"].Focus();
+        }
         // test 2 form song song
         private void btnThemMon_Click(object sender, EventArgs e)
         {
             FrmAddFood f = new FrmAddFood();
             if (Application.OpenForms["FrmAddFood"] == null)
-            {
                 f.Show();
-            }
             else
-            {
                 Application.OpenForms["FrmAddFood"].Focus();
-            }
         }
 
         private void checkBoxXoa_CheckedChanged(object sender, EventArgs e)
@@ -64,7 +64,7 @@ namespace QuanLyNhaHang
 
         private void btnXoaMon_Click(object sender, EventArgs e)
         {
-
+            testcode();
         }
 
         private void btnDatCho_Click(object sender, EventArgs e)
@@ -86,50 +86,77 @@ namespace QuanLyNhaHang
             cbSanh.DataSource = listSanh;
             cbSanh.DisplayMember = "TenSanh";
         }
-     //test button bàn ăn.
+
+        //hàm add list bàn ăn
         private void khoiTaoBanTheoIdSanh(int idSanh)
         {
             flowLayoutPanel_BanAn.Controls.Clear();
             List<BanAn> listBanAn = BanAnDAL.layDsBanAn(idSanh);
-            foreach(BanAn i in listBanAn)
+            foreach (BanAn i in listBanAn)
             {
-                Button btn = new Button() { Width = Constant.widthButtonBanAn, Height = Constant.heightButtonBanAn };
-                btn.Text = i.TenBan + "\n";
-                btn.Tag = i; // mỗi button tạo ra tag vào nó bàn ăn đó
-
-                switch (i.TrangThai)
-                {
-                    case 0: btn.Text += "Trống"; break;
-                    case 1: btn.Text += "Có Người"; break;
-                    case 2: btn.Text += "Bàn Đặt Chỗ"; break;
-                }
-
-                btn.TextAlign = ContentAlignment.BottomCenter;
-
-                //test pic cho button <phải bỏ thư mục Img vào bin>
-                Bitmap bmp = new Bitmap(@"Img\banTrong.png");
-                btn.Image = bmp;
-                btn.ImageAlign = ContentAlignment.TopCenter;
-
-                btn.BackColor = Color.LightBlue;
-
+                Button btn = khoiTaoBanAn(i);
                 btn.Click += Btn_Click;
-                
-
                 flowLayoutPanel_BanAn.Controls.Add(btn);
             }
         }
 
+        //hàm tạo bàn ăn (test lại)
+        private Button khoiTaoBanAn(BanAn banAn)
+        {
+            Button btn = new Button() { Width = Constant.widthButtonBanAn, Height = Constant.heightButtonBanAn };
+            btn.Text = banAn.TenBan + "\n";
+            btn.Tag = banAn; // mỗi button tạo ra tag vào nó bàn ăn đó
+            switch (banAn.TrangThai)
+            {
+                case 0: btn.Text += "Trống"; break;
+                case 1: btn.Text += "Có Người"; break;
+                case 2: btn.Text += "Bàn Đặt Chỗ"; break;
+            }
+
+            btn.TextAlign = ContentAlignment.BottomCenter;
+
+            //test pic cho button <phải bỏ thư mục Img vào bin>
+            Bitmap bmp = new Bitmap(@"Img\banTrong.png");
+            btn.Image = bmp;
+            btn.ImageAlign = ContentAlignment.TopCenter;
+
+            btn.BackColor = Color.LightBlue;
+
+            return btn;
+        }
+        //hàm thay thế bàn ăn (VD: thêm món ăn vào thì thay thế 1 bàn chứ k chạy hết tất cả)
+        private void thayTheBanAn(FlowLayoutPanel fl, Control banCanThayDoi, Control banThayDoi)
+        {
+            int index = fl.Controls.IndexOf(banCanThayDoi);
+            if (index == -1) return;
+            fl.Controls.RemoveAt(index);
+            banCanThayDoi.Dispose();
+            fl.Controls.Add(banThayDoi);
+            fl.Controls.SetChildIndex(banThayDoi, index);
+        }
 
         //hàm test, nhớ xóa
-        private void loadBanAn(int f)
+        private void testcode()
         {
-            foreach(Button i in flowLayoutPanel_BanAn.Controls)
-            {
-                if ((i.Tag as BanAn).TenBan != "asas")
-                    txtTongTien.Text = (i.Tag as BanAn).TenBan;
-            }
+            Button btnCanThayThe = new Button();
+            List<BanAn> listBanAn = BanAnDAL.layDsBanAn(cbSanh.SelectedIndex + 1);
+            foreach (BanAn b in listBanAn)
+                if (b.TrangThai == 2)
+                {
+                    foreach (Control c in flowLayoutPanel_BanAn.Controls)
+                    {
+                        if (((c as Button).Tag as BanAn).IdBanAn == b.IdBanAn)
+                        {
+                            ((c as Button).Tag as BanAn).TrangThai = 0;
+                            btnCanThayThe = c as Button;
+                        }
+                    }
+                    break;
+                }
+            thayTheBanAn(flowLayoutPanel_BanAn, btnCanThayThe, khoiTaoBanAn(btnCanThayThe.Tag as BanAn));
         }
         #endregion
+
+
     }
 }

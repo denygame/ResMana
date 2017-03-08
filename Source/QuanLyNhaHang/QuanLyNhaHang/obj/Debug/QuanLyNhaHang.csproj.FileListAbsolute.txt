@@ -11,3 +11,4 @@ E:\QLNHhqtcsdl\Source\QuanLyNhaHang\QuanLyNhaHang\obj\Debug\QuanLyNhaHang.GUI.Fr
 E:\QLNHhqtcsdl\Source\QuanLyNhaHang\QuanLyNhaHang\obj\Debug\QuanLyNhaHang.GUI.FrmBookTable.resources
 E:\QLNHhqtcsdl\Source\QuanLyNhaHang\QuanLyNhaHang\obj\Debug\QuanLyNhaHang.GUI.FrmLogin.resources
 E:\QLNHhqtcsdl\Source\QuanLyNhaHang\QuanLyNhaHang\obj\Debug\QuanLyNhaHang.GUI.FrmSqlConnection.resources
+E:\QLNHhqtcsdl\Source\QuanLyNhaHang\QuanLyNhaHang\obj\Debug\QuanLyNhaHang.GUI.FrmSystem.resources

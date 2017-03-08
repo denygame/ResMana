@@ -10,7 +10,8 @@ namespace QuanLyNhaHang.DAL
 {
     public class DatabaseExecute
     {
-        public static SqlConnection conn = new SqlConnection(QuanLyNhaHang.Properties.Settings.Default.strConnection);
+       // public static SqlConnection conn = new SqlConnection(QuanLyNhaHang.Properties.Settings.Default.strConnection);
+        public static SqlConnection conn = new SqlConnection("Data Source = THANH-HUY; Initial Catalog = QLNH; Integrated Security = True");
         public static DataTable sqlQuery(string query)
         {
             DataTable data = new DataTable();

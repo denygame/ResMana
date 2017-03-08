@@ -230,7 +230,7 @@
             this.MaximizeBox = false;
             this.Name = "FrmSqlConnection";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Kết Nối Sever SQL";
+            this.Text = "Kết Nối Server SQL";
             this.Load += new System.EventHandler(this.FrmSqlConnection_Load);
             this.panel1.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
