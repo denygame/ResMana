@@ -24,8 +24,9 @@ namespace QuanLyNhaHang
         private void btnHome_Click(object sender, EventArgs e)
         {
             FrmManage f = new FrmManage();
-            if (Application.OpenForms["FrmManage"] == null) f.Show();
-            else Application.OpenForms["FrmManage"].Focus();
+            this.Hide();
+            f.ShowDialog();
+            this.Show();
         }
 
         private void btnSystem_Click(object sender, EventArgs e)
@@ -53,7 +54,7 @@ namespace QuanLyNhaHang
 
         private void btnLogout_Click(object sender, EventArgs e)
         {
-
+            foreach (Control i in panel1.Controls) i.Enabled = false;
         }
 
         private void btnDangNhap_Click(object sender, EventArgs e)

@@ -44,12 +44,18 @@
             this.txtTenServer = new System.Windows.Forms.TextBox();
             this.checkBoxXacThuc = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.panel7 = new System.Windows.Forms.Panel();
+            this.btnXoaDatabase = new System.Windows.Forms.Button();
+            this.btnChaySql = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.btnLayServerName = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel6.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.panel7.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -73,7 +79,7 @@
             // 
             // btnThoat
             // 
-            this.btnThoat.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnThoat.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnThoat.ForeColor = System.Drawing.Color.Red;
             this.btnThoat.Location = new System.Drawing.Point(228, 3);
             this.btnThoat.Name = "btnThoat";
@@ -85,7 +91,7 @@
             // 
             // btnKetNoi
             // 
-            this.btnKetNoi.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnKetNoi.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnKetNoi.ForeColor = System.Drawing.Color.Blue;
             this.btnKetNoi.Location = new System.Drawing.Point(42, 3);
             this.btnKetNoi.Name = "btnKetNoi";
@@ -219,11 +225,67 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "TÊN SERVER";
             // 
+            // panel7
+            // 
+            this.panel7.Controls.Add(this.btnLayServerName);
+            this.panel7.Controls.Add(this.btnXoaDatabase);
+            this.panel7.Controls.Add(this.btnChaySql);
+            this.panel7.Controls.Add(this.label4);
+            this.panel7.Location = new System.Drawing.Point(12, 13);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(379, 60);
+            this.panel7.TabIndex = 2;
+            // 
+            // btnXoaDatabase
+            // 
+            this.btnXoaDatabase.ForeColor = System.Drawing.Color.Blue;
+            this.btnXoaDatabase.Location = new System.Drawing.Point(144, 21);
+            this.btnXoaDatabase.Name = "btnXoaDatabase";
+            this.btnXoaDatabase.Size = new System.Drawing.Size(93, 23);
+            this.btnXoaDatabase.TabIndex = 2;
+            this.btnXoaDatabase.Text = "Drop Database";
+            this.btnXoaDatabase.UseVisualStyleBackColor = true;
+            this.btnXoaDatabase.Click += new System.EventHandler(this.btnXoaDatabase_Click);
+            // 
+            // btnChaySql
+            // 
+            this.btnChaySql.ForeColor = System.Drawing.Color.Blue;
+            this.btnChaySql.Location = new System.Drawing.Point(45, 21);
+            this.btnChaySql.Name = "btnChaySql";
+            this.btnChaySql.Size = new System.Drawing.Size(93, 23);
+            this.btnChaySql.TabIndex = 1;
+            this.btnChaySql.Text = "Execute SQL";
+            this.btnChaySql.UseVisualStyleBackColor = true;
+            this.btnChaySql.Click += new System.EventHandler(this.btnChaySql_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.Blue;
+            this.label4.Location = new System.Drawing.Point(3, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(40, 20);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Test";
+            // 
+            // btnLayServerName
+            // 
+            this.btnLayServerName.ForeColor = System.Drawing.Color.Blue;
+            this.btnLayServerName.Location = new System.Drawing.Point(243, 21);
+            this.btnLayServerName.Name = "btnLayServerName";
+            this.btnLayServerName.Size = new System.Drawing.Size(93, 23);
+            this.btnLayServerName.TabIndex = 3;
+            this.btnLayServerName.Text = "Server Name";
+            this.btnLayServerName.UseVisualStyleBackColor = true;
+            this.btnLayServerName.Click += new System.EventHandler(this.btnLayServerName_Click);
+            // 
             // FrmSqlConnection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(404, 432);
+            this.Controls.Add(this.panel7);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -240,6 +302,8 @@
             this.panel5.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.panel7.ResumeLayout(false);
+            this.panel7.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -262,5 +326,10 @@
         private System.Windows.Forms.Button btnKetNoi;
         private System.Windows.Forms.Button btnThoat;
         private System.Windows.Forms.TextBox txtTenServer;
+        private System.Windows.Forms.Panel panel7;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button btnChaySql;
+        private System.Windows.Forms.Button btnXoaDatabase;
+        private System.Windows.Forms.Button btnLayServerName;
     }
 }

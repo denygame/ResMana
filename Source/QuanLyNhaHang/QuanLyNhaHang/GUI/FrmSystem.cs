@@ -17,9 +17,7 @@ namespace QuanLyNhaHang.GUI
             InitializeComponent();
         }
 
-
-
-
+       
         #region Methods
         private void thietKeThemXoa(string themSua, string tab, FlowLayoutPanel fl)
         {
@@ -29,6 +27,7 @@ namespace QuanLyNhaHang.GUI
             btnTX.Size = new System.Drawing.Size(155, 32);
             btnTX.TabIndex = 17;
             btnTX.Text = themSua;
+            btnTX.ForeColor = Color.Blue;
             btnTX.UseVisualStyleBackColor = false;
 
             btnTX.Click += btnTX_Click;
@@ -38,6 +37,7 @@ namespace QuanLyNhaHang.GUI
             Button btnHuy = new Button();
             btnHuy.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             btnHuy.Name = "btnHuy" + tab;
+            btnHuy.ForeColor = Color.Blue;
             btnHuy.Size = new System.Drawing.Size(155, 32);
             btnHuy.TabIndex = 17;
             btnHuy.Text = "Hủy";
@@ -47,7 +47,6 @@ namespace QuanLyNhaHang.GUI
             fl.Controls.Add(btnHuy);
         }
 
-        //test lai
         private void btnHuy_Click(object sender, EventArgs e)
         {
             if ((sender as Button).Name.Contains("DanhMuc"))
@@ -106,7 +105,6 @@ namespace QuanLyNhaHang.GUI
             }
         }
 
-        //test lai
         private void btnTX_Click(object sender, EventArgs e)
         {
             if ((sender as Button).Text == "Thêm")
@@ -170,8 +168,6 @@ namespace QuanLyNhaHang.GUI
         {
 
         }
-
-        #endregion
 
         private void btnThemSanh_Click(object sender, EventArgs e)
         {
@@ -253,6 +249,9 @@ namespace QuanLyNhaHang.GUI
         {
 
         }
+        #endregion
+
+
 
     }
 }

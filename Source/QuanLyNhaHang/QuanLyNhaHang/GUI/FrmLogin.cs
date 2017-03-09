@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuanLyNhaHang.DAL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,7 +13,7 @@ namespace QuanLyNhaHang.GUI
 {
     public partial class FrmLogin : Form
     {
-        public event EventHandler ButtonDN_Clicked;
+        public event EventHandler ButtonDN_Clicked = null;
 
 
         public FrmLogin()
@@ -25,7 +26,17 @@ namespace QuanLyNhaHang.GUI
         {
             if (this.ButtonDN_Clicked != null)
                 this.ButtonDN_Clicked(sender, e);
-            this.Close();
+            string userName = txtUserName.Text;
+            string passWord = txtPassWord.Text;
+            if(TaiKhoanDAL.dangNhap(userName, passWord))
+            {
+                
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Sai tài khoản hoặc mật khẩu", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
        /* private void FrmLogin_FormClosing(object sender, FormClosingEventArgs e)

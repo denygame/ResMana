@@ -90,14 +90,8 @@ CREATE TABLE ChiTietHoaDon
 
 
 --- TEST
-INSERT dbo.Sanh
-        ( tenSanh )
-VALUES  ( N'Sảnh 1'  -- tenSanh - nvarchar(100)
-          )
-		  INSERT dbo.Sanh
-        ( tenSanh )
-VALUES  ( N'Sảnh 2'  -- tenSanh - nvarchar(100)
-          )
+INSERT dbo.Sanh( tenSanh )VALUES  ( N'Sảnh 1')
+INSERT dbo.Sanh( tenSanh )VALUES ( N'Sảnh 2')
 
 DECLARE @i INT =0
 WHILE @i<10
@@ -159,4 +153,31 @@ INSERT dbo.BanAn
 	          1 , -- idSanh - int
 	          1  -- trangThai - int
 	        )
-SELECT* FROM dbo.BanAn
+
+INSERT dbo.NhanVien
+        ( tenNhanVien ,
+          ngaySinh ,
+          gioiTinh ,
+          chucVu ,
+          queQuan ,
+          email ,
+          diaChi ,
+          tel
+        )
+VALUES  ( N'asd' , -- tenNhanVien - nvarchar(100)
+          GETDATE() , -- ngaySinh - date
+          N'nam' , -- gioiTinh - nvarchar(3)
+          N'das' , -- chucVu - nvarchar(100)
+          N'dsad' , -- queQuan - nvarchar(100)
+          'dasd' , -- email - varchar(100)
+          N'dasd' , -- diaChi - nvarchar(100)
+          0  -- tel - int
+        )
+INSERT dbo.TaiKhoan
+        ( userName, pass, idNhanVien, loaiTK )
+VALUES  ( N'denygame', -- userName - nvarchar(100)
+          N'123', -- pass - nvarchar(1000)
+          1, -- idNhanVien - int
+          2  -- loaiTK - int
+          )
+		  

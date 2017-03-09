@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuanLyNhaHang.DAL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -22,10 +23,11 @@ namespace QuanLyNhaHang.GUI
 
             txtTenServer.Text = Environment.MachineName;
         }
+
         #region Events
         private void checkBoxXacThuc_CheckedChanged(object sender, EventArgs e)
         {
-            if(checkBoxXacThuc.Checked == true)
+            if (checkBoxXacThuc.Checked == true)
             {
                 checkBoxXacThuc.ForeColor = Color.Red;
                 txtUserName.Enabled = true;
@@ -60,11 +62,11 @@ namespace QuanLyNhaHang.GUI
             string connectionSTR = "";
             if (checkBoxXacThuc.Checked)
             {
-                connectionSTR = "Data Source=" + txtTenServer.Text + ";Initial Catalog=QLNH;User ID=" + txtUserName.Text + ";Password=" + txtPassWord.Text;
+                connectionSTR = "Data Source=" + txtTenServer.Text + ";Initial Catalog=" + Constant.databaseName + ";User ID=" + txtUserName.Text + ";Password=" + txtPassWord.Text;
             }
             else
             {
-                connectionSTR = "Data Source=" + txtTenServer.Text + ";Initial Catalog=QLNH;Integrated Security=True";
+                connectionSTR = "Data Source=" + txtTenServer.Text + ";Initial Catalog=" + Constant.databaseName + ";Integrated Security=True";
             }
             ketNoi(connectionSTR);
         }
@@ -80,6 +82,25 @@ namespace QuanLyNhaHang.GUI
             txtUserName.Enabled = false;
             checkBoxPass.Enabled = false;
         }
+
+        private void btnChaySql_Click(object sender, EventArgs e)
+        {
+            if (DatabaseExecute.thucThiSql() == 1)
+                MessageBox.Show("Chạy file SQL thành công!", "Thông Báo");
+            else MessageBox.Show("Không thành công!", "Thông Báo");
+        }
+
+        private void btnXoaDatabase_Click(object sender, EventArgs e)
+        {
+            if (DatabaseExecute.DropDatabase() == 1)
+                MessageBox.Show("Xóa Database thành công!", "Thông Báo");
+            else MessageBox.Show("Không thành công, không có Database!", "Thông Báo");
+        }
+
+        private void btnLayServerName_Click(object sender, EventArgs e)
+        {
+            txtTenServer.Text = Environment.MachineName;
+        }
         #endregion
 
         #region Methods
@@ -91,11 +112,11 @@ namespace QuanLyNhaHang.GUI
                 conn.Open();
                 QuanLyNhaHang.Properties.Settings.Default.strConnection = connectionSTR;
                 QuanLyNhaHang.Properties.Settings.Default.Save();
-                MessageBox.Show("Kết nối thành công, chương trình sẽ tự khởi động lại sau " + Constant.timeForRestartApp.ToString() + " giây", "Xác Nhận", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Kết nối thành công, chương trình sẽ tự khởi động lại sau " + Constant.timeForRestartApp.ToString() + " giây cho lần chạy đầu", "Xác Nhận", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 Thread.Sleep(Constant.timeForRestartApp * 1000);
-                Console.Beep(); 
-                
+                Console.Beep();
+
                 Application.Exit();
                 Application.Restart();
             }
@@ -104,6 +125,9 @@ namespace QuanLyNhaHang.GUI
                 MessageBox.Show("Kết nối không thành công, xin kiểm tra lại", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         #endregion
+
+
     }
 }
