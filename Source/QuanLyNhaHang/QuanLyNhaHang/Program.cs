@@ -30,8 +30,12 @@ namespace QuanLyNhaHang
             {
                 QuanLyNhaHang.Properties.Settings.Default.Reset();
                 Application.Run(new FrmSqlConnection());
+            }
+            finally
+            {
+                DatabaseExecute.conn.Close();
             }*/
-            Application.Run(new FrmManage());
+            Application.Run(new FrmSystem());
         }
     }
 }

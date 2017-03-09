@@ -11,5 +11,7 @@ namespace QuanLyNhaHang.GUI
         public static int widthButtonBanAn = 105;
         public static int heightButtonBanAn = 100;
         public static int timeForRestartApp = 3;
+
+        
     }
 }
