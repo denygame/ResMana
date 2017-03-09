@@ -55,6 +55,7 @@ namespace QuanLyNhaHang.GUI
                 panel11.Visible = true;
                 fl_testDM.Controls.Clear();
                 panel_IdDM.Visible = true;
+                txtIdDanhMuc.Enabled = true;
 
                 panel_TenDanhMuc.Location = new Point(3, 63);
                 return;
@@ -64,6 +65,7 @@ namespace QuanLyNhaHang.GUI
                 panel14.Visible = true;
                 fl_testThucAn.Controls.Clear();
                 panel_idThucan.Visible = true;
+                txtIdThucAn.Enabled = true;
 
                 panel_tenThucAn.Location = new Point(3, 63);
                 panel_DanhMucThucAn.Location = new Point(3, 122);
@@ -75,6 +77,7 @@ namespace QuanLyNhaHang.GUI
                 panel23.Visible = true;
                 fl_Sanh.Controls.Clear();
                 panel_idSanh.Visible = true;
+                txtIdSanh.Enabled = true;
 
                 panel_tenSanh.Location = new Point(3, 63);
                 return;
@@ -84,6 +87,7 @@ namespace QuanLyNhaHang.GUI
                 panel30.Visible = true;
                 fl_BanAn.Controls.Clear();
                 panel_idBan.Visible = true;
+                txtIdBanAn.Enabled = true;
 
                 panel_tenBan.Location = new Point(3, 63);
                 panel_cnTTban.Location = new Point(3, 122);
@@ -96,6 +100,7 @@ namespace QuanLyNhaHang.GUI
                 fl_TaiKhoan.Controls.Clear();
                 fl_TaiKhoan.Visible = false;
                 btnRestPass.Visible = true;
+                txtUsername.Enabled = true;
 
                 return;
             }
@@ -123,7 +128,9 @@ namespace QuanLyNhaHang.GUI
 
         private void btnSuaDanhMuc_Click(object sender, EventArgs e)
         {
-            btnThemDanhMuc_Click(sender, e);
+            thietKeThemXoa((sender as Button).Text, "DanhMuc", fl_testDM);
+            panel11.Visible = false;
+            txtIdDanhMuc.Enabled = false;
         }
 
         private void btnXoaDanhMuc_Click(object sender, EventArgs e)
@@ -149,7 +156,9 @@ namespace QuanLyNhaHang.GUI
 
         private void btnSuaThucAn_Click(object sender, EventArgs e)
         {
-            btnThemThucAn_Click(sender, e);
+            thietKeThemXoa((sender as Button).Text, "ThucAn", fl_testThucAn);
+            panel14.Visible = false;
+            txtIdThucAn.Enabled = false;
         }
 
         private void btnXoaThucAn_Click(object sender, EventArgs e)
@@ -175,7 +184,9 @@ namespace QuanLyNhaHang.GUI
 
         private void btnSuaSanh_Click(object sender, EventArgs e)
         {
-            btnThemSanh_Click(sender, e);
+            thietKeThemXoa((sender as Button).Text, "Sanh", fl_Sanh);
+            panel23.Visible = false;
+            txtIdSanh.Enabled = false;
         }
 
         private void btnXoaSanh_Click(object sender, EventArgs e)
@@ -201,7 +212,9 @@ namespace QuanLyNhaHang.GUI
 
         private void btnSuaBan_Click(object sender, EventArgs e)
         {
-            btnThemBan_Click(sender, e);
+            thietKeThemXoa((sender as Button).Text, "BanAn", fl_BanAn);
+            panel30.Visible = false;
+            txtIdBanAn.Enabled = false;
         }
 
         private void btnXoaBan_Click(object sender, EventArgs e)
@@ -224,7 +237,11 @@ namespace QuanLyNhaHang.GUI
 
         private void btnSuaTaiKhoan_Click(object sender, EventArgs e)
         {
-            btnThemTaiKhoan_Click(sender, e);
+            btnRestPass.Visible = false;
+            fl_TaiKhoan.Visible = true;
+            thietKeThemXoa((sender as Button).Text, "TK", fl_TaiKhoan);
+            panel39.Visible = false;
+            txtUsername.Enabled = false;
         }
 
         private void btnXoaTaiKhoan_Click(object sender, EventArgs e)

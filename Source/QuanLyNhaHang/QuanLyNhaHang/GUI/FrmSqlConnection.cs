@@ -19,6 +19,8 @@ namespace QuanLyNhaHang.GUI
         public FrmSqlConnection()
         {
             InitializeComponent();
+
+            txtTenServer.Text = Environment.MachineName;
         }
         #region Events
         private void checkBoxXacThuc_CheckedChanged(object sender, EventArgs e)

@@ -32,12 +32,6 @@ namespace QuanLyNhaHang
             khoiTaoBanTheoIdSanh(sanhCB.IdSanh);
         }
 
-        private void quảnLýToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FrmSystem f = new FrmSystem();
-            if (Application.OpenForms["FrmSystem"] == null) f.Show();
-            else Application.OpenForms["FrmSystem"].Focus();
-        }
         // test 2 form song song
         private void btnThemMon_Click(object sender, EventArgs e)
         {

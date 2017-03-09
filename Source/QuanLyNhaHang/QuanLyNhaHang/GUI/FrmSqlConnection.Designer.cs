@@ -57,7 +57,7 @@
             this.panel1.Controls.Add(this.panel6);
             this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.panel2);
-            this.panel1.Location = new System.Drawing.Point(12, 12);
+            this.panel1.Location = new System.Drawing.Point(12, 79);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(379, 341);
             this.panel1.TabIndex = 1;
@@ -193,7 +193,6 @@
             this.txtTenServer.Name = "txtTenServer";
             this.txtTenServer.Size = new System.Drawing.Size(297, 26);
             this.txtTenServer.TabIndex = 3;
-            this.txtTenServer.Text = "thanh-huy";
             this.txtTenServer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // checkBoxXacThuc
@@ -224,7 +223,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(404, 370);
+            this.ClientSize = new System.Drawing.Size(404, 432);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;

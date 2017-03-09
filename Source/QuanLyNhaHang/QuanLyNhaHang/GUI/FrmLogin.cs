@@ -12,28 +12,31 @@ namespace QuanLyNhaHang.GUI
 {
     public partial class FrmLogin : Form
     {
+        public event EventHandler ButtonDN_Clicked;
+
+
         public FrmLogin()
         {
             InitializeComponent();
         }
 
+
         private void btnDangNhap_Click(object sender, EventArgs e)
         {
-            FrmManage f = new FrmManage();
-            this.Hide();
-            f.ShowDialog();
-            this.Show();
+            if (this.ButtonDN_Clicked != null)
+                this.ButtonDN_Clicked(sender, e);
+            this.Close();
         }
 
-        private void FrmLogin_FormClosing(object sender, FormClosingEventArgs e)
+       /* private void FrmLogin_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (MessageBox.Show("Bạn muốn thoát chương trình?", "Xác Nhận", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) != DialogResult.OK)
-                e.Cancel = true;
-        }
+            //if (MessageBox.Show("Bạn muốn thoát chương trình?", "Xác Nhận", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) != DialogResult.OK)
+            //    e.Cancel = true;
+        }*/
 
         private void btnThoat_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            this.Close();
         }
 
         private void checkBoxPass_CheckedChanged(object sender, EventArgs e)

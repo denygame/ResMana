@@ -154,6 +154,7 @@
             this.btnSuaTaiKhoan = new System.Windows.Forms.Button();
             this.btnXemTaiKhoan = new System.Windows.Forms.Button();
             this.panel40 = new System.Windows.Forms.Panel();
+            this.fl_TaiKhoan = new System.Windows.Forms.FlowLayoutPanel();
             this.btnRestPass = new System.Windows.Forms.Button();
             this.panel_LoaiTK = new System.Windows.Forms.Panel();
             this.txtLoaiTaiKhoan = new System.Windows.Forms.TextBox();
@@ -182,7 +183,6 @@
             this.btnXemNhanVien = new System.Windows.Forms.Button();
             this.panel47 = new System.Windows.Forms.Panel();
             this.listView_NhanVien = new System.Windows.Forms.ListView();
-            this.fl_TaiKhoan = new System.Windows.Forms.FlowLayoutPanel();
             this.tabControl1.SuspendLayout();
             this.tabhHoaDon.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -536,7 +536,7 @@
             // 
             // btnThemDanhMuc
             // 
-            this.btnThemDanhMuc.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
+            this.btnThemDanhMuc.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
             this.btnThemDanhMuc.ForeColor = System.Drawing.Color.Blue;
             this.btnThemDanhMuc.Location = new System.Drawing.Point(6, 12);
             this.btnThemDanhMuc.Name = "btnThemDanhMuc";
@@ -548,7 +548,7 @@
             // 
             // btnXoaDanhMuc
             // 
-            this.btnXoaDanhMuc.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
+            this.btnXoaDanhMuc.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
             this.btnXoaDanhMuc.ForeColor = System.Drawing.Color.Red;
             this.btnXoaDanhMuc.Location = new System.Drawing.Point(87, 12);
             this.btnXoaDanhMuc.Name = "btnXoaDanhMuc";
@@ -560,7 +560,7 @@
             // 
             // btnSuaDanhMuc
             // 
-            this.btnSuaDanhMuc.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
+            this.btnSuaDanhMuc.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
             this.btnSuaDanhMuc.ForeColor = System.Drawing.Color.Blue;
             this.btnSuaDanhMuc.Location = new System.Drawing.Point(168, 12);
             this.btnSuaDanhMuc.Name = "btnSuaDanhMuc";
@@ -572,7 +572,7 @@
             // 
             // btnXemDanhMuc
             // 
-            this.btnXemDanhMuc.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
+            this.btnXemDanhMuc.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
             this.btnXemDanhMuc.ForeColor = System.Drawing.Color.Blue;
             this.btnXemDanhMuc.Location = new System.Drawing.Point(249, 12);
             this.btnXemDanhMuc.Name = "btnXemDanhMuc";
@@ -734,7 +734,7 @@
             // 
             // btnThemThucAn
             // 
-            this.btnThemThucAn.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
+            this.btnThemThucAn.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
             this.btnThemThucAn.ForeColor = System.Drawing.Color.Blue;
             this.btnThemThucAn.Location = new System.Drawing.Point(6, 12);
             this.btnThemThucAn.Name = "btnThemThucAn";
@@ -746,7 +746,7 @@
             // 
             // btnXoaThucAn
             // 
-            this.btnXoaThucAn.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
+            this.btnXoaThucAn.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
             this.btnXoaThucAn.ForeColor = System.Drawing.Color.Red;
             this.btnXoaThucAn.Location = new System.Drawing.Point(87, 12);
             this.btnXoaThucAn.Name = "btnXoaThucAn";
@@ -758,7 +758,7 @@
             // 
             // btnSuaThucAn
             // 
-            this.btnSuaThucAn.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
+            this.btnSuaThucAn.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
             this.btnSuaThucAn.ForeColor = System.Drawing.Color.Blue;
             this.btnSuaThucAn.Location = new System.Drawing.Point(168, 12);
             this.btnSuaThucAn.Name = "btnSuaThucAn";
@@ -770,7 +770,7 @@
             // 
             // btnXemThucAn
             // 
-            this.btnXemThucAn.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
+            this.btnXemThucAn.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
             this.btnXemThucAn.ForeColor = System.Drawing.Color.Blue;
             this.btnXemThucAn.Location = new System.Drawing.Point(249, 12);
             this.btnXemThucAn.Name = "btnXemThucAn";
@@ -992,7 +992,7 @@
             // 
             // btnThemSanh
             // 
-            this.btnThemSanh.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
+            this.btnThemSanh.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
             this.btnThemSanh.ForeColor = System.Drawing.Color.Blue;
             this.btnThemSanh.Location = new System.Drawing.Point(6, 12);
             this.btnThemSanh.Name = "btnThemSanh";
@@ -1004,7 +1004,7 @@
             // 
             // btnXoaSanh
             // 
-            this.btnXoaSanh.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
+            this.btnXoaSanh.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
             this.btnXoaSanh.ForeColor = System.Drawing.Color.Red;
             this.btnXoaSanh.Location = new System.Drawing.Point(87, 12);
             this.btnXoaSanh.Name = "btnXoaSanh";
@@ -1016,7 +1016,7 @@
             // 
             // btnSuaSanh
             // 
-            this.btnSuaSanh.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
+            this.btnSuaSanh.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
             this.btnSuaSanh.ForeColor = System.Drawing.Color.Blue;
             this.btnSuaSanh.Location = new System.Drawing.Point(168, 12);
             this.btnSuaSanh.Name = "btnSuaSanh";
@@ -1028,7 +1028,7 @@
             // 
             // btnXemSanh
             // 
-            this.btnXemSanh.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
+            this.btnXemSanh.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
             this.btnXemSanh.ForeColor = System.Drawing.Color.Blue;
             this.btnXemSanh.Location = new System.Drawing.Point(249, 12);
             this.btnXemSanh.Name = "btnXemSanh";
@@ -1190,7 +1190,7 @@
             // 
             // btnThemBan
             // 
-            this.btnThemBan.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
+            this.btnThemBan.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
             this.btnThemBan.ForeColor = System.Drawing.Color.Blue;
             this.btnThemBan.Location = new System.Drawing.Point(6, 12);
             this.btnThemBan.Name = "btnThemBan";
@@ -1202,7 +1202,7 @@
             // 
             // btnXoaBan
             // 
-            this.btnXoaBan.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
+            this.btnXoaBan.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
             this.btnXoaBan.ForeColor = System.Drawing.Color.Red;
             this.btnXoaBan.Location = new System.Drawing.Point(87, 12);
             this.btnXoaBan.Name = "btnXoaBan";
@@ -1214,7 +1214,7 @@
             // 
             // btnSuaBan
             // 
-            this.btnSuaBan.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
+            this.btnSuaBan.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
             this.btnSuaBan.ForeColor = System.Drawing.Color.Blue;
             this.btnSuaBan.Location = new System.Drawing.Point(168, 12);
             this.btnSuaBan.Name = "btnSuaBan";
@@ -1226,7 +1226,7 @@
             // 
             // btnXemBan
             // 
-            this.btnXemBan.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
+            this.btnXemBan.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
             this.btnXemBan.ForeColor = System.Drawing.Color.Blue;
             this.btnXemBan.Location = new System.Drawing.Point(249, 12);
             this.btnXemBan.Name = "btnXemBan";
@@ -1469,7 +1469,7 @@
             // 
             // btnThemTaiKhoan
             // 
-            this.btnThemTaiKhoan.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
+            this.btnThemTaiKhoan.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
             this.btnThemTaiKhoan.ForeColor = System.Drawing.Color.Blue;
             this.btnThemTaiKhoan.Location = new System.Drawing.Point(6, 12);
             this.btnThemTaiKhoan.Name = "btnThemTaiKhoan";
@@ -1481,7 +1481,7 @@
             // 
             // btnXoaTaiKhoan
             // 
-            this.btnXoaTaiKhoan.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
+            this.btnXoaTaiKhoan.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
             this.btnXoaTaiKhoan.ForeColor = System.Drawing.Color.Red;
             this.btnXoaTaiKhoan.Location = new System.Drawing.Point(87, 12);
             this.btnXoaTaiKhoan.Name = "btnXoaTaiKhoan";
@@ -1493,7 +1493,7 @@
             // 
             // btnSuaTaiKhoan
             // 
-            this.btnSuaTaiKhoan.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
+            this.btnSuaTaiKhoan.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
             this.btnSuaTaiKhoan.ForeColor = System.Drawing.Color.Blue;
             this.btnSuaTaiKhoan.Location = new System.Drawing.Point(168, 12);
             this.btnSuaTaiKhoan.Name = "btnSuaTaiKhoan";
@@ -1505,7 +1505,7 @@
             // 
             // btnXemTaiKhoan
             // 
-            this.btnXemTaiKhoan.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
+            this.btnXemTaiKhoan.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
             this.btnXemTaiKhoan.ForeColor = System.Drawing.Color.Blue;
             this.btnXemTaiKhoan.Location = new System.Drawing.Point(249, 12);
             this.btnXemTaiKhoan.Name = "btnXemTaiKhoan";
@@ -1527,6 +1527,14 @@
             this.panel40.Name = "panel40";
             this.panel40.Size = new System.Drawing.Size(332, 282);
             this.panel40.TabIndex = 1;
+            // 
+            // fl_TaiKhoan
+            // 
+            this.fl_TaiKhoan.Location = new System.Drawing.Point(3, 248);
+            this.fl_TaiKhoan.Name = "fl_TaiKhoan";
+            this.fl_TaiKhoan.Size = new System.Drawing.Size(326, 46);
+            this.fl_TaiKhoan.TabIndex = 7;
+            this.fl_TaiKhoan.Visible = false;
             // 
             // btnRestPass
             // 
@@ -1739,7 +1747,7 @@
             // 
             // btnTimNhanVien
             // 
-            this.btnTimNhanVien.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
+            this.btnTimNhanVien.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
             this.btnTimNhanVien.ForeColor = System.Drawing.Color.Blue;
             this.btnTimNhanVien.Location = new System.Drawing.Point(249, 2);
             this.btnTimNhanVien.Name = "btnTimNhanVien";
@@ -1750,7 +1758,7 @@
             // 
             // btnThemNhanVien
             // 
-            this.btnThemNhanVien.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
+            this.btnThemNhanVien.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
             this.btnThemNhanVien.ForeColor = System.Drawing.Color.Blue;
             this.btnThemNhanVien.Location = new System.Drawing.Point(6, 2);
             this.btnThemNhanVien.Name = "btnThemNhanVien";
@@ -1761,7 +1769,7 @@
             // 
             // btnXoaNhanVien
             // 
-            this.btnXoaNhanVien.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
+            this.btnXoaNhanVien.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
             this.btnXoaNhanVien.ForeColor = System.Drawing.Color.Red;
             this.btnXoaNhanVien.Location = new System.Drawing.Point(87, 2);
             this.btnXoaNhanVien.Name = "btnXoaNhanVien";
@@ -1772,7 +1780,7 @@
             // 
             // btnSuaNhanVien
             // 
-            this.btnSuaNhanVien.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
+            this.btnSuaNhanVien.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
             this.btnSuaNhanVien.ForeColor = System.Drawing.Color.Blue;
             this.btnSuaNhanVien.Location = new System.Drawing.Point(168, 2);
             this.btnSuaNhanVien.Name = "btnSuaNhanVien";
@@ -1783,7 +1791,7 @@
             // 
             // btnXemNhanVien
             // 
-            this.btnXemNhanVien.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
+            this.btnXemNhanVien.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
             this.btnXemNhanVien.ForeColor = System.Drawing.Color.Blue;
             this.btnXemNhanVien.Location = new System.Drawing.Point(330, 2);
             this.btnXemNhanVien.Name = "btnXemNhanVien";
@@ -1807,14 +1815,6 @@
             this.listView_NhanVien.Size = new System.Drawing.Size(829, 392);
             this.listView_NhanVien.TabIndex = 0;
             this.listView_NhanVien.UseCompatibleStateImageBehavior = false;
-            // 
-            // fl_TaiKhoan
-            // 
-            this.fl_TaiKhoan.Location = new System.Drawing.Point(3, 248);
-            this.fl_TaiKhoan.Name = "fl_TaiKhoan";
-            this.fl_TaiKhoan.Size = new System.Drawing.Size(326, 46);
-            this.fl_TaiKhoan.TabIndex = 7;
-            this.fl_TaiKhoan.Visible = false;
             // 
             // FrmSystem
             // 

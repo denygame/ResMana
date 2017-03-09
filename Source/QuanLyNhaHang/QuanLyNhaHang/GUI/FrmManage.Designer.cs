@@ -36,10 +36,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.cbSanh = new System.Windows.Forms.ComboBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.quảnLýToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.thôngTinTàiKhoảnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.thôngTinCaNhânToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.đăngXuâtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.danhSachĐătChôToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelHoaDon = new System.Windows.Forms.Panel();
             this.listView_HoaDon = new System.Windows.Forms.ListView();
@@ -151,42 +147,12 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.quảnLýToolStripMenuItem,
-            this.thôngTinTàiKhoảnToolStripMenuItem,
             this.danhSachĐătChôToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1116, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
-            // 
-            // quảnLýToolStripMenuItem
-            // 
-            this.quảnLýToolStripMenuItem.Name = "quảnLýToolStripMenuItem";
-            this.quảnLýToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
-            this.quảnLýToolStripMenuItem.Text = "Hệ Thống";
-            this.quảnLýToolStripMenuItem.Click += new System.EventHandler(this.quảnLýToolStripMenuItem_Click);
-            // 
-            // thôngTinTàiKhoảnToolStripMenuItem
-            // 
-            this.thôngTinTàiKhoảnToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.thôngTinCaNhânToolStripMenuItem,
-            this.đăngXuâtToolStripMenuItem});
-            this.thôngTinTàiKhoảnToolStripMenuItem.Name = "thôngTinTàiKhoảnToolStripMenuItem";
-            this.thôngTinTàiKhoảnToolStripMenuItem.Size = new System.Drawing.Size(77, 20);
-            this.thôngTinTàiKhoảnToolStripMenuItem.Text = "Tài Khoản: ";
-            // 
-            // thôngTinCaNhânToolStripMenuItem
-            // 
-            this.thôngTinCaNhânToolStripMenuItem.Name = "thôngTinCaNhânToolStripMenuItem";
-            this.thôngTinCaNhânToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
-            this.thôngTinCaNhânToolStripMenuItem.Text = "Thông Tin Cá Nhân";
-            // 
-            // đăngXuâtToolStripMenuItem
-            // 
-            this.đăngXuâtToolStripMenuItem.Name = "đăngXuâtToolStripMenuItem";
-            this.đăngXuâtToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
-            this.đăngXuâtToolStripMenuItem.Text = "Đăng Xuất";
             // 
             // danhSachĐătChôToolStripMenuItem
             // 
@@ -426,7 +392,6 @@
         private System.Windows.Forms.Panel panelSanh;
         private System.Windows.Forms.ComboBox cbSanh;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem thôngTinTàiKhoảnToolStripMenuItem;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtBan;
         private System.Windows.Forms.Panel panelHoaDon;
@@ -449,10 +414,7 @@
         private System.Windows.Forms.NumericUpDown nUDslXoa;
         private System.Windows.Forms.CheckBox checkBoxXoa;
         private System.Windows.Forms.Button btnDatCho;
-        private System.Windows.Forms.ToolStripMenuItem thôngTinCaNhânToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem đăngXuâtToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem danhSachĐătChôToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem quảnLýToolStripMenuItem;
     }
 }
 

@@ -20,11 +20,11 @@ namespace QuanLyNhaHang
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            /*try
+            try
             {
                 DatabaseExecute.conn.Open();
                 DatabaseExecute.conn.Close();
-                Application.Run(new FrmLogin());
+                Application.Run(new FrmBegin());
             }
             catch (Exception)
             {
@@ -34,8 +34,8 @@ namespace QuanLyNhaHang
             finally
             {
                 DatabaseExecute.conn.Close();
-            }*/
-            Application.Run(new FrmSystem());
+            }
+            //Application.Run(new FrmBegin());
         }
     }
 }
