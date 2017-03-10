@@ -11,11 +11,6 @@ namespace QuanLyNhaHang.DTO
     {
         private int idSanh;
         private string tenSanh;
-        public Sanh(int idSanh, string tenSanh)
-        {
-            this.IdSanh = idSanh;
-            this.TenSanh = tenSanh;
-        }
         public Sanh(DataRow rows)
         {
             this.IdSanh = (int) rows["idSanh"];

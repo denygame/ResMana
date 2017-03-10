@@ -15,11 +15,13 @@ namespace QuanLyNhaHang
 {
     public partial class FrmManage : Form
     {
+        private TaiKhoan tkDangNhap = FrmBegin.tkDangNhap;
         public FrmManage()
         {
             InitializeComponent();
-
             khoiTaoCbSanh();
+            this.Text += " <> ( Tài khoản: " + tkDangNhap.UserName + " )";
+            cbSanh.Select(); //focus
         }
 
         #region Events
@@ -35,11 +37,16 @@ namespace QuanLyNhaHang
         // test 2 form song song
         private void btnThemMon_Click(object sender, EventArgs e)
         {
-            FrmAddFood f = new FrmAddFood();
-            if (Application.OpenForms["FrmAddFood"] == null)
-                f.Show();
-            else
-                Application.OpenForms["FrmAddFood"].Focus();
+            if (txtBan.Text != "")
+            {
+                string tenSanhBan = (cbSanh.SelectedItem as Sanh).TenSanh + " - " + txtBan.Text;
+                FrmAddFood f = new FrmAddFood(tenSanhBan);
+                if (Application.OpenForms["FrmAddFood"] == null)
+                    f.Show();
+                else
+                    Application.OpenForms["FrmAddFood"].Focus();
+            }
+            else MessageBox.Show("Hãy chọn bàn!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Question);
         }
 
         private void checkBoxXoa_CheckedChanged(object sender, EventArgs e)
@@ -70,10 +77,26 @@ namespace QuanLyNhaHang
         private void Btn_Click(object sender, EventArgs e)
         {
             txtBan.Text = ((sender as Button).Tag as BanAn).TenBan;
+            dataGridView_HDtheoBan.Tag = (sender as Button).Tag;
+            hienThiHDtheoBan((dataGridView_HDtheoBan.Tag as BanAn).IdBanAn);
         }
         #endregion
 
         #region Methods
+
+        private void hienThiHDtheoBan(int idBan)
+        {
+            dataGridView_HDtheoBan.DataSource = HoaDonTheoBanDAL.layHoaDonTheoIdBanAn(idBan);
+            dataGridView_HDtheoBan.Columns[0].HeaderText = "Tên Thức Ăn";
+            dataGridView_HDtheoBan.Columns[0].Width = 150;
+            dataGridView_HDtheoBan.Columns[1].HeaderText = "Số Lượng";
+            dataGridView_HDtheoBan.Columns[1].Width = 79;
+            dataGridView_HDtheoBan.Columns[2].HeaderText = "Thành Tiền";
+            dataGridView_HDtheoBan.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView_HDtheoBan.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView_HDtheoBan.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+        }
+
         private void khoiTaoCbSanh()
         {
             List<Sanh> listSanh = SanhDAL.layDsSanh();
@@ -149,8 +172,7 @@ namespace QuanLyNhaHang
                 }
             thayTheBanAn(flowLayoutPanel_BanAn, btnCanThayThe, khoiTaoBanAn(btnCanThayThe.Tag as BanAn));
         }
+
         #endregion
-
-
     }
 }

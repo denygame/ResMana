@@ -1,4 +1,5 @@
 ﻿using QuanLyNhaHang.DAL;
+using QuanLyNhaHang.DTO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,8 +14,12 @@ namespace QuanLyNhaHang.GUI
 {
     public partial class FrmLogin : Form
     {
-        public event EventHandler ButtonDN_Clicked = null;
-
+        private event EventHandler<EventTruyenDuLieu> eventDN;
+        public event EventHandler<EventTruyenDuLieu> EventDN
+        {
+            add { eventDN += value; }
+            remove { eventDN -= value; }
+        }
 
         public FrmLogin()
         {
@@ -24,13 +29,10 @@ namespace QuanLyNhaHang.GUI
 
         private void btnDangNhap_Click(object sender, EventArgs e)
         {
-            if (this.ButtonDN_Clicked != null)
-                this.ButtonDN_Clicked(sender, e);
-            string userName = txtUserName.Text;
-            string passWord = txtPassWord.Text;
-            if(TaiKhoanDAL.dangNhap(userName, passWord))
+            eventDN(this, new EventTruyenDuLieu(TaiKhoanDAL.layTaiKhoan(txtUserName.Text)));
+            
+            if(TaiKhoanDAL.dangNhap(txtUserName.Text, txtPassWord.Text))
             {
-                
                 this.Close();
             }
             else
@@ -38,12 +40,6 @@ namespace QuanLyNhaHang.GUI
                 MessageBox.Show("Sai tài khoản hoặc mật khẩu", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-       /* private void FrmLogin_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            //if (MessageBox.Show("Bạn muốn thoát chương trình?", "Xác Nhận", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) != DialogResult.OK)
-            //    e.Cancel = true;
-        }*/
 
         private void btnThoat_Click(object sender, EventArgs e)
         {

@@ -38,7 +38,6 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.danhSachĐătChôToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelHoaDon = new System.Windows.Forms.Panel();
-            this.listView_HoaDon = new System.Windows.Forms.ListView();
             this.panelDkBan = new System.Windows.Forms.Panel();
             this.btnGopBan = new System.Windows.Forms.Button();
             this.cbGopBan2 = new System.Windows.Forms.ComboBox();
@@ -55,6 +54,7 @@
             this.nUDslXoa = new System.Windows.Forms.NumericUpDown();
             this.btnXoaMon = new System.Windows.Forms.Button();
             this.btnThemMon = new System.Windows.Forms.Button();
+            this.dataGridView_HDtheoBan = new System.Windows.Forms.DataGridView();
             this.panelSanh.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panelHoaDon.SuspendLayout();
@@ -63,6 +63,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nUdGiamGia)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nUDslXoa)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_HDtheoBan)).BeginInit();
             this.SuspendLayout();
             // 
             // flowLayoutPanel_BanAn
@@ -150,7 +151,7 @@
             this.danhSachĐătChôToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1116, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1085, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -164,21 +165,11 @@
             // 
             this.panelHoaDon.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelHoaDon.Controls.Add(this.listView_HoaDon);
+            this.panelHoaDon.Controls.Add(this.dataGridView_HDtheoBan);
             this.panelHoaDon.Location = new System.Drawing.Point(700, 96);
             this.panelHoaDon.Name = "panelHoaDon";
-            this.panelHoaDon.Size = new System.Drawing.Size(404, 448);
+            this.panelHoaDon.Size = new System.Drawing.Size(371, 448);
             this.panelHoaDon.TabIndex = 3;
-            // 
-            // listView_HoaDon
-            // 
-            this.listView_HoaDon.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listView_HoaDon.Location = new System.Drawing.Point(3, 3);
-            this.listView_HoaDon.Name = "listView_HoaDon";
-            this.listView_HoaDon.Size = new System.Drawing.Size(398, 442);
-            this.listView_HoaDon.TabIndex = 0;
-            this.listView_HoaDon.UseCompatibleStateImageBehavior = false;
             // 
             // panelDkBan
             // 
@@ -249,7 +240,7 @@
             this.panel1.Controls.Add(this.nUdGiamGia);
             this.panel1.Location = new System.Drawing.Point(700, 550);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(404, 62);
+            this.panel1.Size = new System.Drawing.Size(371, 62);
             this.panel1.TabIndex = 5;
             // 
             // txtTongTien
@@ -260,7 +251,7 @@
             this.txtTongTien.Location = new System.Drawing.Point(16, 6);
             this.txtTongTien.Name = "txtTongTien";
             this.txtTongTien.ReadOnly = true;
-            this.txtTongTien.Size = new System.Drawing.Size(195, 24);
+            this.txtTongTien.Size = new System.Drawing.Size(213, 24);
             this.txtTongTien.TabIndex = 13;
             this.txtTongTien.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -269,7 +260,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Red;
-            this.label2.Location = new System.Drawing.Point(47, 35);
+            this.label2.Location = new System.Drawing.Point(55, 39);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(76, 20);
             this.label2.TabIndex = 12;
@@ -279,7 +270,7 @@
             // 
             this.btnThanhToan.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnThanhToan.ForeColor = System.Drawing.Color.Red;
-            this.btnThanhToan.Location = new System.Drawing.Point(297, 3);
+            this.btnThanhToan.Location = new System.Drawing.Point(264, 3);
             this.btnThanhToan.Name = "btnThanhToan";
             this.btnThanhToan.Size = new System.Drawing.Size(104, 56);
             this.btnThanhToan.TabIndex = 11;
@@ -288,9 +279,8 @@
             // 
             // nUdGiamGia
             // 
-            this.nUdGiamGia.Location = new System.Drawing.Point(139, 35);
+            this.nUdGiamGia.Location = new System.Drawing.Point(147, 39);
             this.nUdGiamGia.Name = "nUdGiamGia";
-            this.nUdGiamGia.ReadOnly = true;
             this.nUdGiamGia.Size = new System.Drawing.Size(47, 20);
             this.nUdGiamGia.TabIndex = 10;
             this.nUdGiamGia.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -303,7 +293,7 @@
             this.panel2.Controls.Add(this.btnThemMon);
             this.panel2.Location = new System.Drawing.Point(700, 38);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(404, 52);
+            this.panel2.Size = new System.Drawing.Size(371, 52);
             this.panel2.TabIndex = 6;
             // 
             // checkBoxXoa
@@ -311,7 +301,7 @@
             this.checkBoxXoa.AutoSize = true;
             this.checkBoxXoa.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBoxXoa.ForeColor = System.Drawing.Color.Blue;
-            this.checkBoxXoa.Location = new System.Drawing.Point(266, 3);
+            this.checkBoxXoa.Location = new System.Drawing.Point(245, 3);
             this.checkBoxXoa.Name = "checkBoxXoa";
             this.checkBoxXoa.Size = new System.Drawing.Size(111, 17);
             this.checkBoxXoa.TabIndex = 1;
@@ -321,9 +311,8 @@
             // 
             // nUDslXoa
             // 
-            this.nUDslXoa.Location = new System.Drawing.Point(297, 26);
+            this.nUDslXoa.Location = new System.Drawing.Point(276, 26);
             this.nUDslXoa.Name = "nUDslXoa";
-            this.nUDslXoa.ReadOnly = true;
             this.nUDslXoa.Size = new System.Drawing.Size(47, 20);
             this.nUDslXoa.TabIndex = 2;
             this.nUDslXoa.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -332,7 +321,7 @@
             // 
             this.btnXoaMon.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnXoaMon.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.btnXoaMon.Location = new System.Drawing.Point(174, 3);
+            this.btnXoaMon.Location = new System.Drawing.Point(154, 3);
             this.btnXoaMon.Name = "btnXoaMon";
             this.btnXoaMon.Size = new System.Drawing.Size(75, 45);
             this.btnXoaMon.TabIndex = 3;
@@ -352,11 +341,21 @@
             this.btnThemMon.UseVisualStyleBackColor = true;
             this.btnThemMon.Click += new System.EventHandler(this.btnThemMon_Click);
             // 
+            // dataGridView_HDtheoBan
+            // 
+            this.dataGridView_HDtheoBan.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView_HDtheoBan.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
+            this.dataGridView_HDtheoBan.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_HDtheoBan.Location = new System.Drawing.Point(4, 1);
+            this.dataGridView_HDtheoBan.Name = "dataGridView_HDtheoBan";
+            this.dataGridView_HDtheoBan.Size = new System.Drawing.Size(364, 444);
+            this.dataGridView_HDtheoBan.TabIndex = 0;
+            // 
             // FrmManage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1116, 624);
+            this.ClientSize = new System.Drawing.Size(1085, 624);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panelDkBan);
@@ -368,7 +367,7 @@
             this.MaximizeBox = false;
             this.Name = "FrmManage";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Phần Mềm Quản Lý Nhà Hàng";
+            this.Text = "Sảnh Chính";
             this.panelSanh.ResumeLayout(false);
             this.panelSanh.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
@@ -381,6 +380,7 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nUDslXoa)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_HDtheoBan)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -395,7 +395,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtBan;
         private System.Windows.Forms.Panel panelHoaDon;
-        private System.Windows.Forms.ListView listView_HoaDon;
         private System.Windows.Forms.Panel panelDkBan;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
@@ -415,6 +414,7 @@
         private System.Windows.Forms.CheckBox checkBoxXoa;
         private System.Windows.Forms.Button btnDatCho;
         private System.Windows.Forms.ToolStripMenuItem danhSachĐătChôToolStripMenuItem;
+        private System.Windows.Forms.DataGridView dataGridView_HDtheoBan;
     }
 }
 

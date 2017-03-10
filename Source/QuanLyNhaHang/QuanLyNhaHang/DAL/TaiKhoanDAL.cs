@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuanLyNhaHang.DTO;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -14,15 +15,17 @@ namespace QuanLyNhaHang.DAL
         public static bool dangNhap(string userName, string passWord)
         {
             string query = "select count(*) from TaiKhoan where userName = @uN  AND pass = @pW";
-            DatabaseExecute.conn.Open();
-            SqlCommand com = new SqlCommand(query, DatabaseExecute.conn);
-            com.Parameters.Add(new SqlParameter("@uN", userName));
-            com.Parameters.Add(new SqlParameter("@pW", passWord));
-            int x = (int)com.ExecuteScalar();
-            DatabaseExecute.conn.Close();
+            int x = (int)DatabaseExecute.sqlExecuteScalar(query, new object[] { userName, passWord });
             if (x == 1) return true;
             return false;
-
+        }
+        public static TaiKhoan layTaiKhoan(string userName) 
+        {
+            DataTable data = new DataTable();
+            data = DatabaseExecute.sqlQuery("select * from TaiKhoan where userName = @uN", new object[] { userName });
+            foreach (DataRow row in data.Rows)
+                return new TaiKhoan(row);
+            return null;
         }
     }
 }

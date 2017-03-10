@@ -14,28 +14,76 @@ namespace QuanLyNhaHang.DAL
     {
         public static SqlConnection conn = new SqlConnection(QuanLyNhaHang.Properties.Settings.Default.strConnection);
         //public static SqlConnection conn = new SqlConnection("Data Source = THANH-HUY; Initial Catalog = QLNH; Integrated Security = True");
-        public static DataTable sqlQuery(string query)
+        public static DataTable sqlQuery(string query, object[] bienSoTruyenVao = null)
         {
             DataTable data = new DataTable();
             conn.Open();
-            SqlCommand command = new SqlCommand(query, conn);
-            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            SqlCommand comm = new SqlCommand(query, conn);
+            if (bienSoTruyenVao != null)
+            {
+                string[] listBienSo = query.Split(' ');
+                int i = 0;
+                foreach (string text in listBienSo)
+                {
+                    if (text.Contains("@"))
+                    {
+                        comm.Parameters.AddWithValue(text, bienSoTruyenVao[i]);
+                        i++;
+                    }
+                }
+            }
+            SqlDataAdapter adapter = new SqlDataAdapter(comm);
             adapter.Fill(data);
             conn.Close();
             return data;
         }
 
         //dùng cho insert update 
-        public static int sqlExecuteNonQuery(string query)
+        public static int sqlExecuteNonQuery(string query, object[] bienSoTruyenVao = null)
         {
             int traVe = -1;
             SqlCommand comm = new SqlCommand(query, conn);
             conn.Open();
-            comm.ExecuteNonQuery();
+            if (bienSoTruyenVao != null)
+            {
+                string[] listBienSo = query.Split(' ');
+                int i = 0;
+                foreach (string text in listBienSo)
+                {
+                    if (text.Contains("@"))
+                    {
+                        comm.Parameters.AddWithValue(text, bienSoTruyenVao[i]);
+                        i++;
+                    }
+                }
+            }
+            traVe = comm.ExecuteNonQuery();
             conn.Close();
             return traVe;
         }
-
+    //execute trả về object
+        public static object sqlExecuteScalar(string query, object[] bienSoTruyenVao = null)
+        {
+            object traVe = -1;
+            SqlCommand comm = new SqlCommand(query, conn);
+            conn.Open();
+            if (bienSoTruyenVao != null)
+            {
+                string[] listBienSo = query.Split(' ');
+                int i = 0;
+                foreach (string text in listBienSo)
+                {
+                    if (text.Contains("@"))
+                    {
+                        comm.Parameters.AddWithValue(text, bienSoTruyenVao[i]);
+                        i++;
+                    }
+                }
+            }
+            traVe = comm.ExecuteScalar();
+            conn.Close();
+            return traVe;
+        }
 
         public static int thucThiSql()
         {
@@ -70,7 +118,7 @@ namespace QuanLyNhaHang.DAL
             try
             {
                 connection = new SqlConnection("Data Source = " + Environment.MachineName + "; Initial Catalog = master; Integrated Security = True");
-                string query = "drop database "+ Constant.databaseName;
+                string query = "drop database " + Constant.databaseName;
                 com = new SqlCommand(query, connection);
                 connection.Open();
                 com.ExecuteNonQuery();

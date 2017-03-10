@@ -7,3 +7,29 @@
 SELECT @@SERVERNAME AS 'Server Name'
 Select * From sys.Servers
 Select * From sys.sysServers
+
+
+
+
+
+ /* private void FrmLogin_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //if (MessageBox.Show("Bạn muốn thoát chương trình?", "Xác Nhận", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) != DialogResult.OK)
+            //    e.Cancel = true;
+        }*/
+
+
+
+
+
+
+            /*listView_HoaDon.Items.Clear();
+            List<ChiTietHoaDonTheoBan> list = HoaDonTheoBanDAL.layHoaDonTheoIdBanAn(idBan);
+            foreach(ChiTietHoaDonTheoBan i in list)
+            {
+                ListViewItem l = new ListViewItem(i.TenThucAn);
+                l.SubItems.Add(i.SoLuong.ToString());
+                l.SubItems.Add(i.ThanhTien.ToString());
+
+                listView_HoaDon.Items.Add(l);
+            }*/

@@ -63,19 +63,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAL\BanAnDAL.cs" />
+    <Compile Include="DAL\DanhMucDAL.cs" />
     <Compile Include="DAL\DatabaseExecute.cs" />
+    <Compile Include="DAL\EventTruyenDuLieu.cs" />
+    <Compile Include="DAL\HoaDonTheoBanDAL.cs" />
     <Compile Include="DAL\SanhDAL.cs" />
     <Compile Include="DAL\TaiKhoanDAL.cs" />
+    <Compile Include="DAL\ThucAnDAL.cs" />
     <Compile Include="DTO\BanAn.cs" />
+    <Compile Include="DTO\ChiTietHoaDonTheoBan.cs" />
+    <Compile Include="DTO\DanhMuc.cs" />
     <Compile Include="DTO\Sanh.cs" />
     <Compile Include="DTO\TaiKhoan.cs" />
+    <Compile Include="DTO\ThucAn.cs" />
     <Compile Include="GUI\FrmBegin.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI\FrmBegin.Designer.cs">
       <DependentUpon>FrmBegin.cs</DependentUpon>
     </Compile>
-    <Compile Include="Constant.cs" />
+    <Compile Include="GUI\Constant.cs" />
     <Compile Include="GUI\FrmAddFood.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -183,6 +190,7 @@
     <Content Include="txtExplain\chuoiKetNoi.txt" />
     <Content Include="txtExplain\DangNho.txt" />
     <Content Include="txtExplain\GiaoDienFrmManage.txt" />
+    <Content Include="txtExplain\GTdatabaseExecute.txt" />
     <Content Include="txtExplain\MoHinh.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,0 +1,10 @@
+﻿nếu k viết hàm truyền đối số thì phải viết như thế này:
+/* string query = "select count(*) from TaiKhoan where userName = @uN  AND pass = @pW";
+             DatabaseExecute.conn.Open();
+             SqlCommand com = new SqlCommand(query, DatabaseExecute.conn);
+             com.Parameters.Add(new SqlParameter("@uN", userName));
+             com.Parameters.Add(new SqlParameter("@pW", passWord));
+             int x = (int)com.ExecuteScalar();
+             DatabaseExecute.conn.Close();
+             if (x == 1) return true;
+             return false;*/
