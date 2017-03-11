@@ -13,13 +13,24 @@ namespace QuanLyNhaHang.DAL
         public static List<BanAn> layDsBanAn(int idSanh)
         {
             List<BanAn> list = new List<BanAn>();
-            DataTable data = DatabaseExecute.sqlQuery("SELECT * FROM BanAn WHERE idSanh = "+ idSanh);
-            foreach(DataRow i in data.Rows)
+            DataTable data = DatabaseExecute.sqlQuery("SELECT * FROM BanAn WHERE idSanh = " + idSanh);
+            foreach (DataRow i in data.Rows)
             {
                 BanAn test = new BanAn(i);
                 list.Add(test);
             }
             return list;
+        }
+
+        public static BanAn layBanAn(int idBanAn)
+        {
+            BanAn test = new BanAn();
+            DataTable data = DatabaseExecute.sqlQuery("SELECT * FROM BanAn WHERE idBanAn = " + idBanAn);
+            foreach (DataRow i in data.Rows)
+            {
+                test = new BanAn(i);
+            }
+            return test;
         }
     }
 }

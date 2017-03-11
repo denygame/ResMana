@@ -14,13 +14,24 @@ namespace QuanLyNhaHang.GUI
 {
     public partial class FrmAddFood : Form
     {
-        public FrmAddFood(string Name)
+        private BanAn banAn;
+        private TaiKhoan tkDangNhap = FrmBegin.tkDangNhap;
+
+        private event EventHandler eventThemMonAn;
+        public event EventHandler EventThemMonAn
+        {
+            add { eventThemMonAn += value; }
+            remove { eventThemMonAn -= value; }
+        }
+
+
+        public FrmAddFood(BanAn ban, string tenSanh_Ban)
         {
             InitializeComponent();
             cbDanhMuc.Select();    //focus test
             loadData();
-
-            txtName.Text = Name;
+            this.banAn = ban;
+            txtName.Text = tenSanh_Ban;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -30,7 +41,20 @@ namespace QuanLyNhaHang.GUI
 
         private void btnThem_Click(object sender, EventArgs e)
         {
+            int idHoaDon = HoaDonDAL.layIdHDchuaThanhToanTheoIDban(this.banAn.IdBanAn);
+            int idThucAn = (cbMonAn.SelectedItem as ThucAn).IdThucAn;
+            int soLuong = (int)numericUpDown1.Value;
 
+            if (idHoaDon == -1)
+            {
+                //tạo hóa đơn nên hóa đơn cuối là cái mới nhất
+                HoaDonDAL.themHoaDonChoBan(this.banAn.IdBanAn, tkDangNhap.UserName);
+                ChiTietHoaDonDAL.themMonAnVaoBan(HoaDonDAL.layIdHoaDonCuoiCung(), idThucAn, soLuong);
+            }
+            else ChiTietHoaDonDAL.themMonAnVaoBan(idHoaDon, idThucAn, soLuong);
+
+            //thêm món xong mới bắt sự kiện
+            eventThemMonAn(this, new EventArgs());
         }
 
 
@@ -68,12 +92,17 @@ namespace QuanLyNhaHang.GUI
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            if(numericUpDown1.Value < 0)
+            if (numericUpDown1.Value < 0)
             {
                 txtGiaTien.Text = "0";
                 return;
             }
             txtGiaTien.Text = (((cbMonAn.SelectedItem as ThucAn).GiaTien) * (int)numericUpDown1.Value).ToString();
+        }
+
+        private void FrmAddFood_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            FrmManage.testClickThemMon = false;
         }
     }
 }

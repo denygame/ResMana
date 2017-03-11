@@ -63,9 +63,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAL\BanAnDAL.cs" />
+    <Compile Include="DAL\ChiTietHoaDonDAL.cs" />
     <Compile Include="DAL\DanhMucDAL.cs" />
     <Compile Include="DAL\DatabaseExecute.cs" />
-    <Compile Include="DAL\EventTruyenDuLieu.cs" />
+    <Compile Include="DAL\HoaDonDAL.cs" />
+    <Compile Include="DTO\ChiTietHoaDon.cs" />
+    <Compile Include="DTO\HoaDon.cs" />
+    <Compile Include="EventTruyenDuLieu.cs" />
     <Compile Include="DAL\HoaDonTheoBanDAL.cs" />
     <Compile Include="DAL\SanhDAL.cs" />
     <Compile Include="DAL\TaiKhoanDAL.cs" />
@@ -82,7 +86,7 @@
     <Compile Include="GUI\FrmBegin.Designer.cs">
       <DependentUpon>FrmBegin.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Constant.cs" />
+    <Compile Include="Constant.cs" />
     <Compile Include="GUI\FrmAddFood.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -189,6 +193,7 @@
     <None Include="bin\Debug\Img\about.png" />
     <Content Include="txtExplain\chuoiKetNoi.txt" />
     <Content Include="txtExplain\DangNho.txt" />
+    <Content Include="txtExplain\ghiChu.txt" />
     <Content Include="txtExplain\GiaoDienFrmManage.txt" />
     <Content Include="txtExplain\GTdatabaseExecute.txt" />
     <Content Include="txtExplain\MoHinh.txt" />

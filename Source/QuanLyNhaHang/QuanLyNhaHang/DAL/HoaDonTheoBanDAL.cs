@@ -22,5 +22,15 @@ namespace QuanLyNhaHang.DAL
             }
             return list;
         }
+
+        public static void xoaMonAnTrenHoaDonTheoBan(int idHoaDon, string tenMonAn, int soLuong)
+        {
+            try
+            {
+                DatabaseExecute.sqlExecuteNonQuery("StoredProcedure_XoaMonTrongHDtheoBan @idHoaDon , @tenThucAn , @soLuong", new object[] { idHoaDon, tenMonAn, soLuong });
+            }
+            catch { }
+        }
+
     }
 }

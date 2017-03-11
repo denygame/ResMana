@@ -1,14 +1,14 @@
-﻿CREATE DATABASE QLNH
+﻿CREATE DATABASE HQTCSDL
 GO
 
-USE QLNH
+USE HQTCSDL
 GO
 --USE master DROP DATABASE QLNH
 CREATE TABLE NhanVien
 (
 	idNhanVien INT IDENTITY PRIMARY KEY,
 	tenNhanVien NVARCHAR(100) NOT NULL,
-	ngaySinh DATE NOT NULL,
+	ngaySinh DATETIME NOT NULL,
 	gioiTinh NVARCHAR(3) NOT NULL,
 	chucVu NVARCHAR(100) NOT NULL, 
 	queQuan NVARCHAR(100),
@@ -39,7 +39,8 @@ CREATE TABLE BanAn
 	tenBan NVARCHAR(100) DEFAULT N'Chưa đặt tên bàn',
 	choNgoi INT NOT NULL, 
 	idSanh INT NOT NULL,
-	trangThai INT DEFAULT 0, -- 0: Trống || 1: Có Người || 2: Bàn Đặt Chỗ
+	
+	trangThai NVARCHAR(100) DEFAULT N'Bàn Trống', -- Bàn Trống || Khách || Bàn Đặt Chỗ
 
 	FOREIGN KEY (idSanh) REFERENCES dbo.Sanh(idSanh)
 )
@@ -63,7 +64,7 @@ CREATE TABLE ThucAn
 CREATE TABLE HoaDon
 (
 	idHoaDon INT IDENTITY PRIMARY KEY,
-	ngayDen DATE NOT NULL,
+	ngayDen DATETIME NOT NULL,
 	idBanAn INT NOT NULL,
 	discount INT DEFAULT 0, -- mặc định giảm giá 0%
 
@@ -71,7 +72,7 @@ CREATE TABLE HoaDon
 	
 	tongTien FLOAT NOT NULL,
 	userName NVARCHAR(100) NOT NULL,
-	trangThai INT DEFAULT 0, -- 0: Chưa thanh toán || 1: OK
+	trangThai NVARCHAR(100) DEFAULT N'Chưa thanh toán', -- 0: Chưa thanh toán || 1: OK
 
 	FOREIGN KEY (idBanAn) REFERENCES dbo.BanAn(idBanAn),
 	FOREIGN KEY (userName) REFERENCES dbo.TaiKhoan(userName)
@@ -87,75 +88,118 @@ CREATE TABLE ChiTietHoaDon
 	FOREIGN KEY (idHoaDon) REFERENCES dbo.HoaDon(idHoaDon),
 	FOREIGN KEY (idThucAn) REFERENCES dbo.ThucAn(idThucAn)
 )
+GO
 
 
-
-
---- TEST
-INSERT dbo.Sanh( tenSanh )VALUES  ( N'Sảnh 1')
-INSERT dbo.Sanh( tenSanh )VALUES ( N'Sảnh 2')
-
-DECLARE @i INT =0
-WHILE @i<10
+-- SP đăng nhập
+CREATE PROC	StoredProcedure_DangNhap
+@userName nvarchar(100), @passWOrd nvarchar(1000)
+AS
 BEGIN
-	INSERT dbo.BanAn
-	        ( tenBan ,
-	          choNgoi ,
-	          idSanh ,
-	          trangThai
-	        )
-	VALUES  ( 
-	          N'Bàn '+CAST((@i+1) AS NVARCHAR(100)) , -- tenBan - nvarchar(100)
-	          2 , -- choNgoi - int
-	          1 , -- idSanh - int
-	          0  -- trangThai - int
-	        )
-	SET @i = @i +1
+	SELECT * FROM dbo.TaiKhoan WHERE userName = @userName AND pass = @passWOrd 
 END
 GO
-INSERT dbo.BanAn
-	        ( tenBan ,
-	          choNgoi ,
-	          idSanh ,
-	          trangThai
-	        )
-	VALUES  ( 
-	          N'Bàn 11',
-	          2 , -- choNgoi - int
-	          1 , -- idSanh - int
-	          2  -- trangThai - int
-	        )
-DECLARE @j INT =0
-WHILE @j<30
+
+CREATE PROC	StoredProcedure_ThemHoaDon
+@idBanAn INT, @userName NVARCHAR(100)
+AS
 BEGIN
-	INSERT dbo.BanAn
-	        ( tenBan ,
-	          choNgoi ,
-	          idSanh ,
-	          trangThai
-	        )
-	VALUES  ( 
-	          N'Bàn '+CAST((@j+1) AS NVARCHAR(100)) , -- tenBan - nvarchar(100)
-	          4, -- choNgoi - int
-	          2 , -- idSanh - int
-	          0  -- trangThai - int
-	        )
-	SET @j = @j +1
+	INSERT dbo.HoaDon ( ngayDen , idBanAn , discount , chiPhiPhuThem , tongTien , userName , trangThai )
+	VALUES  ( GETDATE() , @idBanAn , 0 , 0 , 0.0 , @userName ,   N'Chưa thanh toán')
 END
 GO
-INSERT dbo.BanAn
-	        ( tenBan ,
-	          choNgoi ,
-	          idSanh ,
-	          trangThai
-	        )
-	VALUES  ( 
-	          N'Bàn 12',
-	          2 , -- choNgoi - int
-	          1 , -- idSanh - int
-	          1  -- trangThai - int
-	        )
 
+-- procedure quan trọng --- test lại
+CREATE PROC StoredProcedure_ThemCTHD
+@idHoaDon INT, @idThucAn INT, @soLuong INT
+AS
+BEGIN
+    DECLARE @kiemTra INT
+	SELECT @kiemTra = idCTHD FROM dbo.ChiTietHoaDon WHERE idHoaDon = @idHoaDon AND idThucAn = @idThucAn
+
+	DECLARE @soLuongMoi INT
+	SELECT @soLuongMoi = @soLuong + soLuong FROM dbo.ChiTietHoaDon WHERE idHoaDon = @idHoaDon AND idThucAn = @idThucAn
+
+	IF (@kiemTra > 0)	-- ChiTietHoaDon có r chỉ thêm soLuong
+	BEGIN
+		IF(@soLuongMoi > 0) UPDATE dbo.ChiTietHoaDon SET soLuong = @soLuongMoi WHERE idHoaDon = @idHoaDon AND idThucAn = @idThucAn
+
+		ELSE 
+		BEGIN
+			DELETE FROM dbo.ChiTietHoaDon WHERE idHoaDon = @idHoaDon AND idThucAn = @idThucAn
+
+			DECLARE @testHoaDon INT = 0
+			SELECT @testHoaDon = COUNT(*) FROM dbo.ChiTietHoaDon WHERE idHoaDon = @idHoaDon
+
+			IF(@testHoaDon = 0)
+			BEGIN
+				DELETE FROM dbo.HoaDon WHERE idHoaDon = @idHoaDon
+			END
+		END	
+	END
+
+	ELSE
+    BEGIN
+		IF(@soLuong > 0)
+			INSERT dbo.ChiTietHoaDon ( idHoaDon, idThucAn, soLuong ) VALUES  ( @idHoaDon, @idThucAn, @soLuong )
+	END
+END
+GO
+
+
+CREATE TRIGGER TG_insert_HoaDon ON dbo.HoaDon FOR INSERT
+AS
+BEGIN
+	DECLARE @idBanAn INT
+	SELECT @idBanAn = idBanAn FROM Inserted
+
+	UPDATE dbo.BanAn SET trangThai = N'Khách' WHERE idBanAn = @idBanAn
+END
+GO
+
+CREATE TRIGGER TG_delete_HoaDon ON dbo.HoaDon FOR DELETE
+AS
+BEGIN
+	DECLARE @idBanAn INT
+	SELECT @idBanAn = idBanAn FROM Deleted
+
+	UPDATE dbo.BanAn SET trangThai = N'Bàn Trống' WHERE idBanAn = @idBanAn
+END
+GO
+
+
+
+-- Xóa món trong chi tiết hóa đơn theo bàn
+CREATE PROC StoredProcedure_XoaMonTrongHDtheoBan
+@idHoaDon INT, @tenThucAn NVARCHAR(100), @soLuong INT
+AS
+BEGIN
+	 DECLARE @idThucAn INT
+	 SELECT @idThucAn = idThucAn FROM dbo.ThucAn WHERE tenThucAn = @tenThucAn
+
+	 DECLARE @sL INT
+	 SELECT @sL = soLuong FROM dbo.ChiTietHoaDon WHERE idHoaDon = @idHoaDon AND idThucAn = @idThucAn
+
+	 IF(@sL <= @soLuong)
+	 BEGIN
+	 	 DELETE FROM dbo.ChiTietHoaDon WHERE idHoaDon = @idHoaDon AND idThucAn = @idThucAn
+		 DECLARE @test INT = 0
+		 SELECT @test = COUNT(*) FROM dbo.ChiTietHoaDon WHERE idHoaDon = @idHoaDon
+		 IF(@test = 0)
+			DELETE FROM dbo.HoaDon WHERE idHoaDon = @idHoaDon
+	 END
+		
+	 ELSE
+		UPDATE dbo.ChiTietHoaDon SET soLuong = soLuong - @soLuong WHERE idHoaDon = @idHoaDon AND idThucAn = @idThucAn
+END
+GO
+
+
+
+
+
+
+--- TEST Bộ Dữ Liệu
 INSERT dbo.NhanVien
         ( tenNhanVien ,
           ngaySinh ,
@@ -166,23 +210,23 @@ INSERT dbo.NhanVien
           diaChi ,
           tel
         )
-VALUES  ( N'asd' , -- tenNhanVien - nvarchar(100)
-          GETDATE() , -- ngaySinh - date
-          N'nam' , -- gioiTinh - nvarchar(3)
-          N'das' , -- chucVu - nvarchar(100)
-          N'dsad' , -- queQuan - nvarchar(100)
-          'dasd' , -- email - varchar(100)
-          N'dasd' , -- diaChi - nvarchar(100)
-          0  -- tel - int
+VALUES  ( N'Nguyễn Thanh Huy' , -- tenNhanVien - nvarchar(100)
+          22/02/1996 , -- ngaySinh - date
+          N'Nam' , -- gioiTinh - nvarchar(3)
+          N'Tổng Giám Đốc' , -- chucVu - nvarchar(100)
+          N'TPHCM' , -- queQuan - nvarchar(100)
+          'thanhhuy96.gtvt@gmail.com' , -- email - varchar(100)
+          N'839/11 Hậu Giang' , -- diaChi - nvarchar(100)
+          0907352619  -- tel - int
         )
 INSERT dbo.TaiKhoan
         ( userName, pass, idNhanVien, loaiTK )
 VALUES  ( N'denygame', -- userName - nvarchar(100)
           N'123', -- pass - nvarchar(1000)
           1, -- idNhanVien - int
-          2  -- loaiTK - int
+          1  -- loaiTK - int
           )
-		  INSERT dbo.TaiKhoan
+INSERT dbo.TaiKhoan
         ( userName, pass, idNhanVien, loaiTK )
 VALUES  ( N'huy96', -- userName - nvarchar(100)
           N'123', -- pass - nvarchar(1000)
@@ -190,131 +234,136 @@ VALUES  ( N'huy96', -- userName - nvarchar(100)
           0  -- loaiTK - int
           )
 
-		  GO
-          
---SELECT t.tenThucAn, ct.soLuong, ct.soLuong*t.giaTien AS [thanhTien] FROM dbo.ChiTietHoaDon AS ct, dbo.HoaDon AS hd, dbo.ThucAn AS t 
---WHERE ct.idHoaDon = hd.idHoaDon AND ct.idThucAn = t.idThucAn AND hd.idBanAn = 
-
-INSERT dbo.HoaDon
-        ( 
-          ngayDen ,
-          idBanAn ,
-          discount ,
-          chiPhiPhuThem ,
-          tongTien ,
-          userName ,
-          trangThai
-        )
-VALUES  ( 
-          GETDATE() , -- ngayDen - date
-          2 , -- idBanAn - int
-          0 , -- discount - int
-          0 , -- chiPhiPhuThem - int
-          0.0 , -- tongTien - float
-          N'denygame' , -- userName - nvarchar(100)
-          0  -- trangThai - int
-        )
-
-		INSERT dbo.HoaDon
-        ( 
-          ngayDen ,
-          idBanAn ,
-          discount ,
-          chiPhiPhuThem ,
-          tongTien ,
-          userName ,
-          trangThai
-        )
-VALUES  ( 
-          GETDATE() , -- ngayDen - date
-          8 , -- idBanAn - int
-          0 , -- discount - int
-          0 , -- chiPhiPhuThem - int
-          0.0 , -- tongTien - float
-          N'denygame' , -- userName - nvarchar(100)
-          0  -- trangThai - int
-        )
-
-		INSERT dbo.HoaDon
-        ( 
-          ngayDen ,
-          idBanAn ,
-          discount ,
-          chiPhiPhuThem ,
-          tongTien ,
-          userName ,
-          trangThai
-        )
-VALUES  ( 
-          GETDATE() , -- ngayDen - date
-          15 , -- idBanAn - int
-          0 , -- discount - int
-          0 , -- chiPhiPhuThem - int
-          0.0 , -- tongTien - float
-          N'denygame' , -- userName - nvarchar(100)
-          0  -- trangThai - int
-        )
-
-
-INSERT dbo.DanhMuc
-        ( tenMenu )
-VALUES  ( N'Nước'  -- tenMenu - nvarchar(100)
+INSERT dbo.Sanh
+        ( tenSanh )
+VALUES  ( N'Sảnh 1'  -- tenSanh - nvarchar(100)
           )
+INSERT dbo.Sanh
+        ( tenSanh )
+VALUES  ( N'Sảnh 2'  -- tenSanh - nvarchar(100)
+          )
+DECLARE @i INT = 0
+WHILE (@i < 10)
+BEGIN
+	INSERT dbo.BanAn
+	        ( tenBan ,
+	          choNgoi ,
+	          idSanh
+	        )
+	VALUES  ( N'Bàn ' + CAST((@i+1) AS NVARCHAR(100)) , -- tenBan - nvarchar(100)
+	          4 , -- choNgoi - int
+	          1  -- idSanh - int
+	        )
+	SET @i = @i + 1
+END
+
+DECLARE @j INT = 0
+WHILE (@j < 50)
+BEGIN
+	INSERT dbo.BanAn
+	        ( tenBan ,
+	          choNgoi ,
+	          idSanh
+	        )
+	VALUES  ( N'Bàn ' + CAST((@j+1) AS NVARCHAR(100)) , -- tenBan - nvarchar(100)
+	          10 , -- choNgoi - int
+	          2  -- idSanh - int
+	        )
+	SET @j = @j + 1
+END
+
+
+INSERT dbo.DanhMuc ( tenMenu )
+VALUES  ( N'Món Nướng' )
+
+INSERT dbo.DanhMuc ( tenMenu )
+VALUES  ( N'Món Xào' )
+
+INSERT dbo.DanhMuc ( tenMenu )
+VALUES  ( N'Lẩu' )
+
+INSERT dbo.DanhMuc ( tenMenu )
+VALUES  ( N'Nước uống' )
+
+
 INSERT dbo.ThucAn
-        ( tenThucAn, idMenu, giaTien )
-VALUES  ( N'Cafe', -- tenThucAn - nvarchar(100)
-          1, -- idMenu - int
-          15000.0  -- giaTien - float
-          )
-		INSERT dbo.ThucAn
-        ( tenThucAn, idMenu, giaTien )
-VALUES  ( N'Trà', -- tenThucAn - nvarchar(100)
-          1, -- idMenu - int
+         ( tenThucAn ,
+          idMenu ,
+          giaTien
+        )
+VALUES  ( N'Gà Nướng Muối Ớt' , -- tenThucAn - nvarchar(100)
+          1 , -- idMenu - int
+          200000.0  -- giaTien - float
+        )
+INSERT dbo.ThucAn
+         ( tenThucAn ,
+          idMenu ,
+          giaTien
+        )
+VALUES  ( N'Heo Mọi Nướng' , -- tenThucAn - nvarchar(100)
+          1 , -- idMenu - int
+          500000.0  -- giaTien - float
+        )
+INSERT dbo.ThucAn
+         ( tenThucAn ,
+          idMenu ,
+          giaTien
+        )
+VALUES  ( N'Rau muống xào tỏi' , -- tenThucAn - nvarchar(100)
+          2 , -- idMenu - int
+          30000.0  -- giaTien - float
+        )
+INSERT dbo.ThucAn
+        (  tenThucAn ,
+          idMenu ,
+          giaTien
+        )
+VALUES  ( N'Lẩu Thái' , -- tenThucAn - nvarchar(100)
+          3 , -- idMenu - int
+          199000.0  -- giaTien - float
+        )
+INSERT dbo.ThucAn
+        (  tenThucAn ,
+          idMenu ,
+          giaTien
+        )
+VALUES  ( N'Lẩu Cá Mập' , -- tenThucAn - nvarchar(100)
+          3 , -- idMenu - int
+          500000.0  -- giaTien - float
+        )
+INSERT dbo.ThucAn
+        (  tenThucAn ,
+          idMenu ,
+          giaTien
+        )
+VALUES  ( N'Dú Heo Nướng' , -- tenThucAn - nvarchar(100)
+          1 , -- idMenu - int
+          99000.0  -- giaTien - float
+        )
+INSERT dbo.ThucAn
+        (  tenThucAn ,
+          idMenu ,
+          giaTien
+        )
+VALUES  ( N'Ken' , -- tenThucAn - nvarchar(100)
+          4 , -- idMenu - int
+          18000.0  -- giaTien - float
+        )
+INSERT dbo.ThucAn
+        (  tenThucAn ,
+          idMenu ,
+          giaTien
+        )
+VALUES  ( N'Tiger' , -- tenThucAn - nvarchar(100)
+          4 , -- idMenu - int
+          16000.0  -- giaTien - float
+        )
+INSERT dbo.ThucAn
+        (  tenThucAn ,
+          idMenu ,
+          giaTien
+        )
+VALUES  ( N'Nước Suối' , -- tenThucAn - nvarchar(100)
+          4 , -- idMenu - int
           10000.0  -- giaTien - float
-          )
-	INSERT dbo.DanhMuc
-	        ( tenMenu )
-	VALUES  ( N'Gà'  -- tenMenu - nvarchar(100)
-	          )
-INSERT dbo.ThucAn
-        ( tenThucAn, idMenu, giaTien )
-VALUES  ( N'Gà hấp', -- tenThucAn - nvarchar(100)
-          2, -- idMenu - int
-          50000.0  -- giaTien - float
-          )
-INSERT dbo.ThucAn
-        ( tenThucAn, idMenu, giaTien )
-VALUES  ( N'Gà hấp xào chua', -- tenThucAn - nvarchar(100)
-          2, -- idMenu - int
-          150000.0  -- giaTien - float
-          )
-INSERT dbo.ChiTietHoaDon
-        ( idHoaDon, idThucAn, soLuong )
-VALUES  ( 1, -- idHoaDon - int
-          2, -- idThucAn - int
-          5  -- soLuong - int
-          )
-INSERT dbo.ChiTietHoaDon
-        ( idHoaDon, idThucAn, soLuong )
-VALUES  ( 1, -- idHoaDon - int
-          4, -- idThucAn - int
-          1  -- soLuong - int
-          )
-INSERT dbo.ChiTietHoaDon
-        ( idHoaDon, idThucAn, soLuong )
-VALUES  ( 2, -- idHoaDon - int
-          1, -- idThucAn - int
-          4  -- soLuong - int
-          )
-INSERT dbo.ChiTietHoaDon
-        ( idHoaDon, idThucAn, soLuong )
-VALUES  ( 2, -- idHoaDon - int
-          2, -- idThucAn - int
-          1  -- soLuong - int
-          )
-INSERT dbo.ChiTietHoaDon
-        ( idHoaDon, idThucAn, soLuong )
-VALUES  ( 3, -- idHoaDon - int
-          3, -- idThucAn - int
-          1  -- soLuong - int
-          )
+        )

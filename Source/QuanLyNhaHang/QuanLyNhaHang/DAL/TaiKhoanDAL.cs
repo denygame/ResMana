@@ -14,12 +14,14 @@ namespace QuanLyNhaHang.DAL
         //test
         public static bool dangNhap(string userName, string passWord)
         {
-            string query = "select count(*) from TaiKhoan where userName = @uN  AND pass = @pW";
-            int x = (int)DatabaseExecute.sqlExecuteScalar(query, new object[] { userName, passWord });
-            if (x == 1) return true;
-            return false;
+            try
+            {
+                DatabaseExecute.sqlExecuteNonQuery("StoredProcedure_DangNhap @userName , @pass ", new object[] { userName, passWord });
+                return true;
+            }
+            catch { return false; }
         }
-        public static TaiKhoan layTaiKhoan(string userName) 
+        public static TaiKhoan layTaiKhoan(string userName)
         {
             DataTable data = new DataTable();
             data = DatabaseExecute.sqlQuery("select * from TaiKhoan where userName = @uN", new object[] { userName });

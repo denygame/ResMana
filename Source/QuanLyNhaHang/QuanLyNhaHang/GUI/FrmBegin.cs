@@ -106,7 +106,7 @@ namespace QuanLyNhaHang
             this.Show();
         }
 
-        private void F_EventDN(object sender, DAL.EventTruyenDuLieu e)
+        private void F_EventDN(object sender, EventTruyenDuLieu e)
         {
             tkDangNhap = e.Tk;
             foreach (Control i in flowLayoutPanel1.Controls) i.Enabled = true;

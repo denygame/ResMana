@@ -13,7 +13,6 @@ namespace QuanLyNhaHang.DAL
     public class DatabaseExecute
     {
         public static SqlConnection conn = new SqlConnection(QuanLyNhaHang.Properties.Settings.Default.strConnection);
-        //public static SqlConnection conn = new SqlConnection("Data Source = THANH-HUY; Initial Catalog = QLNH; Integrated Security = True");
         public static DataTable sqlQuery(string query, object[] bienSoTruyenVao = null)
         {
             DataTable data = new DataTable();
@@ -118,7 +117,7 @@ namespace QuanLyNhaHang.DAL
             try
             {
                 connection = new SqlConnection("Data Source = " + Environment.MachineName + "; Initial Catalog = master; Integrated Security = True");
-                string query = "drop database " + Constant.databaseName;
+                string query = "use master drop database " + Constant.databaseName;
                 com = new SqlCommand(query, connection);
                 connection.Open();
                 com.ExecuteNonQuery();

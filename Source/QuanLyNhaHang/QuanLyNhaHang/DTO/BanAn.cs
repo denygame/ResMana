@@ -9,15 +9,19 @@ namespace QuanLyNhaHang.DTO
 {
     public class BanAn
     {
-        private int idBanAn, choNgoi, idSanh, trangThai;
-        private string tenBan;
+        private int idBanAn, choNgoi, idSanh;
+        private string tenBan, trangThai;
+
+
+        public BanAn() { }
+
         public BanAn(DataRow rows)
         {
             this.IdBanAn = (int)rows["idBanAn"];
             this.TenBan = rows["tenBan"].ToString();
             this.IdSanh = (int)rows["idSanh"];
             this.ChoNgoi = (int)rows["choNgoi"];
-            this.TrangThai = (int)rows["trangThai"];
+            this.TrangThai = rows["trangThai"].ToString();
         }
         public int ChoNgoi
         {
@@ -71,7 +75,8 @@ namespace QuanLyNhaHang.DTO
             }
         }
 
-        public int TrangThai
+
+        public string TrangThai
         {
             get
             {
