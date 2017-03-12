@@ -106,6 +106,7 @@
             // btnHuyBan
             // 
             this.btnHuyBan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnHuyBan.Enabled = false;
             this.btnHuyBan.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnHuyBan.ForeColor = System.Drawing.Color.Red;
             this.btnHuyBan.Location = new System.Drawing.Point(584, 2);
@@ -114,6 +115,7 @@
             this.btnHuyBan.TabIndex = 5;
             this.btnHuyBan.Text = "Hủy Bàn";
             this.btnHuyBan.UseVisualStyleBackColor = true;
+            this.btnHuyBan.Click += new System.EventHandler(this.btnHuyBan_Click);
             // 
             // cbSanh
             // 
@@ -400,6 +402,7 @@
             this.Name = "FrmManage";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Sảnh Chính";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmManage_FormClosing);
             this.Resize += new System.EventHandler(this.FrmManage_Resize);
             this.panelSanh.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);

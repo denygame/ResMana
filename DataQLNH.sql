@@ -148,16 +148,18 @@ BEGIN
 		BEGIN
 			DELETE FROM dbo.ChiTietHoaDon WHERE idHoaDon = @idHoaDon AND idThucAn = @idThucAn
 
-			DECLARE @testHoaDon INT = 0
+	-- đã viết trigger cho delete cthd nên k cần xét
+
+			/*DECLARE @testHoaDon INT = 0
 			SELECT @testHoaDon = COUNT(*) FROM dbo.ChiTietHoaDon WHERE idHoaDon = @idHoaDon
 
 			IF(@testHoaDon = 0)
 			BEGIN
 				DELETE FROM dbo.HoaDon WHERE idHoaDon = @idHoaDon
-			END
+			END*/
 		END	
 	END
-
+	
 	ELSE
     BEGIN
 		IF(@soLuong > 0)
@@ -165,6 +167,7 @@ BEGIN
 	END
 END
 GO
+
 
 CREATE PROC StoredProcedure_ChuyenBan
 @idBan1 INT, @idBan2 INT
@@ -259,8 +262,17 @@ BEGIN
 END
 GO
 
+-- hủy bàn hay là xóa hóa đơn
+CREATE PROC StoredProcedure_HuyBan_XoaHoaDon
+@idBanAn INT
+AS
+BEGIN
+	DECLARE @idHoaDon INT
+	SELECT @idHoaDon = idHoaDon FROM dbo.HoaDon WHERE idBanAn = @idBanAn AND trangThai = N'Chưa thanh toán'
 
-
+	DELETE FROM dbo.ChiTietHoaDon WHERE idHoaDon = @idHoaDon
+END
+GO
 
 
 

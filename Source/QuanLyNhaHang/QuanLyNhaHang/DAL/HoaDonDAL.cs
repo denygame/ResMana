@@ -37,5 +37,11 @@ namespace QuanLyNhaHang.DAL
             try { return (int)DatabaseExecute.sqlExecuteScalar("select MAX(idHoaDon) from HoaDon"); }
             catch { return -1; }
         }
+
+        public static void xoaHoaDonBan_HuyBan(int idBanAn)
+        {
+            try { DatabaseExecute.sqlExecuteNonQuery("StoredProcedure_HuyBan_XoaHoaDon @idBanAn ", new object[] { idBanAn }); }
+            catch { }
+        }
     }
 }

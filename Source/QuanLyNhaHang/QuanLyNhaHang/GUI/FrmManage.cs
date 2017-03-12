@@ -33,6 +33,13 @@ namespace QuanLyNhaHang
 
         #region Events
 
+        private void btnHuyBan_Click(object sender, EventArgs e)
+        {
+            HoaDonDAL.xoaHoaDonBan_HuyBan((dataGridView_HDtheoBan.Tag as BanAn).IdBanAn);
+            hienThiHDtheoBan((dataGridView_HDtheoBan.Tag as BanAn).IdBanAn);
+            resetButton(dataGridView_HDtheoBan.Tag as BanAn, BanAnDAL.layBanAn((dataGridView_HDtheoBan.Tag as BanAn).IdBanAn));
+            btnHuyBan.Enabled = false;
+        }
         private void btnChuyenBan_Click(object sender, EventArgs e)
         {
             BanAn banChuyenSang = cbChuyenBan.SelectedItem as BanAn;
@@ -77,6 +84,13 @@ namespace QuanLyNhaHang
             txtBan.Text = "";
             Sanh sanhCB = cbSanh.SelectedItem as Sanh;
             khoiTaoBanTheoIdSanh(sanhCB.IdSanh);
+
+            dataGridView_HDtheoBan.DataSource = null;
+            txtTongTien.Text = "";
+            btnHuyBan.Enabled = false;
+            btnChuyenBan.Enabled = false;
+            cbChuyenBan.Enabled = false;
+            cbChuyenBan.DataSource = null;
 
             //chỉ cho gộp bàn trong sảnh
             cbGopBan1.DataSource = null;
@@ -168,11 +182,13 @@ namespace QuanLyNhaHang
             {
                 cbChuyenBan.Enabled = true;
                 btnChuyenBan.Enabled = true;
+                btnHuyBan.Enabled = true;
                 khoiTaoCBchuyenBan(((sender as Button).Tag as BanAn).IdBanAn, cbChuyenBan);
             }
             else
             {
                 cbChuyenBan.Enabled = false;
+                btnHuyBan.Enabled = false;
                 btnChuyenBan.Enabled = false;
                 cbChuyenBan.DataSource = null;
             }
@@ -207,6 +223,12 @@ namespace QuanLyNhaHang
         private void cbGopBan1_SelectedIndexChanged(object sender, EventArgs e)
         {
             khoiTaoCbGopBan2();
+        }
+
+        private void FrmManage_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (Application.OpenForms["FrmAddFood"] != null)
+                Application.OpenForms["FrmAddFood"].Close();
         }
 
         #endregion

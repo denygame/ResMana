@@ -47,9 +47,16 @@ namespace QuanLyNhaHang.GUI
 
             if (idHoaDon == -1)
             {
-                //tạo hóa đơn nên hóa đơn cuối là cái mới nhất
-                HoaDonDAL.themHoaDonChoBan(this.banAn.IdBanAn, tkDangNhap.UserName);
-                ChiTietHoaDonDAL.themMonAnVaoBan(HoaDonDAL.layIdHoaDonCuoiCung(), idThucAn, soLuong);
+                if (soLuong > 0)
+                {
+                    //tạo hóa đơn nên hóa đơn cuối là cái mới nhất
+                    HoaDonDAL.themHoaDonChoBan(this.banAn.IdBanAn, tkDangNhap.UserName);
+                    ChiTietHoaDonDAL.themMonAnVaoBan(HoaDonDAL.layIdHoaDonCuoiCung(), idThucAn, soLuong);
+                }
+                //xóa
+                else
+                    HoaDonTheoBanDAL.xoaMonAnTrenHoaDonTheoBan(HoaDonDAL.layIdHDchuaThanhToanTheoIDban(banAn.IdBanAn), (cbMonAn.SelectedItem as ThucAn).TenThucAn, -soLuong);
+                
             }
             else ChiTietHoaDonDAL.themMonAnVaoBan(idHoaDon, idThucAn, soLuong);
 
