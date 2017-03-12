@@ -17,8 +17,6 @@ namespace QuanLyNhaHang
 {
     public partial class FrmManage : Form
     {
-        public static bool testClickThemMon = false;
-        private static bool testClickXoaMon = false;
         private TaiKhoan tkDangNhap = FrmBegin.tkDangNhap;
 
         private int widthButtonBanAn = Constant.widthButtonBanAnSizeNho, heightButtonBanAn = Constant.heightButtonBanAnSizeNho;
@@ -29,13 +27,23 @@ namespace QuanLyNhaHang
             khoiTaoCbSanh();
             this.Text += " - Tài khoản: " + tkDangNhap.UserName;
             cbSanh.Select(); //focus
+
+            khoiTaoCbGopBan1();
         }
 
         #region Events
 
         private void btnChuyenBan_Click(object sender, EventArgs e)
         {
+            BanAn banChuyenSang = cbChuyenBan.SelectedItem as BanAn;
+            BanAnDAL.chuyenBan((dataGridView_HDtheoBan.Tag as BanAn).IdBanAn, banChuyenSang.IdBanAn);
+            hienThiHDtheoBan((dataGridView_HDtheoBan.Tag as BanAn).IdBanAn);
+            resetButton(dataGridView_HDtheoBan.Tag as BanAn, BanAnDAL.layBanAn((dataGridView_HDtheoBan.Tag as BanAn).IdBanAn));
+            resetButton(banChuyenSang, BanAnDAL.layBanAn(banChuyenSang.IdBanAn));
 
+            cbChuyenBan.Enabled = false;
+            btnChuyenBan.Enabled = false;
+            cbChuyenBan.DataSource = null;
         }
 
         private void FrmManage_Resize(object sender, EventArgs e)
@@ -69,11 +77,15 @@ namespace QuanLyNhaHang
             txtBan.Text = "";
             Sanh sanhCB = cbSanh.SelectedItem as Sanh;
             khoiTaoBanTheoIdSanh(sanhCB.IdSanh);
+
+            //chỉ cho gộp bàn trong sảnh
+            cbGopBan1.DataSource = null;
+            cbGopBan2.DataSource = null;
+            khoiTaoCbGopBan1();
         }
 
         private void btnThemMon_Click(object sender, EventArgs e)
         {
-            testClickThemMon = true;
             if (txtBan.Text != "")
             {
                 string tenSanhBan = (cbSanh.SelectedItem as Sanh).TenSanh + " - " + txtBan.Text;
@@ -90,12 +102,10 @@ namespace QuanLyNhaHang
             else
             {
                 MessageBox.Show("Hãy chọn bàn!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Question);
-                testClickThemMon = false;
             }
-
         }
 
-        //event hay, xem kỹ
+        //event chính, xem kỹ
         private void F_EventThemMonAn(object sender, EventArgs e)
         {
             hienThiHDtheoBan((dataGridView_HDtheoBan.Tag as BanAn).IdBanAn);
@@ -106,53 +116,37 @@ namespace QuanLyNhaHang
             //chỉ resetButton khi thay đổi trạng thái bàn ăn
             if (banAnThayThe.TrangThai != (dataGridView_HDtheoBan.Tag as BanAn).TrangThai)
             {
-                resetButton(dataGridView_HDtheoBan.Tag as BanAn, banAnThayThe);
                 dataGridView_HDtheoBan.Tag = banAnThayThe;//test
-            }
-        }
-
-        private void checkBoxXoa_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBoxXoa.Checked == true)
-            {
-                nUDslXoa.Enabled = true;
-                btnXoaMon.Enabled = true;
-                checkBoxXoa.ForeColor = Color.Red;
-            }
-            else
-            {
-                nUDslXoa.Enabled = false;
-                btnXoaMon.Enabled = false;
-                checkBoxXoa.ForeColor = Color.Black;
+                resetButton(dataGridView_HDtheoBan.Tag as BanAn, banAnThayThe);
             }
         }
 
         private void btnXoaMon_Click(object sender, EventArgs e)
         {
-            testClickXoaMon = true;
             if (txtBan.Text != "")
             {
-                if ((dataGridView_HDtheoBan.Tag as BanAn).TrangThai == "Khách")
+                if ((dataGridView_HDtheoBan.Tag as BanAn).TrangThai == Constant.trangThaiBanTrong)
                 {
+                    MessageBox.Show("Hãy chọn bàn có hóa đơn", "Thông Báo", MessageBoxButtons.OK);
+                    return;
+                }
+                if ((dataGridView_HDtheoBan.Tag as BanAn).TrangThai == Constant.trangThaiCoNguoiTrongBan)
+                {
+                    int idBan = (dataGridView_HDtheoBan.Tag as BanAn).IdBanAn;
                     int dongHienTai = dataGridView_HDtheoBan.CurrentCell.RowIndex;
                     string tenMonAn = dataGridView_HDtheoBan.Rows[dongHienTai].Cells[0].Value.ToString();
                     int soLuong = (int)nUDslXoa.Value;
                     xoaMonAnTrongHoaDonTheoBan(tenMonAn, soLuong);
-
-
-                    //hienThiHDtheoBan((txtTongTien.Tag as BanAn).IdBanAn);
-                    //BanAn banAnThayThe = BanAnDAL.layBanAn((txtTongTien.Tag as BanAn).IdBanAn);
-
-                    ////chỉ resetButton khi thay đổi trạng thái bàn ăn
-                    //if (banAnThayThe.TrangThai != (txtTongTien.Tag as BanAn).TrangThai)
-                    //{
-                    //    resetButton(txtTongTien.Tag as BanAn, banAnThayThe);
-                    //    txtTongTien.Tag = banAnThayThe;//test
-                    //}
+                    hienThiHDtheoBan(idBan);
+                    F_EventThemMonAn(sender, e);
+                    cbChuyenBan.DataSource = null;
+                    btnChuyenBan.Enabled = false;
+                    cbChuyenBan.Enabled = false;
+                    return;
                 }
-                else MessageBox.Show("Hãy chọn bàn có hóa đơn!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Hand);
             }
             else MessageBox.Show("Hãy chọn bàn!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Question);
+
         }
 
         private void btnDatCho_Click(object sender, EventArgs e)
@@ -163,26 +157,115 @@ namespace QuanLyNhaHang
 
         private void Btn_Click(object sender, EventArgs e)
         {
-            if (testClickThemMon == false)
-            {
-                txtBan.Text = ((sender as Button).Tag as BanAn).TenBan;
-                txtTongTien.Tag = (sender as Button).Tag;
-                dataGridView_HDtheoBan.Tag = (sender as Button).Tag;
-                hienThiHDtheoBan((dataGridView_HDtheoBan.Tag as BanAn).IdBanAn);
-            }
-            else
+            if (Application.OpenForms["FrmAddFood"] != null)
             {
                 MessageBox.Show("Bạn chưa đóng khung thêm món ăn", "Thông Báo", MessageBoxButtons.OK);
                 Application.OpenForms["FrmAddFood"].Focus();
+                return;
             }
+
+            if (((sender as Button).Tag as BanAn).TrangThai == Constant.trangThaiCoNguoiTrongBan)
+            {
+                cbChuyenBan.Enabled = true;
+                btnChuyenBan.Enabled = true;
+                khoiTaoCBchuyenBan(((sender as Button).Tag as BanAn).IdBanAn, cbChuyenBan);
+            }
+            else
+            {
+                cbChuyenBan.Enabled = false;
+                btnChuyenBan.Enabled = false;
+                cbChuyenBan.DataSource = null;
+            }
+
+            txtBan.Text = ((sender as Button).Tag as BanAn).TenBan;
+            dataGridView_HDtheoBan.Tag = (sender as Button).Tag;
+            hienThiHDtheoBan((dataGridView_HDtheoBan.Tag as BanAn).IdBanAn);
+        }
+
+        private void btnGopBan_Click(object sender, EventArgs e)
+        {
+            if (cbGopBan1.SelectedItem != null && cbGopBan2.SelectedItem != null)
+            {
+                FrmQuesGopBan f = new FrmQuesGopBan(listBanCoTheGop());
+                f.EventGopBan += F_EventGopBan;
+                f.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Chưa có đủ bàn có thể gộp", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void F_EventGopBan(object sender, EventTruyenDuLieu e)
+        {
+            BanAnDAL.gopBan((cbGopBan1.SelectedItem as BanAn).IdBanAn, (cbGopBan2.SelectedItem as BanAn).IdBanAn, e.BanAnGop.IdBanAn);
+            hienThiHDtheoBan((dataGridView_HDtheoBan.Tag as BanAn).IdBanAn);
+            
+            khoiTaoBanTheoIdSanh((cbSanh.SelectedItem as Sanh).IdSanh);
+        }
+
+        private void cbGopBan1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            khoiTaoCbGopBan2();
         }
 
         #endregion
 
         #region Methods
 
+        private List<BanAn> listBanCoTheGop()
+        {
+            List<BanAn> l = new List<BanAn>();
+            List<BanAn> listBanAn = BanAnDAL.layDsBanAn((cbSanh.SelectedItem as Sanh).IdSanh);
+            foreach (BanAn ba in listBanAn)
+            {
+                if (ba.IdBanAn == (cbGopBan1.SelectedItem as BanAn).IdBanAn)
+                    l.Add(ba);
+                if (ba.IdBanAn == (cbGopBan2.SelectedItem as BanAn).IdBanAn)
+                    l.Add(ba);
+                if (ba.TrangThai == Constant.trangThaiBanTrong)
+                    l.Add(ba);
+            }
+            return l;
+        }
+
+        private void khoiTaoCBchuyenBan(int idBanAnCoKhachDangClick, ComboBox cb)
+        {
+            List<BanAn> listBanAn = BanAnDAL.layDsBanAn((cbSanh.SelectedItem as Sanh).IdSanh);
+            List<BanAn> kq = new List<BanAn>();
+            foreach (BanAn ba in listBanAn)
+                if (ba.IdBanAn != idBanAnCoKhachDangClick)
+                    kq.Add(ba);
+            cb.DataSource = kq;
+            cb.DisplayMember = "TenBan";
+        }
+
+        private void khoiTaoCbGopBan1()
+        {
+            List<BanAn> listBanAn = BanAnDAL.layDsBanAn((cbSanh.SelectedItem as Sanh).IdSanh);
+            List<BanAn> kq = new List<BanAn>();
+            foreach (BanAn ba in listBanAn)
+                if (ba.TrangThai != Constant.trangThaiBanTrong)
+                    kq.Add(ba);
+            cbGopBan1.DataSource = kq;
+            cbGopBan1.DisplayMember = "TenBan";
+        }
+
+        private void khoiTaoCbGopBan2()
+        {
+            List<BanAn> kq = new List<BanAn>();
+            for (int i = 0; i < cbGopBan1.Items.Count; i++)
+            {
+                if (cbGopBan1.Items[i] != cbGopBan1.SelectedItem)
+                    kq.Add(cbGopBan1.Items[i] as BanAn);
+            }
+            cbGopBan2.DataSource = kq;
+            cbGopBan2.DisplayMember = "TenBan";
+        }
+
         private void hienThiHDtheoBan(int idBan)
         {
+            khoiTaoCbGopBan1();
             List<ChiTietHoaDonTheoBan> list = HoaDonTheoBanDAL.layHoaDonTheoIdBanAn(idBan);
             dataGridView_HDtheoBan.DataSource = list;
             dataGridView_HDtheoBan.Columns[0].HeaderText = "Tên Thức Ăn";
@@ -217,7 +300,6 @@ namespace QuanLyNhaHang
             foreach (BanAn i in listBanAn)
             {
                 Button btn = khoiTaoBanAn(i);
-                btn.Click += Btn_Click;
                 flowLayoutPanel_BanAn.Controls.Add(btn);
             }
         }
@@ -254,6 +336,8 @@ namespace QuanLyNhaHang
                     btn.BackColor = Color.LightGray;
                     break;
             }
+            //phải để event ở đây, k để trên khởi tạo danh sách bàn ăn <bug>
+            btn.Click += Btn_Click;
             return btn;
         }
 
@@ -284,6 +368,7 @@ namespace QuanLyNhaHang
             HoaDonTheoBanDAL.xoaMonAnTrenHoaDonTheoBan(idHoaDon, tenMonAn, soLuongXoa);
         }
 
+        
         #endregion
 
 

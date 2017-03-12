@@ -50,7 +50,7 @@
             this.btnThanhToan = new System.Windows.Forms.Button();
             this.nUdGiamGia = new System.Windows.Forms.NumericUpDown();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.checkBoxXoa = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.nUDslXoa = new System.Windows.Forms.NumericUpDown();
             this.btnXoaMon = new System.Windows.Forms.Button();
             this.btnThemMon = new System.Windows.Forms.Button();
@@ -117,6 +117,8 @@
             // 
             // cbSanh
             // 
+            this.cbSanh.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cbSanh.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbSanh.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbSanh.FormattingEnabled = true;
@@ -130,11 +132,12 @@
             // 
             this.txtBan.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtBan.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBan.Location = new System.Drawing.Point(216, 18);
+            this.txtBan.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBan.ForeColor = System.Drawing.Color.Black;
+            this.txtBan.Location = new System.Drawing.Point(215, 16);
             this.txtBan.Name = "txtBan";
             this.txtBan.ReadOnly = true;
-            this.txtBan.Size = new System.Drawing.Size(145, 24);
+            this.txtBan.Size = new System.Drawing.Size(145, 26);
             this.txtBan.TabIndex = 1;
             this.txtBan.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -207,40 +210,53 @@
             this.btnGopBan.TabIndex = 4;
             this.btnGopBan.Text = "Gộp Bàn";
             this.btnGopBan.UseVisualStyleBackColor = true;
+            this.btnGopBan.Click += new System.EventHandler(this.btnGopBan_Click);
             // 
             // cbGopBan2
             // 
             this.cbGopBan2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbGopBan2.DropDownHeight = 120;
             this.cbGopBan2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbGopBan2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbGopBan2.FormattingEnabled = true;
-            this.cbGopBan2.Location = new System.Drawing.Point(573, 21);
+            this.cbGopBan2.IntegralHeight = false;
+            this.cbGopBan2.Location = new System.Drawing.Point(573, 17);
             this.cbGopBan2.Name = "cbGopBan2";
-            this.cbGopBan2.Size = new System.Drawing.Size(99, 21);
+            this.cbGopBan2.Size = new System.Drawing.Size(99, 26);
             this.cbGopBan2.TabIndex = 3;
             // 
             // cbGopBan1
             // 
             this.cbGopBan1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbGopBan1.DropDownHeight = 120;
             this.cbGopBan1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbGopBan1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbGopBan1.FormattingEnabled = true;
-            this.cbGopBan1.Location = new System.Drawing.Point(468, 21);
+            this.cbGopBan1.IntegralHeight = false;
+            this.cbGopBan1.Location = new System.Drawing.Point(468, 17);
             this.cbGopBan1.Name = "cbGopBan1";
-            this.cbGopBan1.Size = new System.Drawing.Size(99, 21);
+            this.cbGopBan1.Size = new System.Drawing.Size(99, 26);
             this.cbGopBan1.TabIndex = 2;
+            this.cbGopBan1.SelectedIndexChanged += new System.EventHandler(this.cbGopBan1_SelectedIndexChanged);
             // 
             // cbChuyenBan
             // 
             this.cbChuyenBan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cbChuyenBan.DropDownHeight = 120;
             this.cbChuyenBan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbChuyenBan.Enabled = false;
+            this.cbChuyenBan.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbChuyenBan.FormattingEnabled = true;
-            this.cbChuyenBan.Location = new System.Drawing.Point(10, 21);
+            this.cbChuyenBan.IntegralHeight = false;
+            this.cbChuyenBan.Location = new System.Drawing.Point(10, 17);
             this.cbChuyenBan.Name = "cbChuyenBan";
-            this.cbChuyenBan.Size = new System.Drawing.Size(99, 21);
+            this.cbChuyenBan.Size = new System.Drawing.Size(99, 26);
             this.cbChuyenBan.TabIndex = 0;
             // 
             // btnChuyenBan
             // 
             this.btnChuyenBan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnChuyenBan.Enabled = false;
             this.btnChuyenBan.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnChuyenBan.ForeColor = System.Drawing.SystemColors.MenuHighlight;
             this.btnChuyenBan.Location = new System.Drawing.Point(115, 8);
@@ -311,7 +327,7 @@
             // panel2
             // 
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel2.Controls.Add(this.checkBoxXoa);
+            this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.nUDslXoa);
             this.panel2.Controls.Add(this.btnXoaMon);
             this.panel2.Controls.Add(this.btnThemMon);
@@ -320,22 +336,19 @@
             this.panel2.Size = new System.Drawing.Size(371, 52);
             this.panel2.TabIndex = 6;
             // 
-            // checkBoxXoa
+            // label1
             // 
-            this.checkBoxXoa.AutoSize = true;
-            this.checkBoxXoa.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxXoa.ForeColor = System.Drawing.Color.Blue;
-            this.checkBoxXoa.Location = new System.Drawing.Point(248, 2);
-            this.checkBoxXoa.Name = "checkBoxXoa";
-            this.checkBoxXoa.Size = new System.Drawing.Size(104, 21);
-            this.checkBoxXoa.TabIndex = 1;
-            this.checkBoxXoa.Text = "Xóa Món Ăn";
-            this.checkBoxXoa.UseVisualStyleBackColor = true;
-            this.checkBoxXoa.CheckedChanged += new System.EventHandler(this.checkBoxXoa_CheckedChanged);
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.Blue;
+            this.label1.Location = new System.Drawing.Point(247, 3);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(103, 18);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Số Lượng Xóa";
             // 
             // nUDslXoa
             // 
-            this.nUDslXoa.Enabled = false;
             this.nUDslXoa.Location = new System.Drawing.Point(276, 26);
             this.nUDslXoa.Name = "nUDslXoa";
             this.nUDslXoa.Size = new System.Drawing.Size(47, 20);
@@ -349,7 +362,6 @@
             // 
             // btnXoaMon
             // 
-            this.btnXoaMon.Enabled = false;
             this.btnXoaMon.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnXoaMon.ForeColor = System.Drawing.SystemColors.MenuHighlight;
             this.btnXoaMon.Location = new System.Drawing.Point(154, 3);
@@ -431,10 +443,10 @@
         private System.Windows.Forms.TextBox txtTongTien;
         private System.Windows.Forms.Button btnHuyBan;
         private System.Windows.Forms.NumericUpDown nUDslXoa;
-        private System.Windows.Forms.CheckBox checkBoxXoa;
         private System.Windows.Forms.Button btnDatCho;
         private System.Windows.Forms.ToolStripMenuItem danhSachĐătChôToolStripMenuItem;
         private System.Windows.Forms.DataGridView dataGridView_HDtheoBan;
+        private System.Windows.Forms.Label label1;
     }
 }
 

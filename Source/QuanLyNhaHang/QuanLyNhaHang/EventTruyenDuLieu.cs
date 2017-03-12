@@ -24,9 +24,29 @@ namespace QuanLyNhaHang
             }
         }
 
+        public BanAn BanAnGop
+        {
+            get
+            {
+                return banAnGop;
+            }
+
+            set
+            {
+                banAnGop = value;
+            }
+        }
+
         public EventTruyenDuLieu(TaiKhoan t)
         {
             this.Tk = t;
+        }
+
+        private BanAn banAnGop;
+
+        public EventTruyenDuLieu(BanAn ba)
+        {
+            this.BanAnGop = ba;
         }
     }
 }

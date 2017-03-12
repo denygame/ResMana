@@ -100,9 +100,5 @@ namespace QuanLyNhaHang.GUI
             txtGiaTien.Text = (((cbMonAn.SelectedItem as ThucAn).GiaTien) * (int)numericUpDown1.Value).ToString();
         }
 
-        private void FrmAddFood_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            FrmManage.testClickThemMon = false;
-        }
     }
 }

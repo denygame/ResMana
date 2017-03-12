@@ -71,7 +71,7 @@ CREATE TABLE HoaDon
 	chiPhiPhuThem INT DEFAULT 0, -- đặt chỗ
 	
 	tongTien FLOAT NOT NULL,
-	userName NVARCHAR(100) NOT NULL,
+	userName NVARCHAR(100),
 	trangThai NVARCHAR(100) DEFAULT N'Chưa thanh toán', -- 0: Chưa thanh toán || 1: OK
 
 	FOREIGN KEY (idBanAn) REFERENCES dbo.BanAn(idBanAn),
@@ -91,7 +91,8 @@ CREATE TABLE ChiTietHoaDon
 GO
 
 
--- SP đăng nhập
+
+
 CREATE PROC	StoredProcedure_DangNhap
 @userName nvarchar(100), @passWOrd nvarchar(1000)
 AS
@@ -109,7 +110,26 @@ BEGIN
 END
 GO
 
--- procedure quan trọng --- test lại
+-- Xóa món trong chi tiết hóa đơn theo bàn
+CREATE PROC StoredProcedure_XoaMonTrongHDtheoBan
+@idHoaDon INT, @tenThucAn NVARCHAR(100), @soLuong INT
+AS
+BEGIN
+	 DECLARE @idThucAn INT
+	 SELECT @idThucAn = idThucAn FROM dbo.ThucAn WHERE tenThucAn = @tenThucAn
+
+	 DECLARE @sL INT
+	 SELECT @sL = soLuong FROM dbo.ChiTietHoaDon WHERE idHoaDon = @idHoaDon AND idThucAn = @idThucAn
+
+	 IF(@sL <= @soLuong)
+	 	 DELETE FROM dbo.ChiTietHoaDon WHERE idHoaDon = @idHoaDon AND idThucAn = @idThucAn
+		
+	 ELSE
+		UPDATE dbo.ChiTietHoaDon SET soLuong = soLuong - @soLuong WHERE idHoaDon = @idHoaDon AND idThucAn = @idThucAn
+END
+GO
+
+-- procedure quan trọng --- <nhớ test lại> 8/3/2017 thanhhuy
 CREATE PROC StoredProcedure_ThemCTHD
 @idHoaDon INT, @idThucAn INT, @soLuong INT
 AS
@@ -146,6 +166,153 @@ BEGIN
 END
 GO
 
+CREATE PROC StoredProcedure_ChuyenBan
+@idBan1 INT, @idBan2 INT
+AS
+BEGIN
+	DECLARE @trangThaiBan1 NVARCHAR(100)
+	DECLARE @trangThaiBan2 NVARCHAR(100)
+	
+	SELECT @trangThaiBan1 = trangThai FROM dbo.BanAn WHERE idBanAn = @idBan1
+	SELECT @trangThaiBan2 = trangThai FROM dbo.BanAn WHERE idBanAn = @idBan2
+
+	--Chuyển từ bàn 2 khách qua bàn 1 trống
+	IF(@trangThaiBan1 = N'Bàn Trống' AND @trangThaiBan2 = N'Khách')	
+	BEGIN
+		UPDATE dbo.HoaDon SET idBanAn = @idBan1 WHERE idBanAn = @idBan2 AND trangThai = N'Chưa thanh toán'
+		UPDATE dbo.BanAn SET trangThai = N'Bàn Trống' WHERE idBanAn = @idBan2
+		UPDATE dbo.BanAn SET trangThai = N'Khách' WHERE idBanAn = @idBan1 
+    END
+
+	--Chuyển từ bàn 1 khách qua bàn 2 trống
+	IF(@trangThaiBan2 = N'Bàn Trống' AND @trangThaiBan1 = N'Khách')	
+	BEGIN
+		UPDATE dbo.HoaDon SET idBanAn = @idBan2 WHERE idBanAn = @idBan1 AND trangThai = N'Chưa thanh toán'
+		UPDATE dbo.BanAn SET trangThai = N'Bàn Trống' WHERE idBanAn = @idBan1
+		UPDATE dbo.BanAn SET trangThai = N'Khách' WHERE idBanAn = @idBan2
+    END
+
+	IF(@trangThaiBan2 = N'Khách' AND @trangThaiBan1 = N'Khách')	
+	BEGIN
+		DECLARE @idHoaDonBan1 INT
+		DECLARE @idHoaDonBan2 INT
+
+		SELECT @idHoaDonBan1 = idHoaDon FROM dbo.HoaDon WHERE idBanAn = @idBan1 AND trangThai = N'Chưa thanh toán'
+		SELECT @idHoaDonBan2 = idHoaDon FROM dbo.HoaDon WHERE idBanAn = @idBan2 AND trangThai = N'Chưa thanh toán'
+
+		UPDATE dbo.HoaDon SET idBanAn = @idBan1 WHERE idHoaDon = @idHoaDonBan2
+		UPDATE dbo.HoaDon SET idBanAn = @idBan2 WHERE idHoaDon = @idHoaDonBan1
+    END
+END
+GO
+
+-- mặc định bàn gộp là bàn trống hoặc 2 bàn 1 2 nhập vào 12/3/2017 thanhhuy
+CREATE PROC StoredProcedure_GopBan
+@idBan1 INT, @idBan2 INT, @idBanGop INT
+AS
+BEGIN
+	DECLARE @idHoaDonBan1 INT
+	DECLARE @idHoaDonBan2 INT
+	DECLARE @idHoaDonBanGop INT
+
+	SELECT @idHoaDonBan1 = idHoaDon FROM dbo.HoaDon WHERE idBanAn = @idBan1 AND trangThai = N'Chưa thanh toán'
+	SELECT @idHoaDonBan2 = idHoaDon FROM dbo.HoaDon WHERE idBanAn = @idBan2 AND trangThai = N'Chưa thanh toán'
+
+
+	IF(@idBanGop = @idBan1)
+	BEGIN
+		UPDATE dbo.ChiTietHoaDon SET idHoaDon = @idHoaDonBan1 WHERE idHoaDon = @idHoaDonBan2
+		UPDATE dbo.BanAn SET trangThai = N'Bàn Trống' WHERE idBanAn = @idBan2
+		DELETE FROM dbo.HoaDon WHERE idHoaDon = @idHoaDonBan2
+	END
+    
+
+	IF(@idBanGop = @idBan2)
+	BEGIN
+		UPDATE dbo.ChiTietHoaDon SET idHoaDon = @idHoaDonBan2 WHERE idHoaDon = @idHoaDonBan1
+		UPDATE dbo.BanAn SET trangThai = N'Bàn Trống' WHERE idBanAn = @idBan1
+		DELETE FROM dbo.HoaDon WHERE idHoaDon = @idHoaDonBan1
+	END
+
+
+	IF(@idBan1 <> @idBanGop AND	@idBan2 <> @idBanGop)
+	BEGIN
+		INSERT dbo.HoaDon( ngayDen , idBanAn , tongTien  , trangThai )
+		VALUES  ( GETDATE() , @idBanGop , 0.0 , N'Chưa thanh toán' )
+
+		UPDATE dbo.BanAn SET trangThai = N'Khách' WHERE idBanAn = @idBanGop
+
+		SELECT @idHoaDonBanGop = idHoaDon FROM dbo.HoaDon WHERE idBanAn = @idBanGop AND trangThai = N'Chưa thanh toán'
+
+		---phải chuyển những cái chi tiết hóa đơn của 2 bàn về bàn gộp
+		UPDATE dbo.ChiTietHoaDon SET idHoaDon = @idHoaDonBanGop WHERE idHoaDon = @idHoaDonBan1
+		UPDATE dbo.ChiTietHoaDon SET idHoaDon = @idHoaDonBanGop WHERE idHoaDon = @idHoaDonBan2
+
+		UPDATE dbo.BanAn SET trangThai = N'Bàn Trống' WHERE idBanAn = @idBan1
+		UPDATE dbo.BanAn SET trangThai = N'Bàn Trống' WHERE idBanAn = @idBan2
+
+		DELETE FROM dbo.HoaDon WHERE idHoaDon = @idHoaDonBan1
+		DELETE FROM dbo.HoaDon WHERE idHoaDon = @idHoaDonBan2
+	END
+
+	-- xem trigger update CTHD => tiếp tục
+END
+GO
+
+
+
+
+
+
+
+
+-- trigger cho update sửa idHoaDon, hay 12/3/2017 thanhhuy
+CREATE TRIGGER TG_update_ChiTietHoaDon ON dbo.ChiTietHoaDon FOR UPDATE
+AS
+BEGIN
+	DECLARE @idHoaDon INT
+	SELECT @idHoaDon = Inserted.idHoaDon  FROM Inserted
+
+	DECLARE @idBanAn INT 
+	SELECT @idBanAn = idBanAn FROM dbo.HoaDon WHERE idHoaDon = @idHoaDon
+
+	DECLARE @idThucAn INT
+	SELECT @idThucAn = Inserted.idThucAn  FROM Inserted
+
+	DECLARE @demIdFood INT = 0
+	SELECT @demIdFood = COUNT(*) FROM dbo.ChiTietHoaDon WHERE idHoaDon = @idHoaDon AND idThucAn = @idThucAn
+
+	IF(@demIdFood > 1) -- tức là có món ăn trùng nhau, cộng sl
+	BEGIN
+		DECLARE @tongSl INT
+		SELECT @tongSl = SUM(soLuong) FROM dbo.ChiTietHoaDon WHERE idHoaDon = @idHoaDon AND	idThucAn = @idThucAn
+
+		DELETE FROM dbo.ChiTietHoaDon WHERE idHoaDon = @idHoaDon AND idThucAn = @idThucAn
+
+		DECLARE @demCTHDconlaiTrongHd INT	-- vì trigger sẽ xóa hóa đơn nếu k còn cthd
+		SELECT @demCTHDconlaiTrongHd = COUNT(*) FROM dbo.ChiTietHoaDon WHERE idHoaDon = @idHoaDon
+
+		IF(@demCTHDconlaiTrongHd = 0)
+		BEGIN
+			INSERT dbo.HoaDon( ngayDen , idBanAn , tongTien  , trangThai )
+			VALUES  ( GETDATE() , @idBanAn , 0.0 , N'Chưa thanh toán' )
+
+			DECLARE @idHoaDonMoi INT
+			SELECT @idHoaDonMoi = MAX(idHoaDon) FROM dbo.HoaDon
+
+			INSERT dbo.ChiTietHoaDon ( idHoaDon, idThucAn, soLuong )
+			VALUES  ( @idHoaDonMoi, @idThucAn , @tongSl)
+		END
+
+		ELSE
+        BEGIN
+        	INSERT dbo.ChiTietHoaDon ( idHoaDon, idThucAn, soLuong )
+			VALUES  ( @idHoaDon, @idThucAn , @tongSl)
+        END
+
+    END
+END
+GO
 
 CREATE TRIGGER TG_insert_HoaDon ON dbo.HoaDon FOR INSERT
 AS
@@ -167,32 +334,29 @@ BEGIN
 END
 GO
 
-
-
--- Xóa món trong chi tiết hóa đơn theo bàn
-CREATE PROC StoredProcedure_XoaMonTrongHDtheoBan
-@idHoaDon INT, @tenThucAn NVARCHAR(100), @soLuong INT
+CREATE TRIGGER TG_delete_ChiTietHoaDon ON dbo.ChiTietHoaDon FOR DELETE
 AS
 BEGIN
-	 DECLARE @idThucAn INT
-	 SELECT @idThucAn = idThucAn FROM dbo.ThucAn WHERE tenThucAn = @tenThucAn
+	DECLARE @idHoaDon INT
+	SELECT @idHoaDon = idHoaDon FROM Deleted
 
-	 DECLARE @sL INT
-	 SELECT @sL = soLuong FROM dbo.ChiTietHoaDon WHERE idHoaDon = @idHoaDon AND idThucAn = @idThucAn
+	DECLARE @demCTHD INT = 0
+	SELECT @demCTHD = COUNT(*) FROM dbo.ChiTietHoaDon WHERE idHoaDon = @idHoaDon
 
-	 IF(@sL <= @soLuong)
-	 BEGIN
-	 	 DELETE FROM dbo.ChiTietHoaDon WHERE idHoaDon = @idHoaDon AND idThucAn = @idThucAn
-		 DECLARE @test INT = 0
-		 SELECT @test = COUNT(*) FROM dbo.ChiTietHoaDon WHERE idHoaDon = @idHoaDon
-		 IF(@test = 0)
-			DELETE FROM dbo.HoaDon WHERE idHoaDon = @idHoaDon
-	 END
-		
-	 ELSE
-		UPDATE dbo.ChiTietHoaDon SET soLuong = soLuong - @soLuong WHERE idHoaDon = @idHoaDon AND idThucAn = @idThucAn
+	IF(@demCTHD = 0)
+		DELETE FROM dbo.HoaDon WHERE idHoaDon = @idHoaDon
 END
-GO
+GO	
+
+
+
+
+
+
+
+
+
+
 
 
 

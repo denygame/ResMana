@@ -15,5 +15,9 @@ namespace QuanLyNhaHang
         public static int timeForRestartApp = 2;
         public static string databaseName = "HQTCSDL";
         public static string fileSqlName = "DataQLNH.sql";
+
+        //dưới database
+        public static string trangThaiCoNguoiTrongBan = "Khách";
+        public static string trangThaiBanTrong = "Bàn Trống";
     }
 }

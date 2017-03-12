@@ -291,7 +291,6 @@
             this.Name = "FrmAddFood";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Thêm Món";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmAddFood_FormClosing);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);

@@ -32,5 +32,23 @@ namespace QuanLyNhaHang.DAL
             }
             return test;
         }
+
+        public static void chuyenBan(int idBan1, int idBan2)
+        {
+            try
+            {
+                DatabaseExecute.sqlExecuteNonQuery("StoredProcedure_ChuyenBan @idBan1 , @idBan2 ", new object[] { idBan1, idBan2 });
+            }
+            catch { }
+        }
+
+        public static void gopBan(int idBan1, int idBan2, int idBanGop)
+        {
+            try
+            {
+                DatabaseExecute.sqlExecuteNonQuery("StoredProcedure_GopBan @idBan1 , @idBan2 , @idBanGop ", new object[] { idBan1, idBan2, idBanGop});
+            }
+            catch { }
+        }
     }
 }

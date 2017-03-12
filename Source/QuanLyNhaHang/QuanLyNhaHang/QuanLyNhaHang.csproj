@@ -111,6 +111,12 @@
     <Compile Include="GUI\FrmManage.Designer.cs">
       <DependentUpon>FrmManage.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\FrmQuesGopBan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmQuesGopBan.Designer.cs">
+      <DependentUpon>FrmQuesGopBan.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\FrmSqlConnection.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -139,6 +145,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmManage.resx">
       <DependentUpon>FrmManage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmQuesGopBan.resx">
+      <DependentUpon>FrmQuesGopBan.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmSqlConnection.resx">
       <DependentUpon>FrmSqlConnection.cs</DependentUpon>

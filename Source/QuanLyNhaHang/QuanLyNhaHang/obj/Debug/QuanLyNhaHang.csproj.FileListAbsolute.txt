@@ -41,3 +41,4 @@ E:\QLNHhqtcsdl_9-3-2017\QLNHhqtcsdl\Source\QuanLyNhaHang\QuanLyNhaHang\obj\Debug
 E:\QLNHhqtcsdl_9-3-2017\QLNHhqtcsdl\Source\QuanLyNhaHang\QuanLyNhaHang\obj\Debug\QuanLyNhaHang.Properties.Resources.resources
 E:\QLNHhqtcsdl_9-3-2017\QLNHhqtcsdl\Source\QuanLyNhaHang\QuanLyNhaHang\obj\Debug\QuanLyNhaHang.csproj.GenerateResource.Cache
 E:\QLNHhqtcsdl\Source\QuanLyNhaHang\QuanLyNhaHang\obj\Debug\QuanLyNhaHang.FrmBegin.resources
+E:\QLNHhqtcsdl\Source\QuanLyNhaHang\QuanLyNhaHang\obj\Debug\QuanLyNhaHang.GUI.FrmQuesGopBan.resources
