@@ -90,7 +90,7 @@ CREATE TABLE ChiTietHoaDon
 )
 GO
 
-
+--SELECT idHoaDon, idBanAn, trangThai FROM dbo.HoaDon
 
 
 CREATE PROC	StoredProcedure_DangNhap

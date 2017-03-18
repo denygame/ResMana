@@ -1,6 +1,7 @@
 ﻿using QuanLyNhaHang.DAL;
 using QuanLyNhaHang.DTO;
 using QuanLyNhaHang.GUI;
+using QuanLyNhaHang.SqlDe;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -33,6 +34,7 @@ namespace QuanLyNhaHang
 
         #region Events
 
+
         private void btnHuyBan_Click(object sender, EventArgs e)
         {
             HoaDonDAL.xoaHoaDonBan_HuyBan((dataGridView_HDtheoBan.Tag as BanAn).IdBanAn);
@@ -40,6 +42,7 @@ namespace QuanLyNhaHang
             resetButton(dataGridView_HDtheoBan.Tag as BanAn, BanAnDAL.layBanAn((dataGridView_HDtheoBan.Tag as BanAn).IdBanAn));
             btnHuyBan.Enabled = false;
         }
+
         private void btnChuyenBan_Click(object sender, EventArgs e)
         {
             BanAn banChuyenSang = cbChuyenBan.SelectedItem as BanAn;
@@ -315,7 +318,7 @@ namespace QuanLyNhaHang
             cbSanh.DisplayMember = "TenSanh";
         }
 
-        private void khoiTaoBanTheoIdSanh(int idSanh)
+        public void khoiTaoBanTheoIdSanh(int idSanh)
         {
             flowLayoutPanel_BanAn.Controls.Clear();
             List<BanAn> listBanAn = BanAnDAL.layDsBanAn(idSanh);
@@ -383,6 +386,20 @@ namespace QuanLyNhaHang
 
             thayTheBanAn(flowLayoutPanel_BanAn, btnCanThayThe, khoiTaoBanAn(banAnThayThe));
         }
+
+
+
+        //test k dc xóa
+        private void FrmManage_Load(object sender, EventArgs e)
+        {
+            BanAnListen b = new BanAnListen((cbSanh.SelectedItem as Sanh).IdSanh);
+        }
+
+
+
+
+
+
 
         private void xoaMonAnTrongHoaDonTheoBan(string tenMonAn, int soLuongXoa)
         {

@@ -403,6 +403,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Sảnh Chính";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmManage_FormClosing);
+            this.Load += new System.EventHandler(this.FrmManage_Load);
             this.Resize += new System.EventHandler(this.FrmManage_Resize);
             this.panelSanh.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);

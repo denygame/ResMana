@@ -67,6 +67,8 @@
     <Compile Include="DAL\DanhMucDAL.cs" />
     <Compile Include="DAL\DatabaseExecute.cs" />
     <Compile Include="DAL\HoaDonDAL.cs" />
+    <Compile Include="SqlDe\BanAnListen.cs" />
+    <Compile Include="SqlDe\SqlDependencyEx.cs" />
     <Compile Include="DTO\ChiTietHoaDon.cs" />
     <Compile Include="DTO\HoaDon.cs" />
     <Compile Include="EventTruyenDuLieu.cs" />

@@ -84,12 +84,12 @@ namespace QuanLyNhaHang.DAL
             return traVe;
         }
 
-        public static int thucThiSql()
+        public static int thucThiSql(string tenServer)
         {
             SqlConnection connection;
             SqlCommand com;
-            string strConn = "Data Source = " + Environment.MachineName + "; Initial Catalog = master; Integrated Security = True";
-            DropDatabase();
+            string strConn = "Data Source = " + tenServer + "; Initial Catalog = master; Integrated Security = True";
+            DropDatabase(tenServer);
             string file = File.ReadAllText(@"sql\" + Constant.fileSqlName);
             string[] mangCatGO = file.Split(new string[] { "GO" }, StringSplitOptions.None);
             try
@@ -110,13 +110,13 @@ namespace QuanLyNhaHang.DAL
 
         }
 
-        public static int DropDatabase()
+        public static int DropDatabase(string tenServer)
         {
             SqlConnection connection;
             SqlCommand com;
             try
             {
-                connection = new SqlConnection("Data Source = " + Environment.MachineName + "; Initial Catalog = master; Integrated Security = True");
+                connection = new SqlConnection("Data Source = " + tenServer + "; Initial Catalog = master; Integrated Security = True");
                 string query = "use master drop database " + Constant.databaseName;
                 com = new SqlCommand(query, connection);
                 connection.Open();

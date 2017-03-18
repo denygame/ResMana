@@ -85,14 +85,14 @@ namespace QuanLyNhaHang.GUI
 
         private void btnChaySql_Click(object sender, EventArgs e)
         {
-            if (DatabaseExecute.thucThiSql() == 1)
+            if (DatabaseExecute.thucThiSql(txtTenServer.Text) == 1)
                 MessageBox.Show("Chạy file SQL thành công!", "Thông Báo");
             else MessageBox.Show("Không thành công!", "Thông Báo");
         }
 
         private void btnXoaDatabase_Click(object sender, EventArgs e)
         {
-            if (DatabaseExecute.DropDatabase() == 1)
+            if (DatabaseExecute.DropDatabase(txtTenServer.Text) == 1)
                 MessageBox.Show("Xóa Database thành công!", "Thông Báo");
             else MessageBox.Show("Không thành công, không có Database!", "Thông Báo");
         }
