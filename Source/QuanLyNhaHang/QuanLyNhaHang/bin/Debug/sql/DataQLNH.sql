@@ -3,7 +3,7 @@ GO
 
 USE HQTCSDL
 GO
---USE master DROP DATABASE QLNH
+--USE master DROP DATABASE HQTCSDL
 CREATE TABLE NhanVien
 (
 	idNhanVien INT IDENTITY PRIMARY KEY,
@@ -64,7 +64,7 @@ CREATE TABLE ThucAn
 CREATE TABLE HoaDon
 (
 	idHoaDon INT IDENTITY PRIMARY KEY,
-	ngayDen DATETIME NOT NULL,
+	ngayDen DATE NOT NULL,
 	idBanAn INT NOT NULL,
 	discount INT DEFAULT 0, -- mặc định giảm giá 0%
 
@@ -89,6 +89,28 @@ CREATE TABLE ChiTietHoaDon
 	FOREIGN KEY (idThucAn) REFERENCES dbo.ThucAn(idThucAn)
 )
 GO
+
+
+
+
+
+--SELECT s.tenSanh, ba.tenBan, hd.ngayDen, hd.chiPhiPhuThem, hd.trangThai
+--FROM dbo.HoaDon AS hd, dbo.BanAn AS ba, dbo.Sanh AS s
+--WHERE ba.idBanAn = hd.idBanAn AND ba.idSanh = s.idSanh AND hd.trangThai = N'Chưa thanh toán'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

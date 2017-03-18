@@ -25,12 +25,9 @@ namespace QuanLyNhaHang.DAL
             try
             {
                 DatabaseExecute.sqlExecuteNonQuery("StoredProcedure_ThemHoaDon @idBanAn , @userName", new object[] { idBanAn, userName });
-                //return 1;
             }
             catch
-            {
-                //return 0;
-            }
+            { }
         }
         public static int layIdHoaDonCuoiCung()
         {
@@ -42,6 +39,11 @@ namespace QuanLyNhaHang.DAL
         {
             try { DatabaseExecute.sqlExecuteNonQuery("StoredProcedure_HuyBan_XoaHoaDon @idBanAn ", new object[] { idBanAn }); }
             catch { }
+        }
+
+        public static DataTable layDShoaDonChuaThanhToan()
+        {
+            return DatabaseExecute.sqlQuery("SELECT s.tenSanh, ba.tenBan, hd.ngayDen, hd.chiPhiPhuThem, hd.trangThai FROM dbo.HoaDon AS hd, dbo.BanAn AS ba, dbo.Sanh AS s WHERE ba.idBanAn = hd.idBanAn AND ba.idSanh = s.idSanh AND hd.trangThai = N'Chưa thanh toán'");
         }
     }
 }

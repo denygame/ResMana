@@ -1,0 +1,54 @@
+﻿CÁCH SET MÁY LÀM SERVER (KẾT NỐI LAN CÓ DATABASE)
+THANH-HUY =)))))) thành diachiIP,1433
+
+
+
+*************************** Bước 1 ***************************
+Mở SQL Server Configuration Manager
+=> SQL Server Network Configuration
+=> Protocols for MSSQLSERVER
+Enable Named Pipes và TCP/IP
+
+Cũng trong SQL Server Configuration Manager
+=> SQL Server Services
+Bên bảng phải kích chuột phải SQL Server (MSSQLSERVER) chọn Stop (có thể không)
+Chọn SQL Server (MSSQLSERVER)
+=> Trong tag Log On chọn Built-in account
+=> Network Service
+
+=> Start nếu Stop, Restart nếu còn Running
+**************************************************************
+
+*************************** Bước 2 ***************************
+Mở Windows Firewalls
+=> Advanced settings
+=> Inbound Rules
+=> New rule...
+=> Chọn Port (next) điền vào port đã set cho SQL Server
+Mặc định port là 1433 (next)
+Next đến phần Name điền vào => xong
+**************************************************************
+
+*************************** Bước 3 ***************************
+Mở SQL Server (phải có chế độ đăng nhập: SQL Server)
+Không có thì lên mạng coi set lại
+
+Nên tạo 1 tài khoản riêng (khác sa) để đăng nhập cho CSDL
+quản lý nhà hàng này <tính sau>
+
+OK
+**************************************************************
+
+**************************** TEST ****************************
+Mở cmd
+=> ipconfig
+Xem ip máy làm server <có database của chương trình>
+Điền vào Tên Server trong form SqlConnection là:
+			IP,1433
+1433 là port set ở bước 2 (tao k rành port lắm tìm hiểu đi)
+Tick vào xác thực SQL Server => nhập tài khoản
+Username: sa
+Password: 123456
+
+Từ từ tính
+**************************************************************

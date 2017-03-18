@@ -62,11 +62,11 @@ namespace QuanLyNhaHang.GUI
             string connectionSTR = "";
             if (checkBoxXacThuc.Checked)
             {
-                connectionSTR = "Data Source=" + txtTenServer.Text + ";Initial Catalog=" + Constant.databaseName + ";User ID=" + txtUserName.Text + ";Password=" + txtPassWord.Text;
+                connectionSTR = @"Data Source=" + txtTenServer.Text + ";Initial Catalog=" + Constant.databaseName + ";User ID=" + txtUserName.Text + ";Password=" + txtPassWord.Text;
             }
             else
             {
-                connectionSTR = "Data Source=" + txtTenServer.Text + ";Initial Catalog=" + Constant.databaseName + ";Integrated Security=True";
+                connectionSTR = @"Data Source=" + txtTenServer.Text + ";Initial Catalog=" + Constant.databaseName + ";Integrated Security=True";
             }
             ketNoi(connectionSTR);
         }

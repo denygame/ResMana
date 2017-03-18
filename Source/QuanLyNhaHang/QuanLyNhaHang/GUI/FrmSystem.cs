@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuanLyNhaHang.DAL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,8 @@ namespace QuanLyNhaHang.GUI
         public FrmSystem()
         {
             InitializeComponent();
+
+            layDShoaDonCTT();
         }
 
        
@@ -111,6 +114,17 @@ namespace QuanLyNhaHang.GUI
                 MessageBox.Show("Click thêm...");
             else
                 MessageBox.Show("Click sửa...");
+        }
+
+        private void layDShoaDonCTT()
+        {
+            dataGridView_HoaDon.DataSource = HoaDonDAL.layDShoaDonChuaThanhToan();
+
+            dataGridView_HoaDon.Columns[0].HeaderText = "Tên Sảnh";
+            dataGridView_HoaDon.Columns[1].HeaderText = "Tên Bàn";
+            dataGridView_HoaDon.Columns[2].HeaderText = "Ngày Đến";
+            dataGridView_HoaDon.Columns[3].HeaderText = "Chi Phí Phụ";
+            dataGridView_HoaDon.Columns[4].HeaderText = "Trạng Thái";
         }
         #endregion
 
