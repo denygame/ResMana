@@ -1,11 +1,11 @@
 ﻿using QuanLyNhaHang.DAL;
 using QuanLyNhaHang.DTO;
 using QuanLyNhaHang.GUI;
-using QuanLyNhaHang.SqlDe;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
@@ -18,28 +18,68 @@ namespace QuanLyNhaHang
 {
     public partial class FrmManage : Form
     {
+
         private TaiKhoan tkDangNhap = FrmBegin.tkDangNhap;
 
         private int widthButtonBanAn = Constant.widthButtonBanAnSizeNho, heightButtonBanAn = Constant.heightButtonBanAnSizeNho;
+        private int truyenTestTrenMay = -1;
 
-        public FrmManage()
+
+        public FrmManage(int truyenTestTrenMay)
         {
             InitializeComponent();
+
+            this.truyenTestTrenMay = truyenTestTrenMay;
+        }
+
+       
+
+
+
+        #region - Events -
+        
+        private void FrmManage_Load(object sender, EventArgs e)
+        {
             khoiTaoCbSanh();
             this.Text += " - Tài khoản: " + tkDangNhap.UserName;
             cbSanh.Select(); //focus
 
             khoiTaoCbGopBan1();
+
+            if (truyenTestTrenMay == -1)
+            {
+                panel3.Visible = true;
+            }
+            else
+                panel3.Visible = false;
         }
 
-        #region Events
 
+        private void txtServer_TextChanged(object sender, EventArgs e)
+        {
+            if (truyenTestTrenMay == -1)
+            {
+                Sanh test = FrmClient.truyenTindenFormManage();
+
+                if (test.IdSanh == (cbSanh.SelectedItem as Sanh).IdSanh)
+                    khoiTaoBanTheoIdSanh(test.IdSanh);
+                FrmClient.idSanh = -1;
+                txtServer.Text = "";
+            }
+        }
 
         private void btnHuyBan_Click(object sender, EventArgs e)
         {
             HoaDonDAL.xoaHoaDonBan_HuyBan((dataGridView_HDtheoBan.Tag as BanAn).IdBanAn);
             hienThiHDtheoBan((dataGridView_HDtheoBan.Tag as BanAn).IdBanAn);
-            resetButton(dataGridView_HDtheoBan.Tag as BanAn, BanAnDAL.layBanAn((dataGridView_HDtheoBan.Tag as BanAn).IdBanAn));
+
+            if (truyenTestTrenMay == -1)
+            {
+                //gửi idSanh đến server để server reset hết các client khác
+                FrmClient.guiTinDenServer((cbSanh.SelectedItem as Sanh).IdSanh.ToString());
+            }
+
+            khoiTaoBanTheoIdSanh((cbSanh.SelectedItem as Sanh).IdSanh);
             btnHuyBan.Enabled = false;
         }
 
@@ -48,9 +88,14 @@ namespace QuanLyNhaHang
             BanAn banChuyenSang = cbChuyenBan.SelectedItem as BanAn;
             BanAnDAL.chuyenBan((dataGridView_HDtheoBan.Tag as BanAn).IdBanAn, banChuyenSang.IdBanAn);
             hienThiHDtheoBan((dataGridView_HDtheoBan.Tag as BanAn).IdBanAn);
-            resetButton(dataGridView_HDtheoBan.Tag as BanAn, BanAnDAL.layBanAn((dataGridView_HDtheoBan.Tag as BanAn).IdBanAn));
-            resetButton(banChuyenSang, BanAnDAL.layBanAn(banChuyenSang.IdBanAn));
 
+            if (truyenTestTrenMay == -1)
+            {
+                //gửi idSanh đến server để server reset hết các client khác
+                FrmClient.guiTinDenServer((cbSanh.SelectedItem as Sanh).IdSanh.ToString());
+            }
+
+            khoiTaoBanTheoIdSanh((cbSanh.SelectedItem as Sanh).IdSanh);
             cbChuyenBan.Enabled = false;
             btnChuyenBan.Enabled = false;
             cbChuyenBan.DataSource = null;
@@ -70,11 +115,7 @@ namespace QuanLyNhaHang
             }
             khoiTaoBanTheoIdSanh((cbSanh.SelectedItem as Sanh).IdSanh);
         }
-
-        private void txtBan_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+        
 
         private void btnThanhToan_Click(object sender, EventArgs e)
         {
@@ -122,6 +163,9 @@ namespace QuanLyNhaHang
             }
         }
 
+
+
+
         //event chính, xem kỹ
         private void F_EventThemMonAn(object sender, EventArgs e)
         {
@@ -133,10 +177,19 @@ namespace QuanLyNhaHang
             //chỉ resetButton khi thay đổi trạng thái bàn ăn
             if (banAnThayThe.TrangThai != (dataGridView_HDtheoBan.Tag as BanAn).TrangThai)
             {
+
+                if (truyenTestTrenMay == -1)
+                {
+                    //gửi idSanh đến server để server reset hết các client khác
+                    FrmClient.guiTinDenServer(banAnThayThe.IdSanh.ToString());
+                }
+
                 dataGridView_HDtheoBan.Tag = banAnThayThe;//test
-                resetButton(dataGridView_HDtheoBan.Tag as BanAn, banAnThayThe);
+                khoiTaoBanTheoIdSanh(banAnThayThe.IdSanh);
             }
         }
+
+
 
         private void btnXoaMon_Click(object sender, EventArgs e)
         {
@@ -219,7 +272,14 @@ namespace QuanLyNhaHang
         {
             BanAnDAL.gopBan((cbGopBan1.SelectedItem as BanAn).IdBanAn, (cbGopBan2.SelectedItem as BanAn).IdBanAn, e.BanAnGop.IdBanAn);
             hienThiHDtheoBan((dataGridView_HDtheoBan.Tag as BanAn).IdBanAn);
-            
+
+            if (truyenTestTrenMay == -1)
+            {
+                //gửi idSanh đến server để server reset hết các client khác
+                FrmClient.guiTinDenServer((cbSanh.SelectedItem as Sanh).IdSanh.ToString());
+            }
+
+
             khoiTaoBanTheoIdSanh((cbSanh.SelectedItem as Sanh).IdSanh);
         }
 
@@ -236,7 +296,7 @@ namespace QuanLyNhaHang
 
         #endregion
 
-        #region Methods
+        #region - Methods -
 
         private List<BanAn> listBanCoTheGop()
         {
@@ -366,7 +426,26 @@ namespace QuanLyNhaHang
             return btn;
         }
 
-        //chỉ xóa 1 bàn r thêm vào
+        private void FrmManage_MouseEnter(object sender, EventArgs e)
+        {
+            if (FrmClient.truyenTindenFormManage() != null) txtServer.Text = FrmClient.truyenTindenFormManage().TenSanh;
+        }
+
+        private void flowLayoutPanel_BanAn_MouseEnter(object sender, EventArgs e)
+        {
+            if (FrmClient.truyenTindenFormManage() != null) txtServer.Text = FrmClient.truyenTindenFormManage().TenSanh;
+        }
+
+        /*private void FrmManage_MouseHover(object sender, EventArgs e)
+        {
+            if (FrmClient.truyenTindenFormManage() != "") txtServer.Text = FrmClient.truyenTindenFormManage();
+        }*/
+
+
+
+
+
+        /*//chỉ xóa 1 bàn r thêm vào
         private void thayTheBanAn(FlowLayoutPanel fl, Control banCanThayDoi, Control banThayDoi)
         {
             int index = fl.Controls.IndexOf(banCanThayDoi);
@@ -385,19 +464,7 @@ namespace QuanLyNhaHang
                 { btnCanThayThe = c as Button; break; }
 
             thayTheBanAn(flowLayoutPanel_BanAn, btnCanThayThe, khoiTaoBanAn(banAnThayThe));
-        }
-
-
-
-        //test k dc xóa
-        private void FrmManage_Load(object sender, EventArgs e)
-        {
-            BanAnListen b = new BanAnListen((cbSanh.SelectedItem as Sanh).IdSanh);
-        }
-
-
-
-
+        }*/
 
 
 
@@ -407,8 +474,25 @@ namespace QuanLyNhaHang
             HoaDonTheoBanDAL.xoaMonAnTrenHoaDonTheoBan(idHoaDon, tenMonAn, soLuongXoa);
         }
 
-        
+
+
+
+      
+
+
         #endregion
+
+
+
+
+
+       
+
+
+
+
+
+
 
 
 

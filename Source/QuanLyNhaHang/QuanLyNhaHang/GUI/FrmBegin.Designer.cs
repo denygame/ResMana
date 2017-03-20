@@ -35,9 +35,9 @@
             this.btnHome = new System.Windows.Forms.Button();
             this.btnAcc = new System.Windows.Forms.Button();
             this.btnSystem = new System.Windows.Forms.Button();
+            this.btnDisconnect = new System.Windows.Forms.Button();
             this.btnAbout = new System.Windows.Forms.Button();
             this.btnLogout = new System.Windows.Forms.Button();
-            this.btnDisconnect = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnThoatChuongTrinh = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
@@ -82,9 +82,9 @@
             this.flowLayoutPanel1.Controls.Add(this.btnHome);
             this.flowLayoutPanel1.Controls.Add(this.btnAcc);
             this.flowLayoutPanel1.Controls.Add(this.btnSystem);
+            this.flowLayoutPanel1.Controls.Add(this.btnDisconnect);
             this.flowLayoutPanel1.Controls.Add(this.btnAbout);
             this.flowLayoutPanel1.Controls.Add(this.btnLogout);
-            this.flowLayoutPanel1.Controls.Add(this.btnDisconnect);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(13, 109);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(390, 226);
@@ -141,6 +141,23 @@
             this.btnSystem.UseVisualStyleBackColor = false;
             this.btnSystem.Click += new System.EventHandler(this.btnSystem_Click);
             // 
+            // btnDisconnect
+            // 
+            this.btnDisconnect.BackColor = System.Drawing.Color.PowderBlue;
+            this.btnDisconnect.Enabled = false;
+            this.btnDisconnect.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDisconnect.ForeColor = System.Drawing.Color.Blue;
+            this.btnDisconnect.Image = global::QuanLyNhaHang.Properties.Resources.disconnect;
+            this.btnDisconnect.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnDisconnect.Location = new System.Drawing.Point(3, 114);
+            this.btnDisconnect.Name = "btnDisconnect";
+            this.btnDisconnect.Size = new System.Drawing.Size(123, 105);
+            this.btnDisconnect.TabIndex = 4;
+            this.btnDisconnect.Text = "Ngắt Kết Nối";
+            this.btnDisconnect.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnDisconnect.UseVisualStyleBackColor = false;
+            this.btnDisconnect.Click += new System.EventHandler(this.btnDisconnect_Click);
+            // 
             // btnAbout
             // 
             this.btnAbout.BackColor = System.Drawing.Color.PowderBlue;
@@ -149,10 +166,10 @@
             this.btnAbout.ForeColor = System.Drawing.Color.Blue;
             this.btnAbout.Image = global::QuanLyNhaHang.Properties.Resources.about;
             this.btnAbout.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnAbout.Location = new System.Drawing.Point(3, 114);
+            this.btnAbout.Location = new System.Drawing.Point(132, 114);
             this.btnAbout.Name = "btnAbout";
             this.btnAbout.Size = new System.Drawing.Size(123, 105);
-            this.btnAbout.TabIndex = 4;
+            this.btnAbout.TabIndex = 5;
             this.btnAbout.Text = "About";
             this.btnAbout.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnAbout.UseVisualStyleBackColor = false;
@@ -167,31 +184,14 @@
             this.btnLogout.ForeColor = System.Drawing.Color.Blue;
             this.btnLogout.Image = global::QuanLyNhaHang.Properties.Resources.logout;
             this.btnLogout.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnLogout.Location = new System.Drawing.Point(132, 114);
+            this.btnLogout.Location = new System.Drawing.Point(261, 114);
             this.btnLogout.Name = "btnLogout";
             this.btnLogout.Size = new System.Drawing.Size(123, 105);
-            this.btnLogout.TabIndex = 5;
+            this.btnLogout.TabIndex = 6;
             this.btnLogout.Text = "Đăng Xuất";
             this.btnLogout.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnLogout.UseVisualStyleBackColor = false;
             this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
-            // 
-            // btnDisconnect
-            // 
-            this.btnDisconnect.BackColor = System.Drawing.Color.PowderBlue;
-            this.btnDisconnect.Enabled = false;
-            this.btnDisconnect.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDisconnect.ForeColor = System.Drawing.Color.Blue;
-            this.btnDisconnect.Image = global::QuanLyNhaHang.Properties.Resources.disconnect;
-            this.btnDisconnect.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnDisconnect.Location = new System.Drawing.Point(261, 114);
-            this.btnDisconnect.Name = "btnDisconnect";
-            this.btnDisconnect.Size = new System.Drawing.Size(123, 105);
-            this.btnDisconnect.TabIndex = 6;
-            this.btnDisconnect.Text = "Ngắt Kết Nối";
-            this.btnDisconnect.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnDisconnect.UseVisualStyleBackColor = false;
-            this.btnDisconnect.Click += new System.EventHandler(this.btnDisconnect_Click);
             // 
             // panel1
             // 
@@ -204,6 +204,7 @@
             // btnThoatChuongTrinh
             // 
             this.btnThoatChuongTrinh.BackColor = System.Drawing.Color.PaleGoldenrod;
+            this.btnThoatChuongTrinh.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnThoatChuongTrinh.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnThoatChuongTrinh.ForeColor = System.Drawing.Color.Blue;
             this.btnThoatChuongTrinh.Location = new System.Drawing.Point(5, 3);
@@ -228,7 +229,6 @@
             this.Name = "FrmBegin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Bàn Điều Khiển";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmBegin_FormClosing);
             this.panel2.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);

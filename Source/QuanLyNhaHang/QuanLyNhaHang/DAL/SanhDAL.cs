@@ -21,5 +21,16 @@ namespace QuanLyNhaHang.DAL
             }
             return list;
         }
+
+        public static Sanh laySanh(int idSanh)
+        {
+            Sanh test = new Sanh();
+            DataTable data = DatabaseExecute.sqlQuery("SELECT * FROM Sanh WHERE idSanh = " + idSanh);
+            foreach (DataRow i in data.Rows)
+            {
+                test = new Sanh(i);
+            }
+            return test;
+        }
     }
 }

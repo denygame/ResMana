@@ -18,12 +18,17 @@ namespace QuanLyNhaHang
         public static TaiKhoan tkDangNhap;
         private bool testClick = false;
 
-        public FrmBegin()
+        private int truyenTestTrenMay = -1;
+
+
+        public FrmBegin(int truyenTestTrenMay)
         {
             InitializeComponent();
+
+            this.truyenTestTrenMay = truyenTestTrenMay;
         }
 
-        #region Methods
+        #region - Methods -
         private TextBox taoTextBoxTK(TaiKhoan tk)
         {
             string ten = string.Format("Xin chào: {0}", tk.UserName);
@@ -40,15 +45,15 @@ namespace QuanLyNhaHang
         }
         #endregion
 
-        #region Events
+        #region - Events -
         private void btnThoatChuongTrinh_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            this.Close();
         }
 
         private void btnHome_Click(object sender, EventArgs e)
         {
-            FrmManage f = new FrmManage();
+            FrmManage f = new FrmManage(truyenTestTrenMay);
             this.Hide();
             f.ShowDialog();
             this.Show();
@@ -122,14 +127,6 @@ namespace QuanLyNhaHang
             e.Handled = true;
         }
 
-        private void FrmBegin_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (testClick == true) return;
-
-            if (MessageBox.Show("Bạn muốn thoát chương trình?", "Xác Nhận", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) != DialogResult.OK)
-                e.Cancel = true;
-            testClick = false;
-        }
 
         #endregion
 

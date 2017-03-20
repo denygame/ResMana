@@ -1,0 +1,6 @@
+﻿Project Server tự coi (đa số là lệnh r)
+
+Project QuanLyNhaHang (Client)
+
+- Dùng class ConnectForClient vì nhiều Form dùng
+- Gửi thông tin cho Server nên để dưới dạng string (cấu trúc tao đặt)

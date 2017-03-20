@@ -19,5 +19,11 @@ namespace QuanLyNhaHang
         //dưới database
         public static string trangThaiCoNguoiTrongBan = "Khách";
         public static string trangThaiBanTrong = "Bàn Trống";
+
+
+
+        public static string portSqlServerSetUpByMe = ",1433";
+        //public static string userNameSqlServer = "sa";
+        //public static string passSqlServer = "123456";
     }
 }

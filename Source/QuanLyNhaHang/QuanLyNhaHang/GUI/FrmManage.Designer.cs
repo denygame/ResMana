@@ -30,12 +30,9 @@
         {
             this.flowLayoutPanel_BanAn = new System.Windows.Forms.FlowLayoutPanel();
             this.panelSanh = new System.Windows.Forms.Panel();
-            this.btnDatCho = new System.Windows.Forms.Button();
+            this.txtBan = new System.Windows.Forms.TextBox();
             this.btnHuyBan = new System.Windows.Forms.Button();
             this.cbSanh = new System.Windows.Forms.ComboBox();
-            this.txtBan = new System.Windows.Forms.TextBox();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.danhSachĐătChôToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelHoaDon = new System.Windows.Forms.Panel();
             this.dataGridView_HDtheoBan = new System.Windows.Forms.DataGridView();
             this.panelDkBan = new System.Windows.Forms.Panel();
@@ -54,8 +51,10 @@
             this.nUDslXoa = new System.Windows.Forms.NumericUpDown();
             this.btnXoaMon = new System.Windows.Forms.Button();
             this.btnThemMon = new System.Windows.Forms.Button();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.txtServer = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.panelSanh.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
             this.panelHoaDon.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_HDtheoBan)).BeginInit();
             this.panelDkBan.SuspendLayout();
@@ -63,6 +62,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nUdGiamGia)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nUDslXoa)).BeginInit();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // flowLayoutPanel_BanAn
@@ -76,13 +76,14 @@
             this.flowLayoutPanel_BanAn.Name = "flowLayoutPanel_BanAn";
             this.flowLayoutPanel_BanAn.Size = new System.Drawing.Size(682, 448);
             this.flowLayoutPanel_BanAn.TabIndex = 0;
+            this.flowLayoutPanel_BanAn.MouseEnter += new System.EventHandler(this.flowLayoutPanel_BanAn_MouseEnter);
             // 
             // panelSanh
             // 
             this.panelSanh.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelSanh.BackColor = System.Drawing.SystemColors.Control;
-            this.panelSanh.Controls.Add(this.btnDatCho);
+            this.panelSanh.Controls.Add(this.txtBan);
             this.panelSanh.Controls.Add(this.btnHuyBan);
             this.panelSanh.Controls.Add(this.cbSanh);
             this.panelSanh.Location = new System.Drawing.Point(12, 38);
@@ -90,18 +91,18 @@
             this.panelSanh.Size = new System.Drawing.Size(682, 52);
             this.panelSanh.TabIndex = 1;
             // 
-            // btnDatCho
+            // txtBan
             // 
-            this.btnDatCho.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDatCho.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDatCho.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.btnDatCho.Location = new System.Drawing.Point(466, 3);
-            this.btnDatCho.Name = "btnDatCho";
-            this.btnDatCho.Size = new System.Drawing.Size(75, 45);
-            this.btnDatCho.TabIndex = 4;
-            this.btnDatCho.Text = "Đặt Chỗ";
-            this.btnDatCho.UseVisualStyleBackColor = true;
-            this.btnDatCho.Click += new System.EventHandler(this.btnDatCho_Click);
+            this.txtBan.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtBan.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBan.ForeColor = System.Drawing.Color.Black;
+            this.txtBan.Location = new System.Drawing.Point(298, 12);
+            this.txtBan.Name = "txtBan";
+            this.txtBan.ReadOnly = true;
+            this.txtBan.Size = new System.Drawing.Size(184, 26);
+            this.txtBan.TabIndex = 6;
+            this.txtBan.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // btnHuyBan
             // 
@@ -119,8 +120,6 @@
             // 
             // cbSanh
             // 
-            this.cbSanh.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.cbSanh.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbSanh.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbSanh.FormattingEnabled = true;
@@ -129,35 +128,6 @@
             this.cbSanh.Size = new System.Drawing.Size(174, 26);
             this.cbSanh.TabIndex = 0;
             this.cbSanh.SelectedIndexChanged += new System.EventHandler(this.cbSanh_SelectedIndexChanged);
-            // 
-            // txtBan
-            // 
-            this.txtBan.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtBan.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBan.ForeColor = System.Drawing.Color.Black;
-            this.txtBan.Location = new System.Drawing.Point(215, 16);
-            this.txtBan.Name = "txtBan";
-            this.txtBan.ReadOnly = true;
-            this.txtBan.Size = new System.Drawing.Size(145, 26);
-            this.txtBan.TabIndex = 1;
-            this.txtBan.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.danhSachĐătChôToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1085, 24);
-            this.menuStrip1.TabIndex = 2;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
-            // danhSachĐătChôToolStripMenuItem
-            // 
-            this.danhSachĐătChôToolStripMenuItem.Name = "danhSachĐătChôToolStripMenuItem";
-            this.danhSachĐătChôToolStripMenuItem.Size = new System.Drawing.Size(121, 20);
-            this.danhSachĐătChôToolStripMenuItem.Text = "Danh Sách Đặt Chỗ";
             // 
             // panelHoaDon
             // 
@@ -190,7 +160,6 @@
             this.panelDkBan.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelDkBan.BackColor = System.Drawing.SystemColors.Control;
-            this.panelDkBan.Controls.Add(this.txtBan);
             this.panelDkBan.Controls.Add(this.btnGopBan);
             this.panelDkBan.Controls.Add(this.cbGopBan2);
             this.panelDkBan.Controls.Add(this.cbGopBan1);
@@ -386,40 +355,75 @@
             this.btnThemMon.UseVisualStyleBackColor = true;
             this.btnThemMon.Click += new System.EventHandler(this.btnThemMon_Click);
             // 
+            // panel3
+            // 
+            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel3.Controls.Add(this.txtServer);
+            this.panel3.Controls.Add(this.label3);
+            this.panel3.Location = new System.Drawing.Point(350, 1);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(404, 31);
+            this.panel3.TabIndex = 7;
+            // 
+            // txtServer
+            // 
+            this.txtServer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtServer.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtServer.Location = new System.Drawing.Point(246, 3);
+            this.txtServer.Name = "txtServer";
+            this.txtServer.ReadOnly = true;
+            this.txtServer.Size = new System.Drawing.Size(150, 24);
+            this.txtServer.TabIndex = 1;
+            this.txtServer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtServer.TextChanged += new System.EventHandler(this.txtServer_TextChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.Red;
+            this.label3.Location = new System.Drawing.Point(28, 10);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(179, 17);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Server yêu cầu reset sảnh:";
+            // 
             // FrmManage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1085, 624);
+            this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panelDkBan);
             this.Controls.Add(this.panelHoaDon);
             this.Controls.Add(this.panelSanh);
             this.Controls.Add(this.flowLayoutPanel_BanAn);
-            this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "FrmManage";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Sảnh Chính";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmManage_FormClosing);
             this.Load += new System.EventHandler(this.FrmManage_Load);
+            this.MouseEnter += new System.EventHandler(this.FrmManage_MouseEnter);
             this.Resize += new System.EventHandler(this.FrmManage_Resize);
             this.panelSanh.ResumeLayout(false);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.panelSanh.PerformLayout();
             this.panelHoaDon.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_HDtheoBan)).EndInit();
             this.panelDkBan.ResumeLayout(false);
-            this.panelDkBan.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nUdGiamGia)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nUDslXoa)).EndInit();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -428,8 +432,6 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel_BanAn;
         private System.Windows.Forms.Panel panelSanh;
         private System.Windows.Forms.ComboBox cbSanh;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.TextBox txtBan;
         private System.Windows.Forms.Panel panelHoaDon;
         private System.Windows.Forms.Panel panelDkBan;
         private System.Windows.Forms.Panel panel1;
@@ -447,10 +449,12 @@
         private System.Windows.Forms.TextBox txtTongTien;
         private System.Windows.Forms.Button btnHuyBan;
         private System.Windows.Forms.NumericUpDown nUDslXoa;
-        private System.Windows.Forms.Button btnDatCho;
-        private System.Windows.Forms.ToolStripMenuItem danhSachĐătChôToolStripMenuItem;
         private System.Windows.Forms.DataGridView dataGridView_HDtheoBan;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtBan;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.TextBox txtServer;
+        private System.Windows.Forms.Label label3;
     }
 }
 

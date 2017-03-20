@@ -17,14 +17,23 @@ namespace QuanLyNhaHang.GUI
 {
     public partial class FrmSqlConnection : Form
     {
-        public FrmSqlConnection()
+        private string ip;
+        public FrmSqlConnection(string ip)
         {
             InitializeComponent();
+            this.ip = ip;
 
-            txtTenServer.Text = Environment.MachineName;
+            if (ip == "")
+            {
+                txtTenServer.Text = Environment.MachineName;
+            }
+            else
+            {
+                txtTenServer.Text = ip + Constant.portSqlServerSetUpByMe;
+            }
         }
 
-        #region Events
+        #region - Events -
         private void checkBoxXacThuc_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBoxXacThuc.Checked == true)
@@ -73,7 +82,7 @@ namespace QuanLyNhaHang.GUI
 
         private void btnThoat_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            this.Close();
         }
 
         private void FrmSqlConnection_Load(object sender, EventArgs e)
@@ -103,7 +112,7 @@ namespace QuanLyNhaHang.GUI
         }
         #endregion
 
-        #region Methods
+        #region - Methods -
         private void ketNoi(string connectionSTR)
         {
             SqlConnection conn = new SqlConnection(connectionSTR);
@@ -112,12 +121,10 @@ namespace QuanLyNhaHang.GUI
                 conn.Open();
                 QuanLyNhaHang.Properties.Settings.Default.strConnection = connectionSTR;
                 QuanLyNhaHang.Properties.Settings.Default.Save();
-                MessageBox.Show("Kết nối thành công, chương trình sẽ tự khởi động lại sau " + Constant.timeForRestartApp.ToString() + " giây cho lần chạy đầu", "Xác Nhận", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Kết nối thành công, chương trình sẽ tự khởi động lại cho lần chạy đầu", "Xác Nhận", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                Thread.Sleep(Constant.timeForRestartApp * 1000);
-                Console.Beep();
-
-                Application.Exit();
+                //Thread.Sleep(Constant.timeForRestartApp * 1000);
+               
                 Application.Restart();
             }
             catch (Exception)

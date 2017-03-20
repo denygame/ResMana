@@ -16,7 +16,7 @@ namespace QuanLyNhaHang.DTO
             this.IdSanh = (int) rows["idSanh"];
             this.TenSanh = rows["tenSanh"].ToString();
         }
-
+        public Sanh() { }
         public int IdSanh
         {
             get

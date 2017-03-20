@@ -94,12 +94,6 @@ GO
 
 
 
---SELECT s.tenSanh, ba.tenBan, hd.ngayDen, hd.chiPhiPhuThem, hd.trangThai
---FROM dbo.HoaDon AS hd, dbo.BanAn AS ba, dbo.Sanh AS s
---WHERE ba.idBanAn = hd.idBanAn AND ba.idSanh = s.idSanh AND hd.trangThai = N'Chưa thanh toán'
-
-
-
 
 
 
@@ -381,11 +375,6 @@ BEGIN
 		DELETE FROM dbo.HoaDon WHERE idHoaDon = @idHoaDon
 END
 GO	
-
-
-
-
-
 
 
 
