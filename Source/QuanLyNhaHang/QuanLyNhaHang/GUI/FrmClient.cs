@@ -20,7 +20,7 @@ namespace QuanLyNhaHang.GUI
     public partial class FrmClient : Form
     {
         private bool testClickConnect = false;
-        private int testTrenMay = -1;   // k test -1 
+        private int testTrenMay = -1;   // test trên máy 1, kết nối server -1
         public static int idSanh = -1;
 
 
@@ -104,9 +104,7 @@ namespace QuanLyNhaHang.GUI
         {
             Sanh s = new Sanh();
             if (idSanh != -1)
-            {
                 s = SanhDAL.laySanh(idSanh);
-            }
             return s;
         }
 

@@ -210,6 +210,22 @@
     <Folder Include="Img\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="KyThuat\Bitmap.txt" />
+    <Content Include="KyThuat\CodeDeleteFile.txt" />
+    <Content Include="KyThuat\CodeExecuteFileSqlOnWinforms.txt" />
+    <Content Include="KyThuat\CreateAndManageManySameControls.txt" />
+    <Content Include="KyThuat\CreateConnectionSqlAndSaveInClientForFirstTime.txt" />
+    <Content Include="KyThuat\DataBinding.txt" />
+    <Content Include="KyThuat\DTO_Parse.txt" />
+    <Content Include="KyThuat\Event.txt" />
+    <Content Include="KyThuat\Model3Layers.txt" />
+    <Content Include="KyThuat\OpenForms_NotShowDialog.txt" />
+    <Content Include="KyThuat\Server_Client.txt" />
+    <Content Include="KyThuat\SqlServer.txt" />
+    <Content Include="KyThuat\SqlServer_Winforms.txt" />
+    <Content Include="KyThuat\Thread.txt" />
+    <Content Include="KyThuat\Timer_ProcessBar_WinForms.txt" />
+    <Content Include="KyThuat\TryCatch.txt" />
     <Content Include="txtExplain\Server-Client.txt" />
     <None Include="bin\Debug\Img\home.png" />
     <None Include="bin\Debug\Img\system.png" />
@@ -222,7 +238,7 @@
     <Content Include="txtExplain\ghiChu.txt" />
     <Content Include="txtExplain\GiaoDienFrmManage.txt" />
     <Content Include="txtExplain\GTdatabaseExecute.txt" />
-    <Content Include="txtExplain\KetNoiLANorWIFI.txt" />
+    <Content Include="txtExplain\KetNoiSqlServerLANorWIFI.txt" />
     <Content Include="txtExplain\MoHinh.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

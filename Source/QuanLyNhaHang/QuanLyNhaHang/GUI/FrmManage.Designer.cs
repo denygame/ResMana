@@ -51,9 +51,6 @@
             this.nUDslXoa = new System.Windows.Forms.NumericUpDown();
             this.btnXoaMon = new System.Windows.Forms.Button();
             this.btnThemMon = new System.Windows.Forms.Button();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.txtServer = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.panelSanh.SuspendLayout();
             this.panelHoaDon.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_HDtheoBan)).BeginInit();
@@ -62,7 +59,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.nUdGiamGia)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nUDslXoa)).BeginInit();
-            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // flowLayoutPanel_BanAn
@@ -355,47 +351,11 @@
             this.btnThemMon.UseVisualStyleBackColor = true;
             this.btnThemMon.Click += new System.EventHandler(this.btnThemMon_Click);
             // 
-            // panel3
-            // 
-            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel3.Controls.Add(this.txtServer);
-            this.panel3.Controls.Add(this.label3);
-            this.panel3.Location = new System.Drawing.Point(350, 1);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(404, 31);
-            this.panel3.TabIndex = 7;
-            // 
-            // txtServer
-            // 
-            this.txtServer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtServer.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtServer.Location = new System.Drawing.Point(246, 3);
-            this.txtServer.Name = "txtServer";
-            this.txtServer.ReadOnly = true;
-            this.txtServer.Size = new System.Drawing.Size(150, 24);
-            this.txtServer.TabIndex = 1;
-            this.txtServer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtServer.TextChanged += new System.EventHandler(this.txtServer_TextChanged);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.Red;
-            this.label3.Location = new System.Drawing.Point(28, 10);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(179, 17);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Server yêu cầu reset sảnh:";
-            // 
             // FrmManage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1085, 624);
-            this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panelDkBan);
@@ -421,8 +381,6 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nUDslXoa)).EndInit();
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -452,9 +410,6 @@
         private System.Windows.Forms.DataGridView dataGridView_HDtheoBan;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtBan;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.TextBox txtServer;
-        private System.Windows.Forms.Label label3;
     }
 }
 

@@ -9,9 +9,11 @@ namespace QuanLyNhaHang.DTO
 {
     public class ThucAn
     {
-        private int idThucAn, idMenu;
+        private int idThucAn;
+        private int idMenu;
         private string tenThucAn;
         private float giaTien;
+        public ThucAn() { }
         public ThucAn(DataRow r)
         {
             this.IdMenu = (int)r["idMenu"];

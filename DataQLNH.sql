@@ -3,7 +3,7 @@ GO
 
 USE HQTCSDL
 GO
---USE master DROP DATABASE QLNH
+--USE master DROP DATABASE HQTCSDL
 CREATE TABLE NhanVien
 (
 	idNhanVien INT IDENTITY PRIMARY KEY,
@@ -64,12 +64,10 @@ CREATE TABLE ThucAn
 CREATE TABLE HoaDon
 (
 	idHoaDon INT IDENTITY PRIMARY KEY,
-	ngayDen DATETIME NOT NULL,
+	ngayDen DATE NOT NULL,
 	idBanAn INT NOT NULL,
 	discount INT DEFAULT 0, -- mặc định giảm giá 0%
 
-	chiPhiPhuThem INT DEFAULT 0, -- đặt chỗ
-	
 	tongTien FLOAT NOT NULL,
 	userName NVARCHAR(100),
 	trangThai NVARCHAR(100) DEFAULT N'Chưa thanh toán', -- 0: Chưa thanh toán || 1: OK
@@ -90,7 +88,15 @@ CREATE TABLE ChiTietHoaDon
 )
 GO
 
---SELECT idHoaDon, idBanAn, trangThai FROM dbo.HoaDon
+
+
+
+
+
+
+
+
+
 
 
 CREATE PROC	StoredProcedure_DangNhap
@@ -105,8 +111,8 @@ CREATE PROC	StoredProcedure_ThemHoaDon
 @idBanAn INT, @userName NVARCHAR(100)
 AS
 BEGIN
-	INSERT dbo.HoaDon ( ngayDen , idBanAn , discount , chiPhiPhuThem , tongTien , userName , trangThai )
-	VALUES  ( GETDATE() , @idBanAn , 0 , 0 , 0.0 , @userName ,   N'Chưa thanh toán')
+	INSERT dbo.HoaDon ( ngayDen , idBanAn , discount  , tongTien , userName , trangThai )
+	VALUES  ( GETDATE() , @idBanAn , 0 , 0.0 , @userName ,   N'Chưa thanh toán')
 END
 GO
 
@@ -359,11 +365,6 @@ BEGIN
 		DELETE FROM dbo.HoaDon WHERE idHoaDon = @idHoaDon
 END
 GO	
-
-
-
-
-
 
 
 

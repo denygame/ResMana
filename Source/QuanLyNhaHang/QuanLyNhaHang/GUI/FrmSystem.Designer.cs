@@ -182,7 +182,6 @@
             this.btnSuaNhanVien = new System.Windows.Forms.Button();
             this.btnXemNhanVien = new System.Windows.Forms.Button();
             this.panel47 = new System.Windows.Forms.Panel();
-            this.listView_NhanVien = new System.Windows.Forms.ListView();
             this.tabControl1.SuspendLayout();
             this.tabhHoaDon.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -245,7 +244,6 @@
             this.panel45.SuspendLayout();
             this.tabNhanVien.SuspendLayout();
             this.panel48.SuspendLayout();
-            this.panel47.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -326,6 +324,7 @@
             // 
             // dataGridView_HoaDon
             // 
+            this.dataGridView_HoaDon.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
             this.dataGridView_HoaDon.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_HoaDon.Location = new System.Drawing.Point(0, 0);
             this.dataGridView_HoaDon.Name = "dataGridView_HoaDon";
@@ -507,9 +506,14 @@
             // 
             // dataGridView_DanhMuc
             // 
+            this.dataGridView_DanhMuc.AllowUserToAddRows = false;
+            this.dataGridView_DanhMuc.AllowUserToDeleteRows = false;
+            this.dataGridView_DanhMuc.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView_DanhMuc.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
             this.dataGridView_DanhMuc.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_DanhMuc.Location = new System.Drawing.Point(3, 1);
             this.dataGridView_DanhMuc.Name = "dataGridView_DanhMuc";
+            this.dataGridView_DanhMuc.ReadOnly = true;
             this.dataGridView_DanhMuc.Size = new System.Drawing.Size(470, 446);
             this.dataGridView_DanhMuc.TabIndex = 0;
             // 
@@ -613,6 +617,7 @@
             this.txtTenDanhMuc.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTenDanhMuc.Location = new System.Drawing.Point(116, 13);
             this.txtTenDanhMuc.Name = "txtTenDanhMuc";
+            this.txtTenDanhMuc.ReadOnly = true;
             this.txtTenDanhMuc.Size = new System.Drawing.Size(205, 27);
             this.txtTenDanhMuc.TabIndex = 1;
             // 
@@ -641,6 +646,7 @@
             this.txtIdDanhMuc.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtIdDanhMuc.Location = new System.Drawing.Point(116, 13);
             this.txtIdDanhMuc.Name = "txtIdDanhMuc";
+            this.txtIdDanhMuc.ReadOnly = true;
             this.txtIdDanhMuc.Size = new System.Drawing.Size(205, 27);
             this.txtIdDanhMuc.TabIndex = 1;
             // 
@@ -705,9 +711,14 @@
             // 
             // dataGridView_ThucAn
             // 
+            this.dataGridView_ThucAn.AllowUserToAddRows = false;
+            this.dataGridView_ThucAn.AllowUserToDeleteRows = false;
+            this.dataGridView_ThucAn.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView_ThucAn.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
             this.dataGridView_ThucAn.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_ThucAn.Location = new System.Drawing.Point(3, 1);
             this.dataGridView_ThucAn.Name = "dataGridView_ThucAn";
+            this.dataGridView_ThucAn.ReadOnly = true;
             this.dataGridView_ThucAn.Size = new System.Drawing.Size(470, 446);
             this.dataGridView_ThucAn.TabIndex = 0;
             // 
@@ -813,6 +824,7 @@
             this.txtGiaTienThucAn.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtGiaTienThucAn.Location = new System.Drawing.Point(116, 13);
             this.txtGiaTienThucAn.Name = "txtGiaTienThucAn";
+            this.txtGiaTienThucAn.ReadOnly = true;
             this.txtGiaTienThucAn.Size = new System.Drawing.Size(205, 27);
             this.txtGiaTienThucAn.TabIndex = 1;
             // 
@@ -871,6 +883,7 @@
             this.txtTenThucAn.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTenThucAn.Location = new System.Drawing.Point(116, 13);
             this.txtTenThucAn.Name = "txtTenThucAn";
+            this.txtTenThucAn.ReadOnly = true;
             this.txtTenThucAn.Size = new System.Drawing.Size(205, 27);
             this.txtTenThucAn.TabIndex = 1;
             // 
@@ -899,8 +912,10 @@
             this.txtIdThucAn.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtIdThucAn.Location = new System.Drawing.Point(116, 13);
             this.txtIdThucAn.Name = "txtIdThucAn";
+            this.txtIdThucAn.ReadOnly = true;
             this.txtIdThucAn.Size = new System.Drawing.Size(205, 27);
             this.txtIdThucAn.TabIndex = 1;
+            this.txtIdThucAn.TextChanged += new System.EventHandler(this.txtIdThucAn_TextChanged);
             // 
             // label8
             // 
@@ -963,6 +978,7 @@
             // 
             // dataGridView_Sanh
             // 
+            this.dataGridView_Sanh.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
             this.dataGridView_Sanh.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_Sanh.Location = new System.Drawing.Point(3, 1);
             this.dataGridView_Sanh.Name = "dataGridView_Sanh";
@@ -1161,6 +1177,7 @@
             // 
             // dataGridView_BanAn
             // 
+            this.dataGridView_BanAn.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
             this.dataGridView_BanAn.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_BanAn.Location = new System.Drawing.Point(3, 1);
             this.dataGridView_BanAn.Name = "dataGridView_BanAn";
@@ -1440,6 +1457,7 @@
             // 
             // dataGridView_TaiKhoan
             // 
+            this.dataGridView_TaiKhoan.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
             this.dataGridView_TaiKhoan.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_TaiKhoan.Location = new System.Drawing.Point(3, 1);
             this.dataGridView_TaiKhoan.Name = "dataGridView_TaiKhoan";
@@ -1802,19 +1820,10 @@
             // 
             // panel47
             // 
-            this.panel47.Controls.Add(this.listView_NhanVien);
             this.panel47.Location = new System.Drawing.Point(0, 0);
             this.panel47.Name = "panel47";
             this.panel47.Size = new System.Drawing.Size(829, 392);
             this.panel47.TabIndex = 0;
-            // 
-            // listView_NhanVien
-            // 
-            this.listView_NhanVien.Location = new System.Drawing.Point(0, 0);
-            this.listView_NhanVien.Name = "listView_NhanVien";
-            this.listView_NhanVien.Size = new System.Drawing.Size(829, 392);
-            this.listView_NhanVien.TabIndex = 0;
-            this.listView_NhanVien.UseCompatibleStateImageBehavior = false;
             // 
             // FrmSystem
             // 
@@ -1827,6 +1836,7 @@
             this.Name = "FrmSystem";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Hệ Thống";
+            this.Load += new System.EventHandler(this.FrmSystem_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabhHoaDon.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
@@ -1916,7 +1926,6 @@
             this.tabNhanVien.ResumeLayout(false);
             this.panel48.ResumeLayout(false);
             this.panel48.PerformLayout();
-            this.panel47.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1981,7 +1990,6 @@
         private System.Windows.Forms.TextBox txtTimThucAn;
         private System.Windows.Forms.Panel panel_DanhMucThucAn;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ComboBox cbDanhMucThucAn;
         private System.Windows.Forms.Panel panel_GiaThucAn;
         private System.Windows.Forms.TextBox txtGiaTienThucAn;
         private System.Windows.Forms.Label label10;
@@ -2072,11 +2080,11 @@
         private System.Windows.Forms.TextBox txtTrangNhanVien;
         private System.Windows.Forms.Button btnTrangTruocNhanVien;
         private System.Windows.Forms.Button btnTrangSauNhanVien;
-        private System.Windows.Forms.ListView listView_NhanVien;
         private System.Windows.Forms.FlowLayoutPanel fl_testDM;
         private System.Windows.Forms.FlowLayoutPanel fl_testThucAn;
         private System.Windows.Forms.FlowLayoutPanel fl_Sanh;
         private System.Windows.Forms.FlowLayoutPanel fl_BanAn;
         private System.Windows.Forms.FlowLayoutPanel fl_TaiKhoan;
+        private System.Windows.Forms.ComboBox cbDanhMucThucAn;
     }
 }

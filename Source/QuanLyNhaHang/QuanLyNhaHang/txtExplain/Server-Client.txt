@@ -2,5 +2,10 @@
 
 Project QuanLyNhaHang (Client)
 
-- Dùng class ConnectForClient vì nhiều Form dùng
 - Gửi thông tin cho Server nên để dưới dạng string (cấu trúc tao đặt)
+
+- Fix Server quản lý connect sql server luôn
+
+- Fix Server close sẽ đóng hết kết nối client
+
+- Add thêm tính năng server gửi lệnh đóng kết nối các client

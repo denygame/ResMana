@@ -22,6 +22,7 @@ namespace QuanLyNhaHang
         private TaiKhoan tkDangNhap = FrmBegin.tkDangNhap;
 
         private int widthButtonBanAn = Constant.widthButtonBanAnSizeNho, heightButtonBanAn = Constant.heightButtonBanAnSizeNho;
+
         private int truyenTestTrenMay = -1;
 
 
@@ -32,12 +33,27 @@ namespace QuanLyNhaHang
             this.truyenTestTrenMay = truyenTestTrenMay;
         }
 
-       
-
-
 
         #region - Events -
-        
+
+        #region rê chuột qua các control kiểm tra reset tất cả client
+        private void Btn_MouseEnter(object sender, EventArgs e)
+        {
+            resetBanAnChoTatCaClient();
+        }
+
+        private void FrmManage_MouseEnter(object sender, EventArgs e)
+        {
+            resetBanAnChoTatCaClient();
+        }
+
+        private void flowLayoutPanel_BanAn_MouseEnter(object sender, EventArgs e)
+        {
+            resetBanAnChoTatCaClient();
+        }
+        #endregion
+
+
         private void FrmManage_Load(object sender, EventArgs e)
         {
             khoiTaoCbSanh();
@@ -46,26 +62,12 @@ namespace QuanLyNhaHang
 
             khoiTaoCbGopBan1();
 
-            if (truyenTestTrenMay == -1)
+            /*if (truyenTestTrenMay == -1)//kết nối server hiển thị
             {
                 panel3.Visible = true;
             }
             else
-                panel3.Visible = false;
-        }
-
-
-        private void txtServer_TextChanged(object sender, EventArgs e)
-        {
-            if (truyenTestTrenMay == -1)
-            {
-                Sanh test = FrmClient.truyenTindenFormManage();
-
-                if (test.IdSanh == (cbSanh.SelectedItem as Sanh).IdSanh)
-                    khoiTaoBanTheoIdSanh(test.IdSanh);
-                FrmClient.idSanh = -1;
-                txtServer.Text = "";
-            }
+                panel3.Visible = false;*/
         }
 
         private void btnHuyBan_Click(object sender, EventArgs e)
@@ -73,7 +75,7 @@ namespace QuanLyNhaHang
             HoaDonDAL.xoaHoaDonBan_HuyBan((dataGridView_HDtheoBan.Tag as BanAn).IdBanAn);
             hienThiHDtheoBan((dataGridView_HDtheoBan.Tag as BanAn).IdBanAn);
 
-            if (truyenTestTrenMay == -1)
+            if (truyenTestTrenMay == -1)//nếu kết nối vs server
             {
                 //gửi idSanh đến server để server reset hết các client khác
                 FrmClient.guiTinDenServer((cbSanh.SelectedItem as Sanh).IdSanh.ToString());
@@ -89,7 +91,7 @@ namespace QuanLyNhaHang
             BanAnDAL.chuyenBan((dataGridView_HDtheoBan.Tag as BanAn).IdBanAn, banChuyenSang.IdBanAn);
             hienThiHDtheoBan((dataGridView_HDtheoBan.Tag as BanAn).IdBanAn);
 
-            if (truyenTestTrenMay == -1)
+            if (truyenTestTrenMay == -1)//nếu kết nối vs server
             {
                 //gửi idSanh đến server để server reset hết các client khác
                 FrmClient.guiTinDenServer((cbSanh.SelectedItem as Sanh).IdSanh.ToString());
@@ -115,7 +117,7 @@ namespace QuanLyNhaHang
             }
             khoiTaoBanTheoIdSanh((cbSanh.SelectedItem as Sanh).IdSanh);
         }
-        
+
 
         private void btnThanhToan_Click(object sender, EventArgs e)
         {
@@ -174,11 +176,11 @@ namespace QuanLyNhaHang
             //lấy bàn ăn mới vì đã thay đổi thông tin trạng thái xuống database
             BanAn banAnThayThe = BanAnDAL.layBanAn((dataGridView_HDtheoBan.Tag as BanAn).IdBanAn);
 
-            //chỉ resetButton khi thay đổi trạng thái bàn ăn
+            //chỉ reset Button khi thay đổi trạng thái bàn ăn
             if (banAnThayThe.TrangThai != (dataGridView_HDtheoBan.Tag as BanAn).TrangThai)
             {
 
-                if (truyenTestTrenMay == -1)
+                if (truyenTestTrenMay == -1)//nếu kết nối vs server
                 {
                     //gửi idSanh đến server để server reset hết các client khác
                     FrmClient.guiTinDenServer(banAnThayThe.IdSanh.ToString());
@@ -273,7 +275,7 @@ namespace QuanLyNhaHang
             BanAnDAL.gopBan((cbGopBan1.SelectedItem as BanAn).IdBanAn, (cbGopBan2.SelectedItem as BanAn).IdBanAn, e.BanAnGop.IdBanAn);
             hienThiHDtheoBan((dataGridView_HDtheoBan.Tag as BanAn).IdBanAn);
 
-            if (truyenTestTrenMay == -1)
+            if (truyenTestTrenMay == -1)//nếu kết nối vs server
             {
                 //gửi idSanh đến server để server reset hết các client khác
                 FrmClient.guiTinDenServer((cbSanh.SelectedItem as Sanh).IdSanh.ToString());
@@ -297,6 +299,18 @@ namespace QuanLyNhaHang
         #endregion
 
         #region - Methods -
+
+        private void resetBanAnChoTatCaClient()
+        {
+            if (truyenTestTrenMay == -1)//kết nối server mới làm
+                if (FrmClient.truyenTindenFormManage() != null)
+                {
+                    Sanh test = FrmClient.truyenTindenFormManage();
+                    if (test.IdSanh == (cbSanh.SelectedItem as Sanh).IdSanh)
+                        khoiTaoBanTheoIdSanh(test.IdSanh);
+                    FrmClient.idSanh = -1;
+                }
+        }
 
         private List<BanAn> listBanCoTheGop()
         {
@@ -423,18 +437,12 @@ namespace QuanLyNhaHang
             }
             //phải để event ở đây, k để trên khởi tạo danh sách bàn ăn <bug>
             btn.Click += Btn_Click;
+            btn.MouseEnter += Btn_MouseEnter;
             return btn;
         }
 
-        private void FrmManage_MouseEnter(object sender, EventArgs e)
-        {
-            if (FrmClient.truyenTindenFormManage() != null) txtServer.Text = FrmClient.truyenTindenFormManage().TenSanh;
-        }
 
-        private void flowLayoutPanel_BanAn_MouseEnter(object sender, EventArgs e)
-        {
-            if (FrmClient.truyenTindenFormManage() != null) txtServer.Text = FrmClient.truyenTindenFormManage().TenSanh;
-        }
+
 
         /*private void FrmManage_MouseHover(object sender, EventArgs e)
         {
@@ -477,7 +485,7 @@ namespace QuanLyNhaHang
 
 
 
-      
+
 
 
         #endregion
@@ -486,7 +494,7 @@ namespace QuanLyNhaHang
 
 
 
-       
+
 
 
 

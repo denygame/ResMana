@@ -1,4 +1,5 @@
 ﻿using QuanLyNhaHang.DAL;
+using QuanLyNhaHang.DTO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,11 +18,85 @@ namespace QuanLyNhaHang.GUI
         {
             InitializeComponent();
 
-            layDShoaDonCTT();
         }
 
-       
+
+        BindingSource danhmucBinding = new BindingSource();
+        BindingSource thucAnBinding = new BindingSource();
+        BindingSource sanhBinding = new BindingSource();
+        BindingSource banAnBinding = new BindingSource();
+
+
+
+
         #region Methods
+
+        //hàm khởi tạo
+        private void Initialize()
+        {
+            layDShoaDonCTT();
+
+            taoThoiGian1Thang();
+
+            dataGridView_DanhMuc.DataSource = danhmucBinding;
+            dataGridView_ThucAn.DataSource = thucAnBinding;
+            dataGridView_Sanh.DataSource = sanhBinding;
+            dataGridView_BanAn.DataSource = banAnBinding;
+
+
+            khoiTaoVaBindingDanhMuc();
+            khoiTaoVaBindingThucAn();
+
+
+
+
+            khoiTaoCbDanhMucThucAn();
+        }
+
+        private void khoiTaoVaBindingThucAn()
+        {
+            thucAnBinding.DataSource = ThucAnDAL.layDSthucAn();
+            dataGridView_ThucAn.Columns[0].HeaderText = "ID Thức Ăn";
+            dataGridView_ThucAn.Columns[1].HeaderText = "Tên Món Ăn";
+            dataGridView_ThucAn.Columns[2].HeaderText = "Danh Mục";
+            dataGridView_ThucAn.Columns[3].HeaderText = "Giá Tiền";
+
+            txtIdThucAn.DataBindings.Add(new Binding("Text", thucAnBinding, "IdThucAn", true, DataSourceUpdateMode.Never));
+            txtTenThucAn.DataBindings.Add(new Binding("Text", thucAnBinding, "TenThucAn", true, DataSourceUpdateMode.Never));
+            txtGiaTienThucAn.DataBindings.Add(new Binding("Text", thucAnBinding, "GiaTien", true, DataSourceUpdateMode.Never));
+        }
+
+        private void khoiTaoCbDanhMucThucAn()
+        {
+            cbDanhMucThucAn.DataSource = DanhMucDAL.layDSdanhMuc();
+            cbDanhMucThucAn.DisplayMember = "TenMenu";
+        }
+
+        private void khoiTaoVaBindingDanhMuc()
+        {
+            danhmucBinding.DataSource = DanhMucDAL.layDSdanhMuc();
+
+            dataGridView_DanhMuc.Columns[0].HeaderText = "ID Danh Mục";
+            dataGridView_DanhMuc.Columns[1].HeaderText = "Tên Danh Mục";
+
+            //true là tự động ép kiểu (ví dụ ép kiểu int về text trên textbox)
+            //IdMenu, TenMenu là tên trong DTO.DanhMuc <hệ public>
+            txtIdDanhMuc.DataBindings.Add(new Binding("Text", danhmucBinding, "IdMenu", true, DataSourceUpdateMode.Never));
+            txtTenDanhMuc.DataBindings.Add(new Binding("Text", danhmucBinding, "TenMenu", true, DataSourceUpdateMode.Never));
+        }
+
+
+
+        private void taoThoiGian1Thang()
+        {
+            DateTime today = DateTime.Now;
+            dateTimePicker_From.Value = new DateTime(today.Year, today.Month, 1);
+
+            //thêm một tháng trừ 1 ngày => cuối tháng
+            dateTimePicker_To.Value = dateTimePicker_From.Value.AddMonths(1).AddDays(-1);
+        }
+
+
         private void thietKeThemXoa(string themSua, string tab, FlowLayoutPanel fl)
         {
             Button btnTX = new Button();
@@ -123,8 +198,7 @@ namespace QuanLyNhaHang.GUI
             dataGridView_HoaDon.Columns[0].HeaderText = "Tên Sảnh";
             dataGridView_HoaDon.Columns[1].HeaderText = "Tên Bàn";
             dataGridView_HoaDon.Columns[2].HeaderText = "Ngày Đến";
-            dataGridView_HoaDon.Columns[3].HeaderText = "Chi Phí Phụ";
-            dataGridView_HoaDon.Columns[4].HeaderText = "Trạng Thái";
+            dataGridView_HoaDon.Columns[3].HeaderText = "Trạng Thái";
         }
         #endregion
 
@@ -164,6 +238,24 @@ namespace QuanLyNhaHang.GUI
             panel_tenThucAn.Location = new Point(3, 4);
             panel_DanhMucThucAn.Location = new Point(3, 63);
             panel_GiaThucAn.Location = new Point(3, 122);
+        }
+        private void txtIdThucAn_TextChanged(object sender, EventArgs e)
+        {
+            //khi id thức ăn thay đổi thì binding combobox danh mục
+            int idThucAn = Convert.ToInt32(txtIdThucAn.Text);
+
+            ThucAn thucAn = ThucAnDAL.layThucAnTheoId(idThucAn);
+
+            //vì cùng chung 1 list làm datasource nên chọn vị trí dc
+            List<DanhMuc> list = DanhMucDAL.layDSdanhMuc();
+            int dem = 0;
+            foreach (DanhMuc i in list)
+            {
+                if (i.IdMenu == thucAn.IdMenu)
+                    break;
+                dem++;
+            }
+            cbDanhMucThucAn.SelectedIndex = dem;
         }
 
         private void btnSuaThucAn_Click(object sender, EventArgs e)
@@ -263,9 +355,15 @@ namespace QuanLyNhaHang.GUI
         {
 
         }
+
+        private void FrmSystem_Load(object sender, EventArgs e)
+        {
+            Initialize();
+            
+
+        }
         #endregion
 
-
-
+       
     }
 }

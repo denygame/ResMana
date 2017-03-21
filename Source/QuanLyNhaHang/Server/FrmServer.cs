@@ -74,9 +74,11 @@ namespace Server
             listen.Start();
         }
 
+
+        //test lại
         private void close(List<Socket> client)
         {
-            clientList.Clear();
+            clientList.Clear();//bug
             foreach(Socket i in client) //đóng hết kết nối client
                 i.Close();
             server.Close();
@@ -206,5 +208,26 @@ namespace Server
                 textBox_server.AppendText("\r\n\t# Đóng server thất bại... ");
             }
         }
+
+        /*private void FrmServer_SizeChanged(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                notifyIcon1.Icon = SystemIcons.WinLogo;
+                notifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
+
+                notifyIcon1.BalloonTipText = "Server";
+                notifyIcon1.BalloonTipTitle = "Thông báo!";
+
+                //Lệnh gọi thông báo ra màn hình với 1000 là thời gian hiển thị
+                notifyIcon1.ShowBalloonTip(1000);
+            }
+            else if (this.WindowState == FormWindowState.Normal)
+            {
+                notifyIcon1.BalloonTipText = "Server hiển thị lại";
+
+                notifyIcon1.ShowBalloonTip(1000);
+            }
+        }*/
     }
 }

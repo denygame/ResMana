@@ -68,8 +68,6 @@ CREATE TABLE HoaDon
 	idBanAn INT NOT NULL,
 	discount INT DEFAULT 0, -- mặc định giảm giá 0%
 
-	chiPhiPhuThem INT DEFAULT 0, -- đặt chỗ
-	
 	tongTien FLOAT NOT NULL,
 	userName NVARCHAR(100),
 	trangThai NVARCHAR(100) DEFAULT N'Chưa thanh toán', -- 0: Chưa thanh toán || 1: OK
@@ -101,14 +99,6 @@ GO
 
 
 
-
-
-
-
-
-
-
-
 CREATE PROC	StoredProcedure_DangNhap
 @userName nvarchar(100), @passWOrd nvarchar(1000)
 AS
@@ -121,8 +111,8 @@ CREATE PROC	StoredProcedure_ThemHoaDon
 @idBanAn INT, @userName NVARCHAR(100)
 AS
 BEGIN
-	INSERT dbo.HoaDon ( ngayDen , idBanAn , discount , chiPhiPhuThem , tongTien , userName , trangThai )
-	VALUES  ( GETDATE() , @idBanAn , 0 , 0 , 0.0 , @userName ,   N'Chưa thanh toán')
+	INSERT dbo.HoaDon ( ngayDen , idBanAn , discount  , tongTien , userName , trangThai )
+	VALUES  ( GETDATE() , @idBanAn , 0 , 0.0 , @userName ,   N'Chưa thanh toán')
 END
 GO
 

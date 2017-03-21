@@ -10,6 +10,7 @@ namespace QuanLyNhaHang.DAL
 {
     public class DanhMucDAL
     {
+        
         public static List<DanhMuc> layDSdanhMuc()
         {
             List<DanhMuc> list = new List<DanhMuc>();
