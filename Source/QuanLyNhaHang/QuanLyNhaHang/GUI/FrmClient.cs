@@ -21,13 +21,11 @@ namespace QuanLyNhaHang.GUI
     {
         private bool testClickConnect = false;
         private int testTrenMay = -1;   // test trên máy 1, kết nối server -1
-        public static int idSanh = -1;
-
+        public static string idSanh = "";
 
         #region - CLIENT -
         private static IPEndPoint IP;
         private static Socket client;
-
 
         /* public static string layIpCuaMayClient()
          {
@@ -44,13 +42,14 @@ namespace QuanLyNhaHang.GUI
 
         public static bool connect(string ip)
         {
+
             //địa chỉ của server
             IP = new IPEndPoint(IPAddress.Parse(ip), 9999);
             client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
 
             try
             {
-                client.Connect(IP);
+                    client.Connect(IP);
             }
             catch
             {
@@ -90,8 +89,7 @@ namespace QuanLyNhaHang.GUI
 
                     string message = (string)gomManhLai(data);
 
-                    idSanh = (int)Convert.ToDouble(message);
-                    
+                    messServer(message);
                 }
             }
             catch
@@ -100,12 +98,38 @@ namespace QuanLyNhaHang.GUI
             }
         }
 
-        public static Sanh truyenTindenFormManage()
+        private static void messServer(string messFromServer)
         {
-            Sanh s = new Sanh();
-            if (idSanh != -1)
-                s = SanhDAL.laySanh(idSanh);
-            return s;
+            if(messFromServer == "close")
+            {
+                foreach(Form f in Application.OpenForms)
+                {
+                    if (f.Name != "FrmClient")
+                        f.Dispose();
+                }
+                MessageBox.Show("Server đã đóng!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Restart();
+            }
+            if(messFromServer == "disSql")
+            {
+                foreach (Form f in Application.OpenForms)
+                {
+                    if (f.Name != "FrmClient")
+                        f.Dispose();
+                }
+                MessageBox.Show("Server đã ngắt kết nối sql của bạn!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                QuanLyNhaHang.Properties.Settings.Default.Reset();
+                Application.Restart();
+            }
+            else
+            {
+                idSanh = messFromServer;
+            }
+        }
+
+        public static string truyenTindenFormManage()
+        {
+            return idSanh;
         }
 
         public static byte[] phanManhRa(object obj)
@@ -173,7 +197,6 @@ namespace QuanLyNhaHang.GUI
             InitializeComponent();
         }
 
-
         private void btnKetNoi_Click(object sender, EventArgs e)
         {
             if (radioButton_local.Checked == true)
@@ -185,7 +208,7 @@ namespace QuanLyNhaHang.GUI
             {
                 if (txtIPServer.Text != "")
                 {
-                    if (connect(txtIPServer.Text) == true)
+                    if (connect(txtIPServer.Text))
                     {
                         testTrenMay = -1;
                         showFormNao();
@@ -228,17 +251,24 @@ namespace QuanLyNhaHang.GUI
             if (checkBox_LocalHost.Checked == true)
             {
                 txtIPServer.Text = "127.0.0.1";
+                txtIPServer.ReadOnly = true;
             }
-            else txtIPServer.Text = "";
+            else
+            {
+                txtIPServer.Text = "";
+                txtIPServer.ReadOnly = false;
+            }
         }
 
         private void FrmClient_Load(object sender, EventArgs e)
         {
+            
         }
 
         private void radioButton_local_CheckedChanged(object sender, EventArgs e)
         {
-            
+            checkBox_LocalHost.Checked = false;
+            txtIPServer.Text = "";
         }
     }
 }

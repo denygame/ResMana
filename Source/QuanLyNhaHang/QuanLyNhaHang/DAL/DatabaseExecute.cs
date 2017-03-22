@@ -84,7 +84,7 @@ namespace QuanLyNhaHang.DAL
             return traVe;
         }
 
-        public static int thucThiSql(string tenServer)
+        public static int runFileSql(string tenServer)
         {
             SqlConnection connection;
             SqlCommand com;

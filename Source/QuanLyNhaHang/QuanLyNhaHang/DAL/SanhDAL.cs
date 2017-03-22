@@ -10,7 +10,7 @@ namespace QuanLyNhaHang.DAL
 {
     public class SanhDAL
     {
-        public static List<Sanh> layDsSanh()
+        public static List<Sanh> getListSanh()
         {
             List<Sanh> list = new List<Sanh>();
             DataTable data = DatabaseExecute.sqlQuery("SELECT * FROM Sanh");
@@ -22,7 +22,7 @@ namespace QuanLyNhaHang.DAL
             return list;
         }
 
-        public static Sanh laySanh(int idSanh)
+        public static Sanh getSanh(int idSanh)
         {
             Sanh test = new Sanh();
             DataTable data = DatabaseExecute.sqlQuery("SELECT * FROM Sanh WHERE idSanh = " + idSanh);

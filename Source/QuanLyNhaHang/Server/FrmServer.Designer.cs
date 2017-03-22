@@ -33,6 +33,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBox_server = new System.Windows.Forms.TextBox();
             this.btn_Stop = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.txtExe = new System.Windows.Forms.TextBox();
+            this.btnExecute = new System.Windows.Forms.Button();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnStart
@@ -62,6 +66,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.Firebrick;
             this.label1.Location = new System.Drawing.Point(70, 18);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(74, 20);
@@ -94,11 +99,47 @@
             this.btn_Stop.UseVisualStyleBackColor = true;
             this.btn_Stop.Click += new System.EventHandler(this.btn_Stop_Click);
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.btnExecute);
+            this.panel1.Controls.Add(this.txtExe);
+            this.panel1.Location = new System.Drawing.Point(12, 404);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(366, 45);
+            this.panel1.TabIndex = 16;
+            // 
+            // txtExe
+            // 
+            this.txtExe.BackColor = System.Drawing.SystemColors.MenuText;
+            this.txtExe.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtExe.ForeColor = System.Drawing.SystemColors.Menu;
+            this.txtExe.Location = new System.Drawing.Point(1, 0);
+            this.txtExe.Multiline = true;
+            this.txtExe.Name = "txtExe";
+            this.txtExe.Size = new System.Drawing.Size(284, 45);
+            this.txtExe.TabIndex = 0;
+            // 
+            // btnExecute
+            // 
+            this.btnExecute.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnExecute.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExecute.ForeColor = System.Drawing.Color.Red;
+            this.btnExecute.Location = new System.Drawing.Point(291, 0);
+            this.btnExecute.Name = "btnExecute";
+            this.btnExecute.Size = new System.Drawing.Size(75, 45);
+            this.btnExecute.TabIndex = 1;
+            this.btnExecute.Text = "Execute";
+            this.btnExecute.UseVisualStyleBackColor = false;
+            this.btnExecute.Click += new System.EventHandler(this.btnExecute_Click);
+            // 
             // FrmServer
             // 
+            this.AcceptButton = this.btnExecute;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(392, 409);
+            this.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.ClientSize = new System.Drawing.Size(392, 461);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.btn_Stop);
             this.Controls.Add(this.textBox_server);
             this.Controls.Add(this.btnStart);
@@ -108,6 +149,9 @@
             this.MaximizeBox = false;
             this.Name = "FrmServer";
             this.Text = "Server";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmServer_FormClosing);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -120,6 +164,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox_server;
         private System.Windows.Forms.Button btn_Stop;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.TextBox txtExe;
+        private System.Windows.Forms.Button btnExecute;
     }
 }
 

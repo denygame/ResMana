@@ -14,8 +14,8 @@ namespace QuanLyNhaHang.GUI
 {
     public partial class FrmAddFood : Form
     {
-        private BanAn banAn;
-        private TaiKhoan tkDangNhap = FrmBegin.tkDangNhap;
+        private Table banAn;
+        private Account tkDangNhap = FrmBegin.tkDangNhap;
 
         private event EventHandler eventThemMonAn;
         public event EventHandler EventThemMonAn
@@ -25,15 +25,16 @@ namespace QuanLyNhaHang.GUI
         }
 
 
-        public FrmAddFood(BanAn ban, string tenSanh_Ban)
+        public FrmAddFood(Table ban, string tenSanh_Ban)
         {
             InitializeComponent();
             cbDanhMuc.Select();    //focus test
-            loadData();
+            loadCbCategory();
             this.banAn = ban;
             txtName.Text = tenSanh_Ban;
         }
 
+        #region - Events -
         private void btnOK_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -41,8 +42,8 @@ namespace QuanLyNhaHang.GUI
 
         private void btnThem_Click(object sender, EventArgs e)
         {
-            int idHoaDon = HoaDonDAL.layIdHDchuaThanhToanTheoIDban(this.banAn.IdBanAn);
-            int idThucAn = (cbMonAn.SelectedItem as ThucAn).IdThucAn;
+            int idHoaDon = BillDAL.getIdBillUncheckByIdTable(this.banAn.IdBanAn);
+            int idThucAn = (cbMonAn.SelectedItem as Food).IdThucAn;
             int soLuong = (int)numericUpDown1.Value;
 
             if (idHoaDon == -1)
@@ -50,31 +51,18 @@ namespace QuanLyNhaHang.GUI
                 if (soLuong > 0)
                 {
                     //tạo hóa đơn nên hóa đơn cuối là cái mới nhất
-                    HoaDonDAL.themHoaDonChoBan(this.banAn.IdBanAn, tkDangNhap.UserName);
-                    ChiTietHoaDonDAL.themMonAnVaoBan(HoaDonDAL.layIdHoaDonCuoiCung(), idThucAn, soLuong);
+                    BillDAL.addBillForTable(this.banAn.IdBanAn, tkDangNhap.UserName);
+                    BillInfoDAL.addFoodToTable(BillDAL.getLastIdBill(), idThucAn, soLuong);
                 }
                 //xóa
                 else
-                    HoaDonTheoBanDAL.xoaMonAnTrenHoaDonTheoBan(HoaDonDAL.layIdHDchuaThanhToanTheoIDban(banAn.IdBanAn), (cbMonAn.SelectedItem as ThucAn).TenThucAn, -soLuong);
+                    HoaDonTheoBanDAL.deleteFoodInBill(BillDAL.getIdBillUncheckByIdTable(banAn.IdBanAn), (cbMonAn.SelectedItem as Food).TenThucAn, -soLuong);
                 
             }
-            else ChiTietHoaDonDAL.themMonAnVaoBan(idHoaDon, idThucAn, soLuong);
+            else BillInfoDAL.addFoodToTable(idHoaDon, idThucAn, soLuong);
 
             //thêm món xong mới bắt sự kiện
             eventThemMonAn(this, new EventArgs());
-        }
-
-
-        private void cbThucAnTheoCbMenu(int idMenu)
-        {
-            cbMonAn.DataSource = ThucAnDAL.layDSthucAnTheoIdMenu(idMenu); ;
-            cbMonAn.DisplayMember = "TenThucAn";
-        }
-
-        private void loadData()
-        {
-            cbDanhMuc.DataSource = DanhMucDAL.layDSdanhMuc();
-            cbDanhMuc.DisplayMember = "TenMenu";
         }
 
         private void cbDanhMuc_SelectedIndexChanged(object sender, EventArgs e)
@@ -83,9 +71,9 @@ namespace QuanLyNhaHang.GUI
             if ((sender as ComboBox).SelectedItem == null) return;
             idMenu = ((sender as ComboBox).SelectedItem as DanhMuc).IdMenu;
 
-            cbThucAnTheoCbMenu(idMenu);
+            loadCbFoodByIdCategory(idMenu);
         }
-
+    
         private void txtName_KeyPress(object sender, KeyPressEventArgs e)
         {
             e.Handled = true;
@@ -93,7 +81,7 @@ namespace QuanLyNhaHang.GUI
 
         private void cbMonAn_SelectedIndexChanged(object sender, EventArgs e)
         {
-            txtGiaTien.Text = ((cbMonAn.SelectedItem as ThucAn).GiaTien.ToString());
+            txtGiaTien.Text = ((cbMonAn.SelectedItem as Food).GiaTien.ToString());
             numericUpDown1_ValueChanged(sender, e);
         }
 
@@ -104,8 +92,27 @@ namespace QuanLyNhaHang.GUI
                 txtGiaTien.Text = "0";
                 return;
             }
-            txtGiaTien.Text = (((cbMonAn.SelectedItem as ThucAn).GiaTien) * (int)numericUpDown1.Value).ToString();
+            txtGiaTien.Text = (((cbMonAn.SelectedItem as Food).GiaTien) * (int)numericUpDown1.Value).ToString();
         }
 
+        #endregion
+
+        #region - Methods -
+        /// <summary>
+        /// khởi tạo cb thức ăn theo cb danh mục
+        /// </summary>
+        /// <param name="idMenu"></param>
+        private void loadCbFoodByIdCategory(int idMenu)
+        {
+            cbMonAn.DataSource = FoodDAL.getListFoodByIdCategory(idMenu); ;
+            cbMonAn.DisplayMember = "TenThucAn";
+        }
+
+        private void loadCbCategory()
+        {
+            cbDanhMuc.DataSource = CategoryDAL.getListCategory();
+            cbDanhMuc.DisplayMember = "TenMenu";
+        }
+        #endregion
     }
 }

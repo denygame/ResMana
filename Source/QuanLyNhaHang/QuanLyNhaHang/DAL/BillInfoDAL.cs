@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace QuanLyNhaHang.DAL
 {
-    public class ChiTietHoaDonDAL
+    public class BillInfoDAL
     {
-        public static void themMonAnVaoBan(int idHoaDon, int idThucAn, int soLuong)
+        public static void addFoodToTable(int idHoaDon, int idThucAn, int soLuong)
         {
             DatabaseExecute.sqlExecuteNonQuery("StoredProcedure_ThemCTHD @idHoaDon , @idThucAn , @soLuong", new object[] { idHoaDon, idThucAn, soLuong });
         }

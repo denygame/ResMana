@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace QuanLyNhaHang.DAL
 {
-    public class DanhMucDAL
+    public class CategoryDAL
     {
         
-        public static List<DanhMuc> layDSdanhMuc()
+        public static List<DanhMuc> getListCategory()
         {
             List<DanhMuc> list = new List<DanhMuc>();
             string query = "select * from DanhMuc";

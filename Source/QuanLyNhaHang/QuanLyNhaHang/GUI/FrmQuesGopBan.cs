@@ -13,7 +13,7 @@ namespace QuanLyNhaHang.GUI
 {
     public partial class FrmQuesGopBan : Form
     {
-        public FrmQuesGopBan(List<BanAn> listBanGop)
+        public FrmQuesGopBan(List<Table> listBanGop)
         {
             InitializeComponent();
             cbBan.DataSource = listBanGop;
@@ -37,7 +37,7 @@ namespace QuanLyNhaHang.GUI
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            eventGopBan(this, new EventTruyenDuLieu(cbBan.SelectedItem as BanAn));
+            eventGopBan(this, new EventTruyenDuLieu(cbBan.SelectedItem as Table));
             this.Close();
         }
     }

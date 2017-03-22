@@ -7,21 +7,20 @@ using System.Threading.Tasks;
 
 namespace QuanLyNhaHang.DTO
 {
-    public class HoaDon
+    public class Bill
     {
         private int idHoaDon, idBanAn;
-        private int? chiPhiPhuThem, discount;
+        private int? discount;
         private float tongTien;
         private string userName;
         private DateTime? ngayDen;
         private string trangThai;
 
-        public HoaDon(DataRow r)
+        public Bill(DataRow r)
         {
             this.IdHoaDon = (int)r["idHoaDon"];
             this.IdBanAn = (int)r["idBanAn"];
             this.TrangThai = r["trangThai"].ToString();
-            this.ChiPhiPhuThem = (int)r["chiPhiPhuThem"];
             this.TongTien = (float)Convert.ToDouble(r["tongTien"].ToString());
             this.Discount = (int)r["discount"];
             this.UserName = r["userName"].ToString();
@@ -65,19 +64,7 @@ namespace QuanLyNhaHang.DTO
                 trangThai = value;
             }
         }
-
-        public int? ChiPhiPhuThem
-        {
-            get
-            {
-                return chiPhiPhuThem;
-            }
-
-            set
-            {
-                chiPhiPhuThem = value;
-            }
-        }
+        
 
         public int? Discount
         {

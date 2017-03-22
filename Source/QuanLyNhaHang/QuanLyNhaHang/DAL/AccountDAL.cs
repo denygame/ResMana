@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace QuanLyNhaHang.DAL
 {
-    public class TaiKhoanDAL
+    public class AccountDAL
     {
         //test
-        public static bool dangNhap(string userName, string passWord)
+        public static bool login(string userName, string passWord)
         {
             try
             {
@@ -21,13 +21,19 @@ namespace QuanLyNhaHang.DAL
             }
             catch { return false; }
         }
-        public static TaiKhoan layTaiKhoan(string userName)
+        public static Account getAccount(string userName)
         {
             DataTable data = new DataTable();
             data = DatabaseExecute.sqlQuery("select * from TaiKhoan where userName = @uN", new object[] { userName });
             foreach (DataRow row in data.Rows)
-                return new TaiKhoan(row);
+                return new Account(row);
             return null;
+        }
+
+        public static DataTable getListAccount()
+        {
+            DataTable data = DatabaseExecute.sqlQuery("SELECT userName, idNhanVien, loaiTK from TaiKhoan");
+            return data;
         }
     }
 }

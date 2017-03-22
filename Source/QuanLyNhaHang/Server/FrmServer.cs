@@ -52,12 +52,19 @@ namespace Server
                 {
                     while (true)
                     {
-                        server.Listen(100); // tối đa 100 đn
+                        server.Listen(100); // tối đa 100 client đồng thời
                         Socket client = server.Accept();
+                        int dem = 0;
 
-                        clientList.Add(client);
-
-                        textBox_server.Text += "\r\n\t# " + layIPclient(client) + " connect...";
+                        //chỉ chấp nhận client kết nối 1 lần
+                        foreach (Socket s in clientList)
+                            if (getIPClient(getIPandPortclient(s)) == getIPClient(getIPandPortclient(client)))
+                                dem++;
+                        if (dem == 0)
+                        {
+                            clientList.Add(client);
+                            textBox_server.Text += "\r\n\t# " + getIPandPortclient(client) + " connect...";
+                        }
 
                         Thread nhan = new Thread(nhanThongTinTuCacClient);
                         nhan.IsBackground = true;
@@ -78,10 +85,19 @@ namespace Server
         //test lại
         private void close(List<Socket> client)
         {
-            clientList.Clear();//bug
-            foreach(Socket i in client) //đóng hết kết nối client
-                i.Close();
-            server.Close();
+            try
+            {
+                foreach (Socket i in client) //đóng hết kết nối client
+                {
+                    guiTinDenClient(i, "close");
+                    i.Close();
+                }
+
+                client.Clear();
+
+                server.Close();
+            }
+            catch { }
         }
 
         private void guiTinDenClient(Socket client, object test)
@@ -116,16 +132,16 @@ namespace Server
         {
             if(mess == "close")
             {
-                textBox_server.AppendText("\r\n\t# " + layIPclient(client) + " disconnect...");
+                textBox_server.AppendText("\r\n\t# " + getIPandPortclient(client) + " disconnect...");
                 clientList.Remove(client);
                 return;
             }
-            textBox_server.AppendText("\r\n\t# " + layIPclient(client) + " send: " + mess);
+            textBox_server.AppendText("\r\n\t# " + getIPandPortclient(client) + " send: " + mess);
 
             //gửi tin đến các client còn lại
             foreach(Socket s in clientList)
             {
-                if (layIPclient(s) != layIPclient(client))
+                if (getIPandPortclient(s) != getIPandPortclient(client))
                     guiTinDenClient(s, mess);
             }
         }
@@ -149,7 +165,7 @@ namespace Server
         }
 
         //lấy ip và port của các client kết nối
-        private string layIPclient(Socket client)
+        private string getIPandPortclient(Socket client)
         {
             string str = "";
             try
@@ -164,6 +180,24 @@ namespace Server
                 str = "Socket is closed with " + remoteEndPoint;
             }
             return str;
+        }
+
+        private static string getIPClient(string getIdandPort)
+        {
+            string[] cut = getIdandPort.Split(':');
+            return cut[0];
+        }
+
+        private Socket getClientDisSql(string ip)
+        {
+            string ipTest = "";
+            foreach(Socket s in clientList)
+            {
+                ipTest = getIPClient(getIPandPortclient(s));
+                if (ipTest == ip)
+                    return s;   
+            }
+            return null;
         }
 
         #endregion
@@ -209,25 +243,35 @@ namespace Server
             }
         }
 
-        /*private void FrmServer_SizeChanged(object sender, EventArgs e)
+
+        /// <summary>
+        /// tiếp tục thêm lệnh, test lại còn sai
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnExecute_Click(object sender, EventArgs e)
         {
-            if (this.WindowState == FormWindowState.Minimized)
+            if(txtExe.Text != "")
             {
-                notifyIcon1.Icon = SystemIcons.WinLogo;
-                notifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
-
-                notifyIcon1.BalloonTipText = "Server";
-                notifyIcon1.BalloonTipTitle = "Thông báo!";
-
-                //Lệnh gọi thông báo ra màn hình với 1000 là thời gian hiển thị
-                notifyIcon1.ShowBalloonTip(1000);
+                //thiếu bước kiểm tra ip
+                //cấu trúc: disconnect sql ip
+                if(txtExe.Text.Contains("disconnect sql"))
+                {
+                    string[] cut = txtExe.Text.Split(' ');
+                    string ip = cut[2];
+                    Socket client = getClientDisSql(ip);
+                    guiTinDenClient(client, "disSql");
+                    txtExe.Text = "";
+                    textBox_server.AppendText("\r\n\r\n\t# Ngắt kết nối sql IP: " + ip + "\r\n");
+                }
             }
-            else if (this.WindowState == FormWindowState.Normal)
-            {
-                notifyIcon1.BalloonTipText = "Server hiển thị lại";
+        }
 
-                notifyIcon1.ShowBalloonTip(1000);
-            }
-        }*/
+        private void FrmServer_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            close(clientList);
+        }
+
+        
     }
 }

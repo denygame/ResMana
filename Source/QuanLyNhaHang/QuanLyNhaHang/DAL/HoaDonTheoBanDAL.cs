@@ -10,7 +10,12 @@ namespace QuanLyNhaHang.DAL
 {
     public class HoaDonTheoBanDAL
     {
-        public static List<ChiTietHoaDonTheoBan> layHoaDonTheoIdBanAn(int idBanAn)
+        /// <summary>
+        /// lấy hóa đơn của bàn ăn
+        /// </summary>
+        /// <param name="idBanAn"></param>
+        /// <returns></returns>
+        public static List<ChiTietHoaDonTheoBan> getBillByIdTable(int idBanAn)
         {
             List<ChiTietHoaDonTheoBan> list = new List<ChiTietHoaDonTheoBan>();
             string query = "SELECT t.tenThucAn, ct.soLuong, ct.soLuong*t.giaTien AS [thanhTien] FROM dbo.ChiTietHoaDon AS ct, dbo.HoaDon AS hd, dbo.ThucAn AS t WHERE ct.idHoaDon = hd.idHoaDon AND ct.idThucAn = t.idThucAn AND hd.idBanAn = " + idBanAn;
@@ -23,7 +28,14 @@ namespace QuanLyNhaHang.DAL
             return list;
         }
 
-        public static void xoaMonAnTrenHoaDonTheoBan(int idHoaDon, string tenMonAn, int soLuong)
+
+        /// <summary>
+        /// xóa món ăn trên hóa đơn
+        /// </summary>
+        /// <param name="idHoaDon"></param>
+        /// <param name="tenMonAn"></param>
+        /// <param name="soLuong"></param>
+        public static void deleteFoodInBill(int idHoaDon, string tenMonAn, int soLuong)
         {
             try
             {

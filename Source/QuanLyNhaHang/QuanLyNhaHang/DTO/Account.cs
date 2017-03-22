@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace QuanLyNhaHang.DTO
 {
-    public class TaiKhoan
+    public class Account
     {
         private string userName, pass;
         private int idNhanVien, loaiTK;
-        public TaiKhoan(DataRow r)
+        public Account(DataRow r)
         {
             this.UserName = r["userName"].ToString();
             this.Pass = r["pass"].ToString();

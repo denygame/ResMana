@@ -15,7 +15,7 @@ namespace QuanLyNhaHang
 {
     public partial class FrmBegin : Form
     {
-        public static TaiKhoan tkDangNhap;
+        public static Account tkDangNhap;
         private bool testClick = false;
 
         private int truyenTestTrenMay = -1;
@@ -29,7 +29,12 @@ namespace QuanLyNhaHang
         }
 
         #region - Methods -
-        private TextBox taoTextBoxTK(TaiKhoan tk)
+        /// <summary>
+        /// khởi tạo textbox tài khoản
+        /// </summary>
+        /// <param name="tk"></param>
+        /// <returns></returns>
+        private TextBox initTextBoxAccount(Account tk)
         {
             string ten = string.Format("Xin chào: {0}", tk.UserName);
             TextBox txt = new TextBox();
@@ -119,7 +124,7 @@ namespace QuanLyNhaHang
 
             //btnAcc.Text = e.Tk.UserName;
 
-            panel2.Controls.Add(taoTextBoxTK(e.Tk));
+            panel2.Controls.Add(initTextBoxAccount(e.Tk));
         }
 
         private void Txt_KeyPress(object sender, KeyPressEventArgs e)

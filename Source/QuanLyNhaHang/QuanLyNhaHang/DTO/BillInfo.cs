@@ -7,43 +7,41 @@ using System.Threading.Tasks;
 
 namespace QuanLyNhaHang.DTO
 {
-    public class ThucAn
+    public class BillInfo
     {
-        private int idThucAn;
-        private int idMenu;
-        private string tenThucAn;
-        private float giaTien;
-        public ThucAn() { }
-        public ThucAn(DataRow r)
+        private int idCTHD, idHoaDon, idThucAn, soLuong;
+
+        public BillInfo(DataRow r)
         {
-            this.IdMenu = (int)r["idMenu"];
+            this.IdCTHD = (int)r["idCTHD"];
+            this.IdHoaDon = (int)r["idHoaDon"];
             this.IdThucAn = (int)r["idThucAn"];
-            this.TenThucAn = r["tenThucAn"].ToString();
-            this.GiaTien = (float)Convert.ToDouble(r["giaTien"].ToString());
+            this.SoLuong = (int)r["soLuong"];
         }
-        public float GiaTien
+
+        public int IdCTHD
         {
             get
             {
-                return giaTien;
+                return idCTHD;
             }
 
             set
             {
-                giaTien = value;
+                idCTHD = value;
             }
         }
 
-        public string TenThucAn
+        public int IdHoaDon
         {
             get
             {
-                return tenThucAn;
+                return idHoaDon;
             }
 
             set
             {
-                tenThucAn = value;
+                idHoaDon = value;
             }
         }
 
@@ -60,16 +58,16 @@ namespace QuanLyNhaHang.DTO
             }
         }
 
-        public int IdMenu
+        public int SoLuong
         {
             get
             {
-                return idMenu;
+                return soLuong;
             }
 
             set
             {
-                idMenu = value;
+                soLuong = value;
             }
         }
     }

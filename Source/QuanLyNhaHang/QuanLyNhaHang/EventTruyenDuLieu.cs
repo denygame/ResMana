@@ -9,9 +9,9 @@ namespace QuanLyNhaHang
 {
     public class EventTruyenDuLieu
     {
-        private TaiKhoan tk;
+        private Account tk;
 
-        public TaiKhoan Tk
+        public Account Tk
         {
             get
             {
@@ -24,7 +24,7 @@ namespace QuanLyNhaHang
             }
         }
 
-        public BanAn BanAnGop
+        public Table BanAnGop
         {
             get
             {
@@ -50,14 +50,14 @@ namespace QuanLyNhaHang
             }
         }*/
 
-        public EventTruyenDuLieu(TaiKhoan t)
+        public EventTruyenDuLieu(Account t)
         {
             this.Tk = t;
         }
 
-        private BanAn banAnGop;
+        private Table banAnGop;
 
-        public EventTruyenDuLieu(BanAn ba)
+        public EventTruyenDuLieu(Table ba)
         {
             this.BanAnGop = ba;
         }

@@ -29,9 +29,9 @@ namespace QuanLyNhaHang.GUI
 
         private void btnDangNhap_Click(object sender, EventArgs e)
         {
-            eventDN(this, new EventTruyenDuLieu(TaiKhoanDAL.layTaiKhoan(txtUserName.Text)));
+            eventDN(this, new EventTruyenDuLieu(AccountDAL.getAccount(txtUserName.Text)));
             
-            if(TaiKhoanDAL.dangNhap(txtUserName.Text, txtPassWord.Text))
+            if(AccountDAL.login(txtUserName.Text, txtPassWord.Text))
             {
                 this.Close();
             }

@@ -94,7 +94,7 @@ namespace QuanLyNhaHang.GUI
 
         private void btnChaySql_Click(object sender, EventArgs e)
         {
-            if (DatabaseExecute.thucThiSql(txtTenServer.Text) == 1)
+            if (DatabaseExecute.runFileSql(txtTenServer.Text) == 1)
                 MessageBox.Show("Chạy file SQL thành công!", "Thông Báo");
             else MessageBox.Show("Không thành công!", "Thông Báo");
         }
