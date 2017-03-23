@@ -20,7 +20,7 @@ namespace QuanLyNhaHang
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            /*try
+            try
             {
                 DatabaseExecute.conn.Open();
                 DatabaseExecute.conn.Close();
@@ -34,9 +34,8 @@ namespace QuanLyNhaHang
             finally
             {
                 DatabaseExecute.conn.Close();
-            }*/
+            }
 
-            Application.Run(new FrmClient());
         }
     }
 }

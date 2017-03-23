@@ -46,5 +46,10 @@ namespace QuanLyNhaHang.DAL
             }
             return list;
         }
+
+        public static void deleteFoodInCategory(int idDanhMuc)
+        {
+            DatabaseExecute.sqlQuery("StoredProcedure_DeleteAllFoodInCategory @idCategory", new object[] { idDanhMuc });
+        }
     }
 }

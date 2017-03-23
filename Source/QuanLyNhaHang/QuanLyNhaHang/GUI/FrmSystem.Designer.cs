@@ -131,8 +131,6 @@
             this.panel_cnTTban = new System.Windows.Forms.Panel();
             this.txtTrangThai = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
-            this.txtChoNgoi = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
             this.panel_tenBan = new System.Windows.Forms.Panel();
             this.txtTenBan = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
@@ -1288,8 +1286,6 @@
             // 
             this.panel_cnTTban.Controls.Add(this.txtTrangThai);
             this.panel_cnTTban.Controls.Add(this.label17);
-            this.panel_cnTTban.Controls.Add(this.txtChoNgoi);
-            this.panel_cnTTban.Controls.Add(this.label14);
             this.panel_cnTTban.Location = new System.Drawing.Point(3, 122);
             this.panel_cnTTban.Name = "panel_cnTTban";
             this.panel_cnTTban.Size = new System.Drawing.Size(326, 53);
@@ -1298,10 +1294,10 @@
             // txtTrangThai
             // 
             this.txtTrangThai.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTrangThai.Location = new System.Drawing.Point(215, 13);
+            this.txtTrangThai.Location = new System.Drawing.Point(116, 13);
             this.txtTrangThai.Name = "txtTrangThai";
             this.txtTrangThai.ReadOnly = true;
-            this.txtTrangThai.Size = new System.Drawing.Size(106, 27);
+            this.txtTrangThai.Size = new System.Drawing.Size(205, 27);
             this.txtTrangThai.TabIndex = 4;
             this.txtTrangThai.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -1310,32 +1306,11 @@
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label17.ForeColor = System.Drawing.Color.Blue;
-            this.label17.Location = new System.Drawing.Point(128, 20);
+            this.label17.Location = new System.Drawing.Point(1, 20);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(88, 20);
             this.label17.TabIndex = 3;
             this.label17.Text = "Trạng Thái:";
-            // 
-            // txtChoNgoi
-            // 
-            this.txtChoNgoi.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtChoNgoi.Location = new System.Drawing.Point(80, 13);
-            this.txtChoNgoi.Name = "txtChoNgoi";
-            this.txtChoNgoi.ReadOnly = true;
-            this.txtChoNgoi.Size = new System.Drawing.Size(42, 27);
-            this.txtChoNgoi.TabIndex = 2;
-            this.txtChoNgoi.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.ForeColor = System.Drawing.Color.Blue;
-            this.label14.Location = new System.Drawing.Point(-4, 20);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(78, 20);
-            this.label14.TabIndex = 0;
-            this.label14.Text = "Chỗ Ngồi:";
             // 
             // panel_tenBan
             // 
@@ -1966,7 +1941,6 @@
         private System.Windows.Forms.Panel panel_tenSanhBanAn;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Panel panel_cnTTban;
-        private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Panel panel_tenBan;
         private System.Windows.Forms.TextBox txtTenBan;
         private System.Windows.Forms.Label label15;
@@ -1978,7 +1952,6 @@
         private System.Windows.Forms.TextBox txtTimBanAn;
         private System.Windows.Forms.TextBox txtTrangThai;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.TextBox txtChoNgoi;
         private System.Windows.Forms.ComboBox cbTenSanh;
         private System.Windows.Forms.TabPage tabTaiKhoan;
         private System.Windows.Forms.Panel panel37;

@@ -229,6 +229,7 @@
             this.Name = "FrmBegin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Bàn Điều Khiển";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmBegin_FormClosing);
             this.panel2.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);

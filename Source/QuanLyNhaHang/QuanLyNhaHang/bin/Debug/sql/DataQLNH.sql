@@ -3,6 +3,9 @@ GO
 
 USE HQTCSDL
 GO
+
+
+
 --USE master DROP DATABASE HQTCSDL
 CREATE TABLE NhanVien
 (
@@ -37,7 +40,6 @@ CREATE TABLE BanAn
 (
 	idBanAn INT IDENTITY PRIMARY KEY,
 	tenBan NVARCHAR(100) DEFAULT N'Chưa đặt tên bàn',
-	choNgoi INT NOT NULL, 
 	idSanh INT NOT NULL,
 	
 	trangThai NVARCHAR(100) DEFAULT N'Bàn Trống', -- Bàn Trống || Khách || Bàn Đặt Chỗ
@@ -86,14 +88,18 @@ CREATE TABLE ChiTietHoaDon
 	FOREIGN KEY (idHoaDon) REFERENCES dbo.HoaDon(idHoaDon),
 	FOREIGN KEY (idThucAn) REFERENCES dbo.ThucAn(idThucAn)
 )
+
+-- bảng truyền vào idBanAn khi insert update Bill
+CREATE TABLE testLoadTableCsharp
+(
+	id INT NOT NULL
+)
+
+CREATE TABLE IPConnectionDatabase
+(
+	ip VARCHAR(100) NOT NULL
+)
 GO
-
-
-
-
-
-
-
 
 
 
@@ -280,6 +286,37 @@ BEGIN
 END
 GO
 
+-- xóa danh mục thì xóa hết food
+CREATE PROC StoredProcedure_DeleteAllFoodInCategory 
+@idCategory INT
+AS
+BEGIN
+	SELECT idThucAn INTO idFoodInCategory FROM dbo.ThucAn WHERE idMenu = @idCategory
+	DELETE FROM dbo.ChiTietHoaDon WHERE idCTHD IN (SELECT * FROM	idFoodInCategory)
+	DELETE FROM dbo.ThucAn WHERE idMenu = @idCategory
+	DROP TABLE idFoodInCategory
+END
+GO
+
+
+CREATE PROC StoredProcedure_InsertIP
+@ip VARCHAR(100)
+AS
+BEGIN
+	DECLARE @count INT = 0
+	SELECT @count = COUNT(*) FROM dbo.IPConnectionDatabase WHERE ip = @ip
+	IF(@count = 0)
+		INSERT dbo.IPConnectionDatabase ( ip ) VALUES  ( @ip )
+END
+GO
+
+CREATE PROC StoredProcedure_DeleteIP
+@ip VARCHAR(100)
+AS
+BEGIN
+	DELETE FROM dbo.IPConnectionDatabase  WHERE ip = @ip
+END
+GO
 
 
 
@@ -339,6 +376,11 @@ BEGIN
 	SELECT @idBanAn = idBanAn FROM Inserted
 
 	UPDATE dbo.BanAn SET trangThai = N'Khách' WHERE idBanAn = @idBanAn
+
+	DECLARE @count INT
+	SELECT @count = COUNT(*) FROM dbo.testLoadTableCsharp WHERE id = @idBanAn
+	IF(@count = 0)
+		INSERT dbo.testLoadTableCsharp( id ) VALUES  ( @idBanAn )
 END
 GO
 
@@ -349,6 +391,11 @@ BEGIN
 	SELECT @idBanAn = idBanAn FROM Deleted
 
 	UPDATE dbo.BanAn SET trangThai = N'Bàn Trống' WHERE idBanAn = @idBanAn
+
+	DECLARE @count INT
+	SELECT @count = COUNT(*) FROM dbo.testLoadTableCsharp WHERE id = @idBanAn
+	IF(@count = 0)
+		INSERT dbo.testLoadTableCsharp( id ) VALUES  ( @idBanAn )
 END
 GO
 
@@ -365,9 +412,6 @@ BEGIN
 		DELETE FROM dbo.HoaDon WHERE idHoaDon = @idHoaDon
 END
 GO	
-
-
-
 
 
 
@@ -424,11 +468,9 @@ WHILE (@i < 10)
 BEGIN
 	INSERT dbo.BanAn
 	        ( tenBan ,
-	          choNgoi ,
 	          idSanh
 	        )
 	VALUES  ( N'Bàn ' + CAST((@i+1) AS NVARCHAR(100)) , -- tenBan - nvarchar(100)
-	          4 , -- choNgoi - int
 	          1  -- idSanh - int
 	        )
 	SET @i = @i + 1
@@ -439,11 +481,9 @@ WHILE (@j < 50)
 BEGIN
 	INSERT dbo.BanAn
 	        ( tenBan ,
-	          choNgoi ,
 	          idSanh
 	        )
 	VALUES  ( N'Bàn ' + CAST((@j+1) AS NVARCHAR(100)) , -- tenBan - nvarchar(100)
-	          10 , -- choNgoi - int
 	          2  -- idSanh - int
 	        )
 	SET @j = @j + 1

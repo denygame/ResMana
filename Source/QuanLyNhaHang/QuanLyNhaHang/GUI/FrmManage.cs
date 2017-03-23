@@ -22,49 +22,32 @@ namespace QuanLyNhaHang
 
         private int widthButtonBanAn = Constant.widthButtonBanAnSizeNho, heightButtonBanAn = Constant.heightButtonBanAnSizeNho;
 
-        private int truyenTestTrenMay = -1;
 
-        public FrmManage(int truyenTestTrenMay)
+        public FrmManage()
         {
             InitializeComponent();
-
-            this.truyenTestTrenMay = truyenTestTrenMay;
         }
 
 
         #region - Events -
 
-        #region rê chuột qua các control kiểm tra reset tất cả client
-        private void Btn_MouseEnter(object sender, EventArgs e)
-        {
-            resetTableForAllClient();
-        }
-
         private void FrmManage_MouseEnter(object sender, EventArgs e)
         {
-            resetTableForAllClient();
+            loadTableClient();
         }
 
         private void flowLayoutPanel_BanAn_MouseEnter(object sender, EventArgs e)
         {
-            resetTableForAllClient();
+            loadTableClient();
         }
-        #endregion
+
 
         private void FrmManage_Load(object sender, EventArgs e)
         {
             loadCbSanh();
             this.Text += " - Tài khoản: " + tkDangNhap.UserName;
             cbSanh.Select(); //focus
-
             loadCbLumpTable1();
-
-            /*if (truyenTestTrenMay == -1)//kết nối server hiển thị
-            {
-                panel3.Visible = true;
-            }
-            else
-                panel3.Visible = false;*/
         }
 
         private void btnHuyBan_Click(object sender, EventArgs e)
@@ -73,17 +56,13 @@ namespace QuanLyNhaHang
 
             BillDAL.deleteBill_CancleTable((dataGridView_HDtheoBan.Tag as Table).IdBanAn);
             showBill((dataGridView_HDtheoBan.Tag as Table).IdBanAn);
-
-            sendMessToServer((cbSanh.SelectedItem as Sanh).IdSanh.ToString(), "huy");
-
-            txtBan.Text = "";
             loadTableWithIdSanh((cbSanh.SelectedItem as Sanh).IdSanh);
             btnHuyBan.Enabled = false;
             cbChuyenBan.Enabled = false;
             btnChuyenBan.Enabled = false;
             cbChuyenBan.DataSource = null;
-
-            //dataGridView_HDtheoBan.Tag = TableDAL.getTable((dataGridView_HDtheoBan.Tag as Table).IdBanAn);
+            cbSanh.Select();
+            txtBan.Text = "";
         }
 
         private void btnChuyenBan_Click(object sender, EventArgs e)
@@ -93,14 +72,10 @@ namespace QuanLyNhaHang
             Table banChuyenSang = cbChuyenBan.SelectedItem as Table;
             TableDAL.switchTable((dataGridView_HDtheoBan.Tag as Table).IdBanAn, banChuyenSang.IdBanAn);
             showBill((dataGridView_HDtheoBan.Tag as Table).IdBanAn);
-
-            sendMessToServer((cbSanh.SelectedItem as Sanh).IdSanh.ToString());
-
             loadTableWithIdSanh((cbSanh.SelectedItem as Sanh).IdSanh);
             cbChuyenBan.Enabled = false;
             btnChuyenBan.Enabled = false;
             cbChuyenBan.DataSource = null;
-
             btnHuyBan.Enabled = false;
         }
 
@@ -165,7 +140,11 @@ namespace QuanLyNhaHang
             }
         }
 
-        //event chính, xem kỹ
+        /// <summary>
+        /// event chính
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void F_EventThemMonAn(object sender, EventArgs e)
         {
             showBill((dataGridView_HDtheoBan.Tag as Table).IdBanAn);
@@ -176,11 +155,8 @@ namespace QuanLyNhaHang
             //chỉ reset Button khi thay đổi trạng thái bàn ăn
             if (banAnThayThe.TrangThai != (dataGridView_HDtheoBan.Tag as Table).TrangThai)
             {
-                sendMessToServer(banAnThayThe.IdSanh.ToString());
-
                 dataGridView_HDtheoBan.Tag = banAnThayThe;//test
                 loadTableWithIdSanh(banAnThayThe.IdSanh);
-
                 testSwitchTable();
             }
         }
@@ -213,13 +189,7 @@ namespace QuanLyNhaHang
 
         }
 
-        /*private void btnDatCho_Click(object sender, EventArgs e)
-        {
-            FrmBookTable f = new FrmBookTable();
-            f.ShowDialog();
-        }*/
-
-        private void Btn_Click(object sender, EventArgs e)
+        public void Btn_Click(object sender, EventArgs e)
         {
             if (testCloseFormAddFood() == 0) return;
 
@@ -261,9 +231,6 @@ namespace QuanLyNhaHang
         {
             TableDAL.lumpTable((cbGopBan1.SelectedItem as Table).IdBanAn, (cbGopBan2.SelectedItem as Table).IdBanAn, e.BanAnGop.IdBanAn);
             showBill((dataGridView_HDtheoBan.Tag as Table).IdBanAn);
-
-            sendMessToServer((cbSanh.SelectedItem as Sanh).IdSanh.ToString());
-
             loadTableWithIdSanh((cbSanh.SelectedItem as Sanh).IdSanh);
         }
 
@@ -282,49 +249,30 @@ namespace QuanLyNhaHang
 
         #region - Methods -
 
-        /// <summary>
-        /// gửi idSanh đến server
-        /// </summary>
-        /// <param name="idSanh"></param>
-        private void sendMessToServer(string idSanh, string huyBan = null)
+        private void loadTableClient()
         {
-            if (truyenTestTrenMay == -1)//nếu kết nối vs server
+            if (IPConnectionDAL.countIPconnect() > 1)   //2 máy trở lên mới làm
             {
-                //gửi idSanh đến server để server reset hết các client khác
-                if (huyBan != null) FrmClient.guiTinDenServer(idSanh + ", cancel table");
-                else FrmClient.guiTinDenServer(idSanh);
+                if (TestLoadTableDAL.getCountTableChange() > 0)
+                {
+                    List<TestLoadTable> list = TestLoadTableDAL.getListIdTableChange();
+                    foreach (TestLoadTable i in list)
+                    {
+                        Table t = TableDAL.getTable(i.Id);
+                        foreach (Control c in flowLayoutPanel_BanAn.Controls)
+                            if (((c as Button).Tag as Table).IdBanAn == i.Id)
+                                if (((c as Button).Tag as Table).TrangThai != t.TrangThai)
+                                {
+                                    loadTableWithIdSanh((cbSanh.SelectedItem as Sanh).IdSanh);
+                                    TestLoadTableDAL.deleteTestTableinSql();
+                                    return;
+                                }
+                    }
+                }
+                else return;
             }
         }
 
-        /// <summary>
-        /// hàm reset bàn ăn cho mọi client, test lại
-        /// </summary>
-        public void resetTableForAllClient()
-        {
-            if (truyenTestTrenMay == -1)//kết nối server mới làm
-                if (FrmClient.truyenTindenFormManage() != "")
-                {
-                    int idSanh;
-                    //nhận tin từ main truyền qua
-                    string nhanTin = FrmClient.truyenTindenFormManage();
-                    if (nhanTin.Contains(","))
-                    {
-                        string[] cut = nhanTin.Split(',');
-                        idSanh = (int)Convert.ToDouble(cut[0]);
-                        
-                        txtBan.Text = "";
-                    }
-                    else idSanh = (int)Convert.ToDouble(nhanTin);
-                    Sanh test = SanhDAL.getSanh(idSanh);
-                    if (test.IdSanh == (cbSanh.SelectedItem as Sanh).IdSanh)
-                    {
-                        loadTableWithIdSanh(test.IdSanh);
-                        if (dataGridView_HDtheoBan.Tag != null)
-                            showBill((dataGridView_HDtheoBan.Tag as Table).IdBanAn);
-                    }
-                    FrmClient.idSanh = "";
-                }
-        }
 
         /// <summary>
         /// list bàn có thể gộp
@@ -429,7 +377,7 @@ namespace QuanLyNhaHang
         /// tạo các bàn theo id sảnh
         /// </summary>
         /// <param name="idSanh"></param>
-        public void loadTableWithIdSanh(int idSanh)
+        private void loadTableWithIdSanh(int idSanh)
         {
             flowLayoutPanel_BanAn.Controls.Clear();
             List<Table> listBanAn = TableDAL.getListTableByIdSanh(idSanh);
@@ -474,12 +422,11 @@ namespace QuanLyNhaHang
             }
             //phải để event ở đây, k để trên khởi tạo danh sách bàn ăn <bug>
             btn.Click += Btn_Click;
-            btn.MouseEnter += Btn_MouseEnter;
             return btn;
         }
 
 
-        /*//chỉ xóa 1 bàn r thêm vào
+        //chỉ xóa 1 bàn r thêm vào
         private void thayTheBanAn(FlowLayoutPanel fl, Control banCanThayDoi, Control banThayDoi)
         {
             int index = fl.Controls.IndexOf(banCanThayDoi);
@@ -490,15 +437,15 @@ namespace QuanLyNhaHang
             fl.Controls.SetChildIndex(banThayDoi, index);
         }
 
-        private void resetButton(BanAn banAnCanThayThe, BanAn banAnThayThe)
+        private void resetButton(Table banAnCanThayThe, Table banAnThayThe)
         {
             Button btnCanThayThe = new Button();
             foreach (Control c in flowLayoutPanel_BanAn.Controls)
-                if (((c as Button).Tag as BanAn).IdBanAn == banAnCanThayThe.IdBanAn)
+                if (((c as Button).Tag as Table).IdBanAn == banAnCanThayThe.IdBanAn)
                 { btnCanThayThe = c as Button; break; }
 
-            thayTheBanAn(flowLayoutPanel_BanAn, btnCanThayThe, khoiTaoBanAn(banAnThayThe));
-        }*/
+            thayTheBanAn(flowLayoutPanel_BanAn, btnCanThayThe, initTable(banAnThayThe));
+        }
 
 
 
@@ -530,6 +477,7 @@ namespace QuanLyNhaHang
         }
 
 
+
         /// <summary>
         /// kiểm tra xem có đóng form add food chưa
         /// </summary>
@@ -547,5 +495,9 @@ namespace QuanLyNhaHang
 
 
         #endregion
+
+
+
+
     }
 }

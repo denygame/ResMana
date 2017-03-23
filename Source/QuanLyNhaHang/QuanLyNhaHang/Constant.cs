@@ -25,5 +25,8 @@ namespace QuanLyNhaHang
         public static string portSqlServerSetUpByMe = ",1433";
         //public static string userNameSqlServer = "sa";
         //public static string passSqlServer = "123456";
+
+        public static string them = "Them";
+        public static string sua = "Sua";
     }
 }

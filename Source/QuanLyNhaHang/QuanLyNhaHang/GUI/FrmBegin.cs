@@ -16,16 +16,13 @@ namespace QuanLyNhaHang
     public partial class FrmBegin : Form
     {
         public static Account tkDangNhap;
-        private bool testClick = false;
 
-        private int truyenTestTrenMay = -1;
-
-
-        public FrmBegin(int truyenTestTrenMay)
+        public FrmBegin()
         {
             InitializeComponent();
 
-            this.truyenTestTrenMay = truyenTestTrenMay;
+            IPConnectionDAL.insertIP(GetIPconnectSql.getIP());
+
         }
 
         #region - Methods -
@@ -58,7 +55,7 @@ namespace QuanLyNhaHang
 
         private void btnHome_Click(object sender, EventArgs e)
         {
-            FrmManage f = new FrmManage(truyenTestTrenMay);
+            FrmManage f = new FrmManage();
             this.Hide();
             f.ShowDialog();
             this.Show();
@@ -93,17 +90,25 @@ namespace QuanLyNhaHang
             }
         }
 
-        private void btnDisconnect_Click(object sender, EventArgs e)
+        private bool testDisconnect()
         {
             try
             {
                 QuanLyNhaHang.Properties.Settings.Default.Reset();
+                return true;
+            }
+            catch { return false; }
+        }
+
+        private void btnDisconnect_Click(object sender, EventArgs e)
+        {
+            if (testDisconnect())
+            {
+                IPConnectionDAL.deleteIP(GetIPconnectSql.getIP());
                 MessageBox.Show("Ngắt kết nối với server thành công! Chương trình sẽ khởi động lại", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                testClick = true;
                 Application.Restart();
             }
-            catch { MessageBox.Show("Có lỗi trong quá trình ngắt kết nối", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error); }
-
+            else MessageBox.Show("Có lỗi trong quá trình ngắt kết nối", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void btnDangNhap_Click(object sender, EventArgs e)
@@ -132,6 +137,10 @@ namespace QuanLyNhaHang
             e.Handled = true;
         }
 
+        private void FrmBegin_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            IPConnectionDAL.deleteIP(GetIPconnectSql.getIP());
+        }
 
         #endregion
 

@@ -9,7 +9,7 @@ namespace QuanLyNhaHang.DTO
 {
     public class Table
     {
-        private int idBanAn, choNgoi, idSanh;
+        private int idBanAn, idSanh;
         private string tenBan, trangThai;
 
 
@@ -20,21 +20,9 @@ namespace QuanLyNhaHang.DTO
             this.IdBanAn = (int)rows["idBanAn"];
             this.TenBan = rows["tenBan"].ToString();
             this.IdSanh = (int)rows["idSanh"];
-            this.ChoNgoi = (int)rows["choNgoi"];
             this.TrangThai = rows["trangThai"].ToString();
         }
-        public int ChoNgoi
-        {
-            get
-            {
-                return choNgoi;
-            }
-
-            set
-            {
-                choNgoi = value;
-            }
-        }
+      
 
         public int IdBanAn
         {

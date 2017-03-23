@@ -17,20 +17,10 @@ namespace QuanLyNhaHang.GUI
 {
     public partial class FrmSqlConnection : Form
     {
-        private string ip;
-        public FrmSqlConnection(string ip)
+        public FrmSqlConnection()
         {
             InitializeComponent();
-            this.ip = ip;
 
-            if (ip == "")
-            {
-                txtTenServer.Text = Environment.MachineName;
-            }
-            else
-            {
-                txtTenServer.Text = ip + Constant.portSqlServerSetUpByMe;
-            }
         }
 
         #region - Events -
@@ -121,10 +111,10 @@ namespace QuanLyNhaHang.GUI
                 conn.Open();
                 QuanLyNhaHang.Properties.Settings.Default.strConnection = connectionSTR;
                 QuanLyNhaHang.Properties.Settings.Default.Save();
+
                 MessageBox.Show("Kết nối thành công, chương trình sẽ tự khởi động lại cho lần chạy đầu", "Xác Nhận", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 //Thread.Sleep(Constant.timeForRestartApp * 1000);
-               
                 Application.Restart();
             }
             catch (Exception)

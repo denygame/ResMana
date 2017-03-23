@@ -23,7 +23,7 @@ namespace QuanLyNhaHang.DAL
         }
         public static DataTable getListTable()
         {
-            DataTable data = DatabaseExecute.sqlQuery("SELECT idBanAn, tenSanh, tenBan, choNgoi, trangThai  FROM dbo.BanAn, dbo.Sanh WHERE BanAn.idSanh = Sanh.idSanh");
+            DataTable data = DatabaseExecute.sqlQuery("SELECT idBanAn, tenSanh, tenBan, trangThai  FROM dbo.BanAn, dbo.Sanh WHERE BanAn.idSanh = Sanh.idSanh");
             return data;
         }
 
