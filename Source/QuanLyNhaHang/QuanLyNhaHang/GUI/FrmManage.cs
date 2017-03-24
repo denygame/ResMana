@@ -31,16 +31,22 @@ namespace QuanLyNhaHang
 
         #region - Events -
 
+        #region - Rê chuột thì kiểm tra LoadTable - 
         private void FrmManage_MouseEnter(object sender, EventArgs e)
         {
-            loadTableClient();
+            loadClient();
         }
 
         private void flowLayoutPanel_BanAn_MouseEnter(object sender, EventArgs e)
         {
-            loadTableClient();
+            loadClient();
         }
 
+        private void Btn_MouseEnter(object sender, EventArgs e)
+        {
+            loadClient();
+        }
+        #endregion
 
         private void FrmManage_Load(object sender, EventArgs e)
         {
@@ -248,10 +254,13 @@ namespace QuanLyNhaHang
         #endregion
 
         #region - Methods -
-
-        private void loadTableClient()
+        /// <summary>
+        /// hàm load tất cả client đăng nhập database khi database change
+        /// </summary>
+        private void loadClient()
         {
-            if (IPConnectionDAL.countIPconnect() > 1)   //2 máy trở lên mới làm
+            //2 máy trở lên mới làm thì > 1
+            if (IPConnectionDAL.countIPconnect() > 0)
             {
                 if (TestLoadTableDAL.getCountTableChange() > 0)
                 {
@@ -264,7 +273,8 @@ namespace QuanLyNhaHang
                                 if (((c as Button).Tag as Table).TrangThai != t.TrangThai)
                                 {
                                     loadTableWithIdSanh((cbSanh.SelectedItem as Sanh).IdSanh);
-                                    TestLoadTableDAL.deleteTestTableinSql();
+                                    if (dataGridView_HDtheoBan.Tag != null)
+                                        showBill((dataGridView_HDtheoBan.Tag as Table).IdBanAn);
                                     return;
                                 }
                     }
@@ -422,11 +432,13 @@ namespace QuanLyNhaHang
             }
             //phải để event ở đây, k để trên khởi tạo danh sách bàn ăn <bug>
             btn.Click += Btn_Click;
+            btn.MouseEnter += Btn_MouseEnter;
             return btn;
         }
 
 
-        //chỉ xóa 1 bàn r thêm vào
+
+        //chỉ xóa 1 bàn r thêm vào <k dùng đến?>
         private void thayTheBanAn(FlowLayoutPanel fl, Control banCanThayDoi, Control banThayDoi)
         {
             int index = fl.Controls.IndexOf(banCanThayDoi);
@@ -492,7 +504,6 @@ namespace QuanLyNhaHang
             }
             return 1;
         }
-
 
         #endregion
 

@@ -45,10 +45,9 @@
             this.checkBoxXacThuc = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
+            this.btnLayServerName = new System.Windows.Forms.Button();
             this.btnXoaDatabase = new System.Windows.Forms.Button();
             this.btnChaySql = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.btnLayServerName = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel6.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -200,6 +199,7 @@
             this.txtTenServer.Size = new System.Drawing.Size(297, 26);
             this.txtTenServer.TabIndex = 3;
             this.txtTenServer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtTenServer.TextChanged += new System.EventHandler(this.txtTenServer_TextChanged);
             // 
             // checkBoxXacThuc
             // 
@@ -219,7 +219,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Location = new System.Drawing.Point(107, 12);
+            this.label1.Location = new System.Drawing.Point(110, 11);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(147, 25);
             this.label1.TabIndex = 0;
@@ -230,16 +230,26 @@
             this.panel7.Controls.Add(this.btnLayServerName);
             this.panel7.Controls.Add(this.btnXoaDatabase);
             this.panel7.Controls.Add(this.btnChaySql);
-            this.panel7.Controls.Add(this.label4);
             this.panel7.Location = new System.Drawing.Point(12, 13);
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(379, 60);
             this.panel7.TabIndex = 2;
             // 
+            // btnLayServerName
+            // 
+            this.btnLayServerName.ForeColor = System.Drawing.Color.Blue;
+            this.btnLayServerName.Location = new System.Drawing.Point(139, 16);
+            this.btnLayServerName.Name = "btnLayServerName";
+            this.btnLayServerName.Size = new System.Drawing.Size(97, 23);
+            this.btnLayServerName.TabIndex = 3;
+            this.btnLayServerName.Text = "Name";
+            this.btnLayServerName.UseVisualStyleBackColor = true;
+            this.btnLayServerName.Click += new System.EventHandler(this.btnLayServerName_Click);
+            // 
             // btnXoaDatabase
             // 
             this.btnXoaDatabase.ForeColor = System.Drawing.Color.Blue;
-            this.btnXoaDatabase.Location = new System.Drawing.Point(144, 21);
+            this.btnXoaDatabase.Location = new System.Drawing.Point(258, 16);
             this.btnXoaDatabase.Name = "btnXoaDatabase";
             this.btnXoaDatabase.Size = new System.Drawing.Size(93, 23);
             this.btnXoaDatabase.TabIndex = 2;
@@ -250,35 +260,13 @@
             // btnChaySql
             // 
             this.btnChaySql.ForeColor = System.Drawing.Color.Blue;
-            this.btnChaySql.Location = new System.Drawing.Point(45, 21);
+            this.btnChaySql.Location = new System.Drawing.Point(22, 16);
             this.btnChaySql.Name = "btnChaySql";
             this.btnChaySql.Size = new System.Drawing.Size(93, 23);
             this.btnChaySql.TabIndex = 1;
             this.btnChaySql.Text = "Execute SQL";
             this.btnChaySql.UseVisualStyleBackColor = true;
             this.btnChaySql.Click += new System.EventHandler(this.btnChaySql_Click);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.Blue;
-            this.label4.Location = new System.Drawing.Point(3, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(40, 20);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Test";
-            // 
-            // btnLayServerName
-            // 
-            this.btnLayServerName.ForeColor = System.Drawing.Color.Blue;
-            this.btnLayServerName.Location = new System.Drawing.Point(243, 21);
-            this.btnLayServerName.Name = "btnLayServerName";
-            this.btnLayServerName.Size = new System.Drawing.Size(93, 23);
-            this.btnLayServerName.TabIndex = 3;
-            this.btnLayServerName.Text = "Server Name";
-            this.btnLayServerName.UseVisualStyleBackColor = true;
-            this.btnLayServerName.Click += new System.EventHandler(this.btnLayServerName_Click);
             // 
             // FrmSqlConnection
             // 
@@ -303,7 +291,6 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel7.ResumeLayout(false);
-            this.panel7.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -327,7 +314,6 @@
         private System.Windows.Forms.Button btnThoat;
         private System.Windows.Forms.TextBox txtTenServer;
         private System.Windows.Forms.Panel panel7;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnChaySql;
         private System.Windows.Forms.Button btnXoaDatabase;
         private System.Windows.Forms.Button btnLayServerName;

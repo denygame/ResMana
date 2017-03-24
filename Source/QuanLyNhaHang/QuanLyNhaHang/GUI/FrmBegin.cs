@@ -50,7 +50,7 @@ namespace QuanLyNhaHang
         #region - Events -
         private void btnThoatChuongTrinh_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Application.Exit();
         }
 
         private void btnHome_Click(object sender, EventArgs e)

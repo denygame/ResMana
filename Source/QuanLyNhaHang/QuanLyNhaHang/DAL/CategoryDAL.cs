@@ -37,5 +37,11 @@ namespace QuanLyNhaHang.DAL
             int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("DELETE FROM dbo.DanhMuc WHERE idMenu = {0}", id));
             return result > 0;
         }
+
+        public static bool updateCategory(int id, string name)
+        {
+            int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("UPDATE dbo.DanhMuc SET tenMenu = N'{0}' WHERE idMenu = {1}", name, id));
+            return result > 0;
+        }
     }
 }

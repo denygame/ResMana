@@ -203,6 +203,7 @@ namespace QuanLyNhaHang.GUI
                 {
                     MessageBox.Show("Thêm danh mục thành công", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.None);
                     loadDataCategory();
+                    loadCbCategoryInFood();
                     setButtonHuyDanhMuc();
                     txtTenDanhMuc.ReadOnly = true;
                 }
@@ -214,6 +215,49 @@ namespace QuanLyNhaHang.GUI
                 }
             }
             else MessageBox.Show("Bạn chưa nhập vào tên Danh Mục", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void updateCategory()
+        {
+            int id = Convert.ToInt32(txtIdDanhMuc.Text);
+            if (CategoryDAL.updateCategory(id, txtTenDanhMuc.Text.ToString()))
+            {
+                MessageBox.Show("Sửa danh mục thành công", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.None);
+                loadDataCategory();
+                loadCbCategoryInFood();
+                loadDataFood();
+                testTenDanhMuc = txtTenDanhMuc.Text;
+                setButtonHuyDanhMuc();
+                txtTenDanhMuc.ReadOnly = true;
+            }
+            else
+            {
+                MessageBox.Show("Có lỗi khi sửa danh mục", "Thông Báo", MessageBoxButtons.OK);
+                txtTenDanhMuc.Text = testTenDanhMuc;
+                txtTenDanhMuc.Focus();
+            }
+
+
+        }
+
+        private void deletCategory()
+        {
+            if (txtTenDanhMuc.Text == "")
+            {
+                MessageBox.Show("Danh mục rỗng, hãy thêm danh mục!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            if (CategoryDAL.deleteCategory(Convert.ToInt32(txtIdDanhMuc.Text)))
+            {
+                MessageBox.Show("Xóa danh mục thành công", "Thông Báo", MessageBoxButtons.OK);
+                loadDataCategory();
+                loadCbCategoryInFood();
+                loadDataFood();
+            }
+            else
+            {
+                MessageBox.Show("Có lỗi khi xóa danh mục", "Thông Báo", MessageBoxButtons.OK);
+            }
         }
 
         private void setButtonHuyDanhMuc()
@@ -271,6 +315,10 @@ namespace QuanLyNhaHang.GUI
             txtUsername.Enabled = true;
         }
 
+
+
+
+
         private void btnHuy_Click(object sender, EventArgs e)
         {
             if ((sender as Button).Name.Contains("DanhMuc"))
@@ -307,6 +355,11 @@ namespace QuanLyNhaHang.GUI
                 case "btnThemDanhMuc":
                     insertCategory();
                     break;
+                case "btnSuaDanhMuc":
+                    updateCategory();
+                    break;
+                case "btnThemThucAn":
+                    break;
             }
         }
 
@@ -338,28 +391,25 @@ namespace QuanLyNhaHang.GUI
 
         private void btnSuaDanhMuc_Click(object sender, EventArgs e)
         {
-            thietKeThemXoa(Constant.sua, "DanhMuc", fl_testDM);
-            panel11.Visible = false;
-            txtIdDanhMuc.Enabled = false;
-        }
 
-        private void btnXoaDanhMuc_Click(object sender, EventArgs e)
-        {
-            if(txtTenDanhMuc.Text == "")
+            if (txtTenDanhMuc.Text == "")
             {
                 MessageBox.Show("Danh mục rỗng, hãy thêm danh mục!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            if (CategoryDAL.deleteCategory(Convert.ToInt32(txtIdDanhMuc.Text)))
-            {
-                MessageBox.Show("Xóa danh mục thành công", "Thông Báo", MessageBoxButtons.OK);
-                loadDataCategory();
-                loadDataFood();
-            }
-            else
-            {
-                MessageBox.Show("Có lỗi khi xóa danh mục", "Thông Báo", MessageBoxButtons.OK);
-            }
+            thietKeThemXoa(Constant.sua, "DanhMuc", fl_testDM);
+            panel11.Visible = false;
+            txtIdDanhMuc.Enabled = false;
+
+            testTenDanhMuc = txtTenDanhMuc.Text;
+            txtTenDanhMuc.ReadOnly = false;
+            txtTenDanhMuc.Text = testTenDanhMuc;
+            txtTenDanhMuc.Focus();
+        }
+
+        private void btnXoaDanhMuc_Click(object sender, EventArgs e)
+        {
+            deletCategory();
         }
 
         private void btnThemThucAn_Click(object sender, EventArgs e)

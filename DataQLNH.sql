@@ -180,7 +180,6 @@ BEGIN
 END
 GO
 
-
 CREATE PROC StoredProcedure_ChuyenBan
 @idBan1 INT, @idBan2 INT
 AS
@@ -283,6 +282,7 @@ BEGIN
 	SELECT @idHoaDon = idHoaDon FROM dbo.HoaDon WHERE idBanAn = @idBanAn AND trangThai = N'Chưa thanh toán'
 
 	DELETE FROM dbo.ChiTietHoaDon WHERE idHoaDon = @idHoaDon
+	DELETE FROM dbo.HoaDon WHERE idHoaDon = @idHoaDon
 END
 GO
 
@@ -292,12 +292,11 @@ CREATE PROC StoredProcedure_DeleteAllFoodInCategory
 AS
 BEGIN
 	SELECT idThucAn INTO idFoodInCategory FROM dbo.ThucAn WHERE idMenu = @idCategory
-	DELETE FROM dbo.ChiTietHoaDon WHERE idCTHD IN (SELECT * FROM	idFoodInCategory)
+	DELETE FROM dbo.ChiTietHoaDon WHERE idThucAn IN (SELECT * FROM idFoodInCategory)
 	DELETE FROM dbo.ThucAn WHERE idMenu = @idCategory
 	DROP TABLE idFoodInCategory
 END
 GO
-
 
 CREATE PROC StoredProcedure_InsertIP
 @ip VARCHAR(100)
@@ -317,6 +316,14 @@ BEGIN
 	DELETE FROM dbo.IPConnectionDatabase  WHERE ip = @ip
 END
 GO
+
+
+
+
+
+
+
+
 
 
 
@@ -374,13 +381,7 @@ AS
 BEGIN
 	DECLARE @idBanAn INT
 	SELECT @idBanAn = idBanAn FROM Inserted
-
 	UPDATE dbo.BanAn SET trangThai = N'Khách' WHERE idBanAn = @idBanAn
-
-	DECLARE @count INT
-	SELECT @count = COUNT(*) FROM dbo.testLoadTableCsharp WHERE id = @idBanAn
-	IF(@count = 0)
-		INSERT dbo.testLoadTableCsharp( id ) VALUES  ( @idBanAn )
 END
 GO
 
@@ -389,15 +390,30 @@ AS
 BEGIN
 	DECLARE @idBanAn INT
 	SELECT @idBanAn = idBanAn FROM Deleted
-
 	UPDATE dbo.BanAn SET trangThai = N'Bàn Trống' WHERE idBanAn = @idBanAn
-
-	DECLARE @count INT
-	SELECT @count = COUNT(*) FROM dbo.testLoadTableCsharp WHERE id = @idBanAn
-	IF(@count = 0)
-		INSERT dbo.testLoadTableCsharp( id ) VALUES  ( @idBanAn )
 END
 GO
+
+
+CREATE TRIGGER TG_update_BanAn ON dbo.BanAn FOR UPDATE
+AS
+BEGIN
+	DECLARE @idBanAn INT
+	SELECT @idBanAn = Inserted.idBanAn FROM Inserted
+	DECLARE @trangThaiMoi NVARCHAR(100)
+	SELECT @trangThaiMoi = Inserted.trangThai FROM Inserted
+	DECLARE @trangThaiCu NVARCHAR(100)
+	SELECT @trangThaiCu = Deleted.trangThai FROM Deleted
+	IF(@trangThaiCu <> @trangThaiMoi)
+	BEGIN
+		DECLARE @count INT
+		SELECT @count = COUNT(*) FROM dbo.testLoadTableCsharp WHERE id = @idBanAn
+		IF(@count = 0)
+			INSERT dbo.testLoadTableCsharp( id ) VALUES  ( @idBanAn )
+	END
+END
+GO
+
 
 CREATE TRIGGER TG_delete_ChiTietHoaDon ON dbo.ChiTietHoaDon FOR DELETE
 AS
@@ -405,13 +421,27 @@ BEGIN
 	DECLARE @idHoaDon INT
 	SELECT @idHoaDon = idHoaDon FROM Deleted
 
+	DECLARE @idBan INT
+	SELECT @idBan = idBanAn  FROM dbo.HoaDon WHERE idHoaDon = @idHoaDon
+
 	DECLARE @demCTHD INT = 0
 	SELECT @demCTHD = COUNT(*) FROM dbo.ChiTietHoaDon WHERE idHoaDon = @idHoaDon
 
 	IF(@demCTHD = 0)
-		DELETE FROM dbo.HoaDon WHERE idHoaDon = @idHoaDon
+		UPDATE dbo.BanAn SET trangThai = N'Bàn Trống' WHERE idBanAn = @idBan
 END
 GO	
+
+CREATE TRIGGER TG_delete_ip ON dbo.IPConnectionDatabase FOR DELETE
+AS
+BEGIN
+	 DECLARE @count INT = 0
+	 SELECT @count = COUNT(*) FROM dbo.IPConnectionDatabase
+	 IF(@count < 2)
+		DELETE FROM dbo.testLoadTableCsharp
+END
+GO
+
 
 
 

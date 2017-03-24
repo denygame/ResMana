@@ -72,7 +72,7 @@ namespace QuanLyNhaHang.GUI
 
         private void btnThoat_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Application.Exit();
         }
 
         private void FrmSqlConnection_Load(object sender, EventArgs e)
@@ -80,6 +80,8 @@ namespace QuanLyNhaHang.GUI
             txtPassWord.Enabled = false;
             txtUserName.Enabled = false;
             checkBoxPass.Enabled = false;
+
+            txtTenServer.Text = Environment.MachineName;
         }
 
         private void btnChaySql_Click(object sender, EventArgs e)
@@ -93,7 +95,7 @@ namespace QuanLyNhaHang.GUI
         {
             if (DatabaseExecute.DropDatabase(txtTenServer.Text) == 1)
                 MessageBox.Show("Xóa Database thành công!", "Thông Báo");
-            else MessageBox.Show("Không thành công, không có Database!", "Thông Báo");
+            else MessageBox.Show("Không thành công!", "Thông Báo");
         }
 
         private void btnLayServerName_Click(object sender, EventArgs e)
@@ -109,9 +111,10 @@ namespace QuanLyNhaHang.GUI
             try
             {
                 conn.Open();
+                conn.Close();
                 QuanLyNhaHang.Properties.Settings.Default.strConnection = connectionSTR;
                 QuanLyNhaHang.Properties.Settings.Default.Save();
-
+                //conn.Close();
                 MessageBox.Show("Kết nối thành công, chương trình sẽ tự khởi động lại cho lần chạy đầu", "Xác Nhận", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 //Thread.Sleep(Constant.timeForRestartApp * 1000);
@@ -123,8 +126,23 @@ namespace QuanLyNhaHang.GUI
             }
         }
 
+
         #endregion
 
-
+        private void txtTenServer_TextChanged(object sender, EventArgs e)
+        {
+            /*if (txtTenServer.Text.Contains(Environment.MachineName))
+            {
+                btnChaySql.Enabled = true;
+                btnXoaDatabase.Enabled = true;
+                btnLayServerName.Enabled = true;
+            }
+            else
+            {
+                btnChaySql.Enabled = false;
+                btnXoaDatabase.Enabled = false;
+                btnLayServerName.Enabled = false;
+            }*/
+        }
     }
 }
