@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace QuanLyNhaHang.DTO
 {
-    public class DanhMuc
+    public class Category
     {
         private int idMenu;
         private string tenMenu;
-        public DanhMuc(DataRow r)
+        public Category(DataRow r)
         {
             this.IdMenu = (int)r["idMenu"];
             this.TenMenu = r["tenMenu"].ToString();

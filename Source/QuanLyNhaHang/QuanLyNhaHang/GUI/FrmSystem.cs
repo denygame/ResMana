@@ -27,7 +27,9 @@ namespace QuanLyNhaHang.GUI
         BindingSource banAnBinding = new BindingSource();
         BindingSource taiKhoanBinding = new BindingSource();
 
-        private string testTenDanhMuc = "";
+        private string testTenDanhMuc;
+        private string testTenThucAn;
+        private decimal testGiaThucAn;
 
         #region Methods
 
@@ -104,7 +106,7 @@ namespace QuanLyNhaHang.GUI
 
             txtIdThucAn.DataBindings.Add(new Binding("Text", thucAnBinding, "IdThucAn", true, DataSourceUpdateMode.Never));
             txtTenThucAn.DataBindings.Add(new Binding("Text", thucAnBinding, "TenThucAn", true, DataSourceUpdateMode.Never));
-            txtGiaTienThucAn.DataBindings.Add(new Binding("Text", thucAnBinding, "GiaTien", true, DataSourceUpdateMode.Never));
+            nUdGiaTienThucAn.DataBindings.Add(new Binding("Value", thucAnBinding, "GiaTien", true, DataSourceUpdateMode.Never));
         }
 
         private void loadCbCategoryInFood()
@@ -176,7 +178,7 @@ namespace QuanLyNhaHang.GUI
             else btnTX.Text = "Sửa";
             btnTX.ForeColor = Color.Blue;
             btnTX.UseVisualStyleBackColor = false;
-
+            this.AcceptButton = btnTX;
             btnTX.Click += btnTX_Click;
             fl.Controls.Add(btnTX);
 
@@ -194,7 +196,6 @@ namespace QuanLyNhaHang.GUI
             fl.Controls.Add(btnHuy);
         }
 
-
         private void insertCategory()
         {
             if (txtTenDanhMuc.Text != "")
@@ -202,6 +203,10 @@ namespace QuanLyNhaHang.GUI
                 if (CategoryDAL.insertCategory(txtTenDanhMuc.Text))
                 {
                     MessageBox.Show("Thêm danh mục thành công", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.None);
+
+                    if (CategoryDAL.countCategory() == 1)
+                        testTenDanhMuc = txtTenDanhMuc.Text;
+
                     loadDataCategory();
                     loadCbCategoryInFood();
                     setButtonHuyDanhMuc();
@@ -236,20 +241,17 @@ namespace QuanLyNhaHang.GUI
                 txtTenDanhMuc.Text = testTenDanhMuc;
                 txtTenDanhMuc.Focus();
             }
-
-
         }
 
-        private void deletCategory()
+        private void deleteCategory()
         {
-            if (txtTenDanhMuc.Text == "")
+            if (txtIdDanhMuc.Text == "")
             {
                 MessageBox.Show("Danh mục rỗng, hãy thêm danh mục!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
             if (CategoryDAL.deleteCategory(Convert.ToInt32(txtIdDanhMuc.Text)))
             {
-                MessageBox.Show("Xóa danh mục thành công", "Thông Báo", MessageBoxButtons.OK);
                 loadDataCategory();
                 loadCbCategoryInFood();
                 loadDataFood();
@@ -259,6 +261,76 @@ namespace QuanLyNhaHang.GUI
                 MessageBox.Show("Có lỗi khi xóa danh mục", "Thông Báo", MessageBoxButtons.OK);
             }
         }
+
+
+        private void insertFood()
+        {
+            if (FoodDAL.insertFood(txtTenThucAn.Text, (cbDanhMucThucAn.SelectedItem as Category).IdMenu, (float)nUdGiaTienThucAn.Value))
+            {
+                MessageBox.Show("Thêm thức ăn thành công", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.None);
+                if (FoodDAL.countFood() == 1)
+                {
+                    testTenThucAn = txtTenThucAn.Text;
+                    testGiaThucAn = nUdGiaTienThucAn.Value;
+                }
+                loadDataFood();
+                setButtonHuyThucAn();
+            }
+            else
+            {
+                MessageBox.Show("Có lỗi khi thêm thức ăn", "Thông Báo", MessageBoxButtons.OK);
+                txtTenThucAn.Text = "";
+                nUdGiaTienThucAn.Value = 0;
+                txtTenThucAn.Focus();
+            }
+        }
+
+        private void updateFood()
+        {
+            int idThucAn = Convert.ToInt32(txtIdThucAn.Text);
+            if (FoodDAL.updateFood(idThucAn, txtTenThucAn.Text, (float)nUdGiaTienThucAn.Value,
+                (cbDanhMucThucAn.SelectedItem as Category).IdMenu))
+            {
+                MessageBox.Show("Sửa thức ăn thành công", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.None);
+                loadDataFood();
+                testTenThucAn = txtTenThucAn.Text;
+                setButtonHuyThucAn();
+            }
+            else
+            {
+                MessageBox.Show("Có lỗi khi sửa thức ăn", "Thông Báo", MessageBoxButtons.OK);
+                txtTenThucAn.Text = testTenThucAn;
+                nUdGiaTienThucAn.Value = testGiaThucAn;
+                txtTenThucAn.Focus();
+            }
+        }
+
+        private void deleteFood()
+        {
+            if (cbDanhMucThucAn.SelectedItem == null)
+            {
+                MessageBox.Show("Danh mục rỗng, hãy thêm danh mục!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (txtIdThucAn.Text == "")
+            {
+                MessageBox.Show("Thức ăn rỗng, hãy thêm thức ăn!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            if (FoodDAL.deleteFood(Convert.ToInt32(txtIdThucAn.Text)))
+            {
+                loadDataFood();
+                loadCbCategoryInFood();
+            }
+            else
+            {
+                MessageBox.Show("Có lỗi khi xóa thức ăn", "Thông Báo", MessageBoxButtons.OK);
+            }
+        }
+
+
+        
+
 
         private void setButtonHuyDanhMuc()
         {
@@ -282,6 +354,11 @@ namespace QuanLyNhaHang.GUI
             panel_tenThucAn.Location = new Point(3, 63);
             panel_DanhMucThucAn.Location = new Point(3, 122);
             panel_GiaThucAn.Location = new Point(3, 181);
+
+            txtTenThucAn.Text = testTenThucAn;
+            nUdGiaTienThucAn.Value = testGiaThucAn;
+            txtTenThucAn.ReadOnly = true;
+            nUdGiaTienThucAn.ReadOnly = true;
         }
 
         private void setButtonHuySanh()
@@ -359,6 +436,10 @@ namespace QuanLyNhaHang.GUI
                     updateCategory();
                     break;
                 case "btnThemThucAn":
+                    insertFood();
+                    break;
+                case "btnSuaThucAn":
+                    updateFood();
                     break;
             }
         }
@@ -391,8 +472,7 @@ namespace QuanLyNhaHang.GUI
 
         private void btnSuaDanhMuc_Click(object sender, EventArgs e)
         {
-
-            if (txtTenDanhMuc.Text == "")
+            if (txtIdDanhMuc.Text == "")
             {
                 MessageBox.Show("Danh mục rỗng, hãy thêm danh mục!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
@@ -409,11 +489,16 @@ namespace QuanLyNhaHang.GUI
 
         private void btnXoaDanhMuc_Click(object sender, EventArgs e)
         {
-            deletCategory();
+            deleteCategory();
         }
 
         private void btnThemThucAn_Click(object sender, EventArgs e)
         {
+            if (cbDanhMucThucAn.SelectedItem == null)
+            {
+                MessageBox.Show("Danh mục rỗng, hãy thêm danh mục!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             panel_idThucan.Visible = false;
             thietKeThemXoa(Constant.them, "ThucAn", fl_testThucAn);
             panel14.Visible = false;
@@ -421,62 +506,46 @@ namespace QuanLyNhaHang.GUI
             panel_tenThucAn.Location = new Point(3, 4);
             panel_DanhMucThucAn.Location = new Point(3, 63);
             panel_GiaThucAn.Location = new Point(3, 122);
-        }
 
-        private void txtIdThucAn_TextChanged(object sender, EventArgs e)
-        {
-            //khi id thức ăn thay đổi thì binding combobox danh mục
-            int idThucAn = Convert.ToInt32(txtIdThucAn.Text);
+            testTenThucAn = txtTenThucAn.Text;
+            testGiaThucAn = nUdGiaTienThucAn.Value;
 
-            Food thucAn = FoodDAL.getFoodById(idThucAn);
-
-            //vì cùng chung 1 list làm datasource nên chọn vị trí dc
-            List<DanhMuc> list = CategoryDAL.getListCategory();
-            int dem = 0;
-            foreach (DanhMuc i in list)
-            {
-                if (i.IdMenu == thucAn.IdMenu)
-                    break;
-                dem++;
-            }
-            cbDanhMucThucAn.SelectedIndex = dem;
-        }
-
-        private void txtIdBanAn_TextChanged(object sender, EventArgs e)
-        {
-            int idBanAn = Convert.ToInt32(txtIdBanAn.Text);
-            Table table = TableDAL.getTable(idBanAn);
-            List<Sanh> list = SanhDAL.getListSanh();
-            int dem = 0;
-            foreach (Sanh s in list)
-            {
-                if (s.IdSanh == table.IdSanh)
-                    break;
-                dem++;
-            }
-            cbTenSanh.SelectedIndex = dem;
-        }
-
-        private void txtUsername_TextChanged(object sender, EventArgs e)
-        {
-            Account acc = AccountDAL.getAccount(txtUsername.Text);
-            switch (acc.LoaiTK)
-            {
-                case 0: txtLoaiTaiKhoan.Text = "Nhân Viên"; break;
-                case 1: txtLoaiTaiKhoan.Text = "Quản Lý"; break;
-            }
+            txtTenThucAn.Text = "";
+            txtTenThucAn.ReadOnly = false;
+            nUdGiaTienThucAn.Value = 0;
+            nUdGiaTienThucAn.ReadOnly = false;
+            txtTenThucAn.Focus();
         }
 
         private void btnSuaThucAn_Click(object sender, EventArgs e)
         {
+            if (cbDanhMucThucAn.SelectedItem == null)
+            {
+                MessageBox.Show("Danh mục rỗng, hãy thêm danh mục!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (txtIdThucAn.Text == "")
+            {
+                MessageBox.Show("Thức ăn rỗng, hãy thêm thức ăn!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
             thietKeThemXoa(Constant.sua, "ThucAn", fl_testThucAn);
             panel14.Visible = false;
             txtIdThucAn.Enabled = false;
+
+            testTenThucAn = txtTenThucAn.Text;
+            testGiaThucAn = nUdGiaTienThucAn.Value;
+
+            txtTenThucAn.Text = "";
+            txtTenThucAn.ReadOnly = false;
+            nUdGiaTienThucAn.Value = 0;
+            nUdGiaTienThucAn.ReadOnly = false;
+            txtTenThucAn.Focus();
         }
 
         private void btnXoaThucAn_Click(object sender, EventArgs e)
         {
-
+            deleteFood();
         }
 
         private void btnThemSanh_Click(object sender, EventArgs e)
@@ -554,7 +623,49 @@ namespace QuanLyNhaHang.GUI
 
         }
 
+        private void txtIdThucAn_TextChanged(object sender, EventArgs e)
+        {
+            //khi id thức ăn thay đổi thì binding combobox danh mục
+            int idThucAn = Convert.ToInt32(txtIdThucAn.Text);
 
+            Food thucAn = FoodDAL.getFoodById(idThucAn);
+
+            //vì cùng chung 1 list làm datasource nên chọn vị trí dc
+            List<Category> list = CategoryDAL.getListCategory();
+            int dem = 0;
+            foreach (Category i in list)
+            {
+                if (i.IdMenu == thucAn.IdMenu)
+                    break;
+                dem++;
+            }
+            cbDanhMucThucAn.SelectedIndex = dem;
+        }
+
+        private void txtIdBanAn_TextChanged(object sender, EventArgs e)
+        {
+            int idBanAn = Convert.ToInt32(txtIdBanAn.Text);
+            Table table = TableDAL.getTable(idBanAn);
+            List<Sanh> list = SanhDAL.getListSanh();
+            int dem = 0;
+            foreach (Sanh s in list)
+            {
+                if (s.IdSanh == table.IdSanh)
+                    break;
+                dem++;
+            }
+            cbTenSanh.SelectedIndex = dem;
+        }
+
+        private void txtUsername_TextChanged(object sender, EventArgs e)
+        {
+            Account acc = AccountDAL.getAccount(txtUsername.Text);
+            switch (acc.LoaiTK)
+            {
+                case 0: txtLoaiTaiKhoan.Text = "Nhân Viên"; break;
+                case 1: txtLoaiTaiKhoan.Text = "Quản Lý"; break;
+            }
+        }
         #endregion
     }
 }

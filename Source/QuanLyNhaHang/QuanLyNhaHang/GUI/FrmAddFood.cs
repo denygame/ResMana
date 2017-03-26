@@ -69,7 +69,7 @@ namespace QuanLyNhaHang.GUI
         {
             int idMenu = 0;
             if ((sender as ComboBox).SelectedItem == null) return;
-            idMenu = ((sender as ComboBox).SelectedItem as DanhMuc).IdMenu;
+            idMenu = ((sender as ComboBox).SelectedItem as Category).IdMenu;
 
             loadCbFoodByIdCategory(idMenu);
         }
@@ -108,11 +108,16 @@ namespace QuanLyNhaHang.GUI
             cbMonAn.DisplayMember = "TenThucAn";
         }
 
-        private void loadCbCategory()
+        public void loadCbCategory()
         {
             cbDanhMuc.DataSource = CategoryDAL.getListCategory();
             cbDanhMuc.DisplayMember = "TenMenu";
         }
         #endregion
+
+        private void FrmAddFood_MouseEnter(object sender, EventArgs e)
+        {
+            loadCbCategory();
+        }
     }
 }

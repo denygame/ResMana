@@ -291,6 +291,7 @@
             this.Name = "FrmAddFood";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Thêm Món";
+            this.MouseEnter += new System.EventHandler(this.FrmAddFood_MouseEnter);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);

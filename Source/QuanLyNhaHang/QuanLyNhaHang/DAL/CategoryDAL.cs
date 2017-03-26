@@ -10,14 +10,14 @@ namespace QuanLyNhaHang.DAL
 {
     public class CategoryDAL
     {
-        public static List<DanhMuc> getListCategory()
+        public static List<Category> getListCategory()
         {
-            List<DanhMuc> list = new List<DanhMuc>();
+            List<Category> list = new List<Category>();
             string query = "select * from DanhMuc";
             DataTable data = DatabaseExecute.sqlQuery(query);
             foreach (DataRow i in data.Rows)
             {
-                DanhMuc d = new DanhMuc(i);
+                Category d = new Category(i);
                 list.Add(d);
             }
             return list;
@@ -42,6 +42,11 @@ namespace QuanLyNhaHang.DAL
         {
             int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("UPDATE dbo.DanhMuc SET tenMenu = N'{0}' WHERE idMenu = {1}", name, id));
             return result > 0;
+        }
+
+        public static int countCategory()
+        {
+            return (int)DatabaseExecute.sqlExecuteScalar("SELECT COUNT(*) FROM DanhMuc");
         }
     }
 }

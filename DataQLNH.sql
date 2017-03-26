@@ -282,7 +282,6 @@ BEGIN
 	SELECT @idHoaDon = idHoaDon FROM dbo.HoaDon WHERE idBanAn = @idBanAn AND trangThai = N'Chưa thanh toán'
 
 	DELETE FROM dbo.ChiTietHoaDon WHERE idHoaDon = @idHoaDon
-	DELETE FROM dbo.HoaDon WHERE idHoaDon = @idHoaDon
 END
 GO
 
@@ -317,7 +316,7 @@ BEGIN
 END
 GO
 
-
+--DBCC CHECKIDENT (@nameTable, RESEED, 0)
 
 
 
@@ -382,6 +381,14 @@ BEGIN
 	DECLARE @idBanAn INT
 	SELECT @idBanAn = idBanAn FROM Inserted
 	UPDATE dbo.BanAn SET trangThai = N'Khách' WHERE idBanAn = @idBanAn
+
+	IF(@idBanAn IS NOT NULL)
+	BEGIN
+		DECLARE @count INT
+		SELECT @count = COUNT(*) FROM dbo.testLoadTableCsharp WHERE id = @idBanAn
+		IF(@count = 0)
+			INSERT dbo.testLoadTableCsharp( id ) VALUES  ( @idBanAn )
+	END	
 END
 GO
 
@@ -391,20 +398,8 @@ BEGIN
 	DECLARE @idBanAn INT
 	SELECT @idBanAn = idBanAn FROM Deleted
 	UPDATE dbo.BanAn SET trangThai = N'Bàn Trống' WHERE idBanAn = @idBanAn
-END
-GO
 
-
-CREATE TRIGGER TG_update_BanAn ON dbo.BanAn FOR UPDATE
-AS
-BEGIN
-	DECLARE @idBanAn INT
-	SELECT @idBanAn = Inserted.idBanAn FROM Inserted
-	DECLARE @trangThaiMoi NVARCHAR(100)
-	SELECT @trangThaiMoi = Inserted.trangThai FROM Inserted
-	DECLARE @trangThaiCu NVARCHAR(100)
-	SELECT @trangThaiCu = Deleted.trangThai FROM Deleted
-	IF(@trangThaiCu <> @trangThaiMoi)
+	IF(@idBanAn IS NOT NULL)
 	BEGIN
 		DECLARE @count INT
 		SELECT @count = COUNT(*) FROM dbo.testLoadTableCsharp WHERE id = @idBanAn
@@ -414,21 +409,17 @@ BEGIN
 END
 GO
 
-
 CREATE TRIGGER TG_delete_ChiTietHoaDon ON dbo.ChiTietHoaDon FOR DELETE
 AS
 BEGIN
 	DECLARE @idHoaDon INT
 	SELECT @idHoaDon = idHoaDon FROM Deleted
 
-	DECLARE @idBan INT
-	SELECT @idBan = idBanAn  FROM dbo.HoaDon WHERE idHoaDon = @idHoaDon
-
 	DECLARE @demCTHD INT = 0
 	SELECT @demCTHD = COUNT(*) FROM dbo.ChiTietHoaDon WHERE idHoaDon = @idHoaDon
 
 	IF(@demCTHD = 0)
-		UPDATE dbo.BanAn SET trangThai = N'Bàn Trống' WHERE idBanAn = @idBan
+		DELETE FROM dbo.HoaDon WHERE idHoaDon = @idHoaDon
 END
 GO	
 
@@ -441,6 +432,7 @@ BEGIN
 		DELETE FROM dbo.testLoadTableCsharp
 END
 GO
+
 
 
 

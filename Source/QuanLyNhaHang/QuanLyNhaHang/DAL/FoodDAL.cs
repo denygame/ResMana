@@ -51,5 +51,33 @@ namespace QuanLyNhaHang.DAL
         {
             DatabaseExecute.sqlQuery("StoredProcedure_DeleteAllFoodInCategory @idCategory", new object[] { idDanhMuc });
         }
+
+
+        public static bool insertFood(string tenThucAn, int idMenu, float giaTien)
+        {
+            if (tenThucAn.Length > 100) return false;
+            int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("INSERT dbo.ThucAn ( tenThucAn, idMenu, giaTien ) VALUES  ( N'{0}', {1} ,  {2} )", tenThucAn, idMenu, giaTien));
+            return result > 0;
+        }
+
+        public static bool deleteFood(int id)
+        {
+            int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("DELETE FROM dbo.ThucAn WHERE idThucAn =  {0}", id));
+            return result > 0;
+        }
+
+        public static bool updateFood(int idThucAn, string ten, float gia, int idMenu)
+        {
+            int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("UPDATE dbo.ThucAn SET tenThucAn = N'{0}', idMenu = {1}, giaTien = {2} WHERE idThucAn = {3}", ten, idMenu, gia, idThucAn));
+            return result > 0;
+        }
+
+        public static int countFood()
+        {
+            return (int)DatabaseExecute.sqlExecuteScalar("SELECT COUNT(*) FROM dbo.ThucAn");
+        }
+
+
+
     }
 }

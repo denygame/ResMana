@@ -82,7 +82,7 @@
             this.panel15 = new System.Windows.Forms.Panel();
             this.fl_testThucAn = new System.Windows.Forms.FlowLayoutPanel();
             this.panel_GiaThucAn = new System.Windows.Forms.Panel();
-            this.txtGiaTienThucAn = new System.Windows.Forms.TextBox();
+            this.nUdGiaTienThucAn = new System.Windows.Forms.NumericUpDown();
             this.label10 = new System.Windows.Forms.Label();
             this.panel_DanhMucThucAn = new System.Windows.Forms.Panel();
             this.cbDanhMucThucAn = new System.Windows.Forms.ComboBox();
@@ -198,6 +198,7 @@
             this.panel14.SuspendLayout();
             this.panel15.SuspendLayout();
             this.panel_GiaThucAn.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nUdGiaTienThucAn)).BeginInit();
             this.panel_DanhMucThucAn.SuspendLayout();
             this.panel_tenThucAn.SuspendLayout();
             this.panel_idThucan.SuspendLayout();
@@ -804,22 +805,27 @@
             // 
             // panel_GiaThucAn
             // 
-            this.panel_GiaThucAn.Controls.Add(this.txtGiaTienThucAn);
+            this.panel_GiaThucAn.Controls.Add(this.nUdGiaTienThucAn);
             this.panel_GiaThucAn.Controls.Add(this.label10);
             this.panel_GiaThucAn.Location = new System.Drawing.Point(3, 181);
             this.panel_GiaThucAn.Name = "panel_GiaThucAn";
             this.panel_GiaThucAn.Size = new System.Drawing.Size(326, 53);
             this.panel_GiaThucAn.TabIndex = 3;
             // 
-            // txtGiaTienThucAn
+            // nUdGiaTienThucAn
             // 
-            this.txtGiaTienThucAn.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtGiaTienThucAn.Location = new System.Drawing.Point(116, 13);
-            this.txtGiaTienThucAn.Name = "txtGiaTienThucAn";
-            this.txtGiaTienThucAn.ReadOnly = true;
-            this.txtGiaTienThucAn.Size = new System.Drawing.Size(205, 27);
-            this.txtGiaTienThucAn.TabIndex = 1;
-            this.txtGiaTienThucAn.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nUdGiaTienThucAn.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nUdGiaTienThucAn.Location = new System.Drawing.Point(116, 13);
+            this.nUdGiaTienThucAn.Maximum = new decimal(new int[] {
+            -559939585,
+            902409669,
+            54,
+            0});
+            this.nUdGiaTienThucAn.Name = "nUdGiaTienThucAn";
+            this.nUdGiaTienThucAn.ReadOnly = true;
+            this.nUdGiaTienThucAn.Size = new System.Drawing.Size(205, 27);
+            this.nUdGiaTienThucAn.TabIndex = 1;
+            this.nUdGiaTienThucAn.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label10
             // 
@@ -1793,6 +1799,7 @@
             this.panel15.ResumeLayout(false);
             this.panel_GiaThucAn.ResumeLayout(false);
             this.panel_GiaThucAn.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nUdGiaTienThucAn)).EndInit();
             this.panel_DanhMucThucAn.ResumeLayout(false);
             this.panel_DanhMucThucAn.PerformLayout();
             this.panel_tenThucAn.ResumeLayout(false);
@@ -1909,7 +1916,6 @@
         private System.Windows.Forms.Panel panel_DanhMucThucAn;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Panel panel_GiaThucAn;
-        private System.Windows.Forms.TextBox txtGiaTienThucAn;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TabPage tabSanh;
         private System.Windows.Forms.Panel panel21;
@@ -1997,5 +2003,6 @@
         private System.Windows.Forms.ComboBox cbDanhMucThucAn;
         private System.Windows.Forms.Button btnTrangDauBill;
         private System.Windows.Forms.Button btnTrangCuoiBill;
+        private System.Windows.Forms.NumericUpDown nUdGiaTienThucAn;
     }
 }
