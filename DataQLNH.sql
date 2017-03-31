@@ -34,6 +34,8 @@ CREATE TABLE Sanh
 (
 	idSanh INT IDENTITY PRIMARY KEY,
 	tenSanh NVARCHAR(100) DEFAULT N'Chưa đặt tên sảnh',
+
+	checkDelete INT DEFAULT 0, -- xóa thì sửa thành 1
 )
 
 CREATE TABLE BanAn
@@ -44,6 +46,8 @@ CREATE TABLE BanAn
 	
 	trangThai NVARCHAR(100) DEFAULT N'Bàn Trống', -- Bàn Trống || Khách || Bàn Đặt Chỗ
 
+	checkDelete INT DEFAULT 0, -- xóa thì sửa thành 1
+
 	FOREIGN KEY (idSanh) REFERENCES dbo.Sanh(idSanh)
 )
 
@@ -51,6 +55,8 @@ CREATE TABLE DanhMuc
 (
 	idMenu INT IDENTITY PRIMARY KEY,
 	tenMenu NVARCHAR(100) DEFAULT N'Chưa đặt tên danh mục',
+
+	checkDelete INT DEFAULT 0, -- xóa thì sửa thành 1, vì xóa luôn sẽ ảnh hưởng nhiều table
 )
 
 CREATE TABLE ThucAn
@@ -59,6 +65,8 @@ CREATE TABLE ThucAn
 	tenThucAn NVARCHAR(100) NOT NULL,
 	idMenu INT NOT NULL,
 	giaTien FLOAT NOT NULL,
+
+	checkDelete INT DEFAULT 0, -- xóa thì sửa thành 1
 
 	FOREIGN KEY (idMenu) REFERENCES dbo.DanhMuc(idMenu)
 )
@@ -285,17 +293,29 @@ BEGIN
 END
 GO
 
--- xóa danh mục thì xóa hết food
-CREATE PROC StoredProcedure_DeleteAllFoodInCategory 
+CREATE PROC StoredProcedure_DeleteCategory
 @idCategory INT
 AS
 BEGIN
 	SELECT idThucAn INTO idFoodInCategory FROM dbo.ThucAn WHERE idMenu = @idCategory
-	DELETE FROM dbo.ChiTietHoaDon WHERE idThucAn IN (SELECT * FROM idFoodInCategory)
-	DELETE FROM dbo.ThucAn WHERE idMenu = @idCategory
+	UPDATE dbo.ThucAn SET checkDelete = 1 WHERE idThucAn IN (SELECT * FROM idFoodInCategory)
+	UPDATE dbo.DanhMuc SET checkDelete = 1 WHERE idMenu = @idCategory
 	DROP TABLE idFoodInCategory
 END
 GO
+
+CREATE PROC StoredProcedure_DeleteSanh
+@idSanh INT
+AS
+BEGIN
+	SELECT idBanAn INTO idTableInSanh FROM dbo.BanAn WHERE idSanh = @idSanh
+	UPDATE dbo.BanAn SET checkDelete = 1 WHERE idBanAn IN (SELECT * FROM idTableInSanh)
+	UPDATE dbo.Sanh SET checkDelete = 1 WHERE idSanh = @idSanh
+	DROP TABLE idTableInSanh
+END
+GO
+
+
 
 CREATE PROC StoredProcedure_InsertIP
 @ip VARCHAR(100)
@@ -317,7 +337,6 @@ END
 GO
 
 --DBCC CHECKIDENT (@nameTable, RESEED, 0)
-
 
 
 

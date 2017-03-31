@@ -13,7 +13,7 @@ namespace QuanLyNhaHang.DAL
         public static List<Sanh> getListSanh()
         {
             List<Sanh> list = new List<Sanh>();
-            DataTable data = DatabaseExecute.sqlQuery("SELECT * FROM Sanh");
+            DataTable data = DatabaseExecute.sqlQuery("SELECT * FROM Sanh WHERE checkDelete = 0");
             foreach(DataRow i in data.Rows)
             {
                 Sanh test = new Sanh(i);
@@ -22,6 +22,7 @@ namespace QuanLyNhaHang.DAL
             return list;
         }
 
+        //chưa dùng
         public static Sanh getSanh(int idSanh)
         {
             Sanh test = new Sanh();
@@ -31,6 +32,30 @@ namespace QuanLyNhaHang.DAL
                 test = new Sanh(i);
             }
             return test;
+        }
+
+        public static bool insertSanh(string tenSanh)
+        {
+            if (tenSanh.Length > 100) return false;
+            int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("INSERT dbo.Sanh ( tenSanh ) VALUES  ( N'{0}')", tenSanh));
+            return result > 0;
+        }
+
+        public static bool deleteSanh(int id)
+        {
+            int result = DatabaseExecute.sqlExecuteNonQuery("StoredProcedure_DeleteSanh @idSanh", new object[] { id });
+            return result > 0;
+        }
+
+        public static bool updateSanh(int id, string name)
+        {
+            int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("UPDATE dbo.Sanh SET tenSanh = N'{0}' WHERE idSanh = {1}", name, id));
+            return result > 0;
+        }
+
+        public static int countSanh()
+        {
+            return (int)DatabaseExecute.sqlExecuteScalar("SELECT COUNT(*) FROM dbo.Sanh");
         }
     }
 }

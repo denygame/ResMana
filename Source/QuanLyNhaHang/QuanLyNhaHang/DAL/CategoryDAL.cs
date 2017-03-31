@@ -13,7 +13,7 @@ namespace QuanLyNhaHang.DAL
         public static List<Category> getListCategory()
         {
             List<Category> list = new List<Category>();
-            string query = "select * from DanhMuc";
+            string query = "SELECT * FROM dbo.DanhMuc WHERE checkDelete = 0";
             DataTable data = DatabaseExecute.sqlQuery(query);
             foreach (DataRow i in data.Rows)
             {
@@ -30,11 +30,9 @@ namespace QuanLyNhaHang.DAL
             return result > 0;
         }
 
-        //xóa danh mục phải xóa hết thức ăn trong danh mục đó
         public static bool deleteCategory(int id)
         {
-            FoodDAL.deleteFoodInCategory(id);
-            int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("DELETE FROM dbo.DanhMuc WHERE idMenu = {0}", id));
+            int result = DatabaseExecute.sqlExecuteNonQuery("StoredProcedure_DeleteCategory @idCategory",new object[] {id});
             return result > 0;
         }
 

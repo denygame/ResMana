@@ -30,6 +30,8 @@ namespace QuanLyNhaHang.GUI
         private string testTenDanhMuc;
         private string testTenThucAn;
         private decimal testGiaThucAn;
+        private string testTenSanh;
+        private string testTenBanAn;
 
         #region Methods
 
@@ -329,7 +331,151 @@ namespace QuanLyNhaHang.GUI
         }
 
 
-        
+        private void insertSanh()
+        {
+            if (txtTenSanh.Text != "")
+            {
+                if (SanhDAL.insertSanh(txtTenSanh.Text))
+                {
+                    MessageBox.Show("Thêm sảnh thành công", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.None);
+
+                    if (SanhDAL.countSanh() == 1)
+                        testTenSanh = txtTenSanh.Text;
+
+                    loadDataSanh();
+                    loadCbTenSanh();
+                    setButtonHuySanh();
+                    txtTenSanh.ReadOnly = true;
+                }
+                else
+                {
+                    MessageBox.Show("Có lỗi khi thêm sảnh", "Thông Báo", MessageBoxButtons.OK);
+                    txtTenSanh.Text = "";
+                    txtTenSanh.Focus();
+                }
+            }
+            else MessageBox.Show("Bạn chưa nhập vào tên Danh Mục", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void updateSanh()
+        {
+            int id = Convert.ToInt32(txtIdSanh.Text);
+            if (SanhDAL.updateSanh(id, txtTenSanh.Text.ToString()))
+            {
+                MessageBox.Show("Sửa sảnh thành công", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.None);
+                loadDataSanh();
+                loadCbTenSanh();
+                loadDataTable();
+                testTenSanh = txtTenSanh.Text;
+                setButtonHuySanh();
+                txtTenSanh.ReadOnly = true;
+            }
+            else
+            {
+                MessageBox.Show("Có lỗi khi sửa sảnh", "Thông Báo", MessageBoxButtons.OK);
+                txtTenSanh.Text = testTenSanh;
+                txtTenSanh.Focus();
+            }
+        }
+
+        private void deleteSanh()
+        {
+            if (txtIdSanh.Text == "")
+            {
+                MessageBox.Show("Sảnh rỗng!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            if (SanhDAL.deleteSanh(Convert.ToInt32(txtIdSanh.Text)))
+            {
+                loadDataSanh();
+                loadCbTenSanh();
+                loadDataTable();
+            }
+            else
+            {
+                MessageBox.Show("Có lỗi khi xóa sảnh", "Thông Báo", MessageBoxButtons.OK);
+            }
+        }
+
+
+        private void insertTable()
+        {
+            if (TableDAL.insertTable())
+            {
+                MessageBox.Show("Thêm bàn ăn thành công", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.None);
+                if (TableDAL.countTable() == 1)
+                {
+                    testTenBanAn = txtTenBan.Text;
+                    //testGiaThucAn = nUdGiaTienThucAn.Value;
+                }
+                loadDataTable();
+                setButtonHuyBanAn();
+            }
+            else
+            {
+                MessageBox.Show("Có lỗi khi thêm bàn ăn", "Thông Báo", MessageBoxButtons.OK);
+                txtTenBan.Text = "";
+               // nUdGiaTienThucAn.Value = 0;
+                txtTenBan.Focus();
+            }
+        }
+
+        private void updateTable()
+        {
+            int idThucAn = Convert.ToInt32(txtIdBanAn.Text);
+            if (TableDAL.updateTable())
+            {
+                MessageBox.Show("Sửa bàn ăn thành công", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.None);
+                loadDataTable();
+                testTenBanAn = txtTenBan.Text;
+                setButtonHuyBanAn();
+            }
+            else
+            {
+                MessageBox.Show("Có lỗi khi sửa bàn ăn", "Thông Báo", MessageBoxButtons.OK);
+                txtTenBan.Text = testTenBanAn;
+                //nUdGiaTienThucAn.Value = testGiaThucAn;
+                txtTenBan.Focus();
+            }
+        }
+
+        private void deleteTable()
+        {
+            if (cbTenSanh.SelectedItem == null)
+            {
+                MessageBox.Show("Sảnh rỗng, hãy thêm sảnh!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (txtIdBanAn.Text == "")
+            {
+                MessageBox.Show("Không có bàn ăn!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            if (TableDAL.deleteTable(Convert.ToInt32(txtIdBanAn.Text)))
+            {
+                loadDataTable();
+                //loadCbCategoryInTable();
+            }
+            else
+            {
+                MessageBox.Show("Có lỗi khi xóa bàn ăn", "Thông Báo", MessageBoxButtons.OK);
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         private void setButtonHuyDanhMuc()
@@ -440,6 +586,12 @@ namespace QuanLyNhaHang.GUI
                     break;
                 case "btnSuaThucAn":
                     updateFood();
+                    break;
+                case "btnThemSanh":
+                    insertSanh();
+                    break;
+                case "btnSuaSanh":
+                    updateSanh();
                     break;
             }
         }
@@ -555,18 +707,34 @@ namespace QuanLyNhaHang.GUI
             panel23.Visible = false;
 
             panel_tenSanh.Location = new Point(3, 4);
+
+            testTenSanh = txtTenSanh.Text;
+            txtTenSanh.Text = "";
+            txtTenSanh.ReadOnly = false;
+            txtTenSanh.Focus();
         }
 
         private void btnSuaSanh_Click(object sender, EventArgs e)
         {
+            if (txtIdSanh.Text == "")
+            {
+                MessageBox.Show("Sảnh rỗng!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
             thietKeThemXoa(Constant.sua, "Sanh", fl_Sanh);
             panel23.Visible = false;
             txtIdSanh.Enabled = false;
+
+            testTenSanh = txtTenSanh.Text;
+            txtTenSanh.Text = "";
+            txtTenSanh.ReadOnly = false;
+            txtTenSanh.Focus();
         }
 
         private void btnXoaSanh_Click(object sender, EventArgs e)
         {
-
+            deleteSanh();
         }
 
         private void btnThemBan_Click(object sender, EventArgs e)
@@ -667,5 +835,7 @@ namespace QuanLyNhaHang.GUI
             }
         }
         #endregion
+
+        
     }
 }

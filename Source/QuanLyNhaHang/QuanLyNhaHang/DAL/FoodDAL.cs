@@ -12,7 +12,7 @@ namespace QuanLyNhaHang.DAL
     {
         public static DataTable getListFood()
         {
-            string query = "SELECT idThucAn, tenThucAn, tenMenu, giaTien FROM dbo.ThucAn, dbo.DanhMuc WHERE DanhMuc.idMenu = ThucAn.idMenu";
+            string query = "SELECT idThucAn, tenThucAn, tenMenu, giaTien FROM dbo.ThucAn, dbo.DanhMuc WHERE DanhMuc.idMenu = ThucAn.idMenu AND ThucAn.checkDelete = 0";
             return DatabaseExecute.sqlQuery(query);
         }
 
@@ -21,14 +21,14 @@ namespace QuanLyNhaHang.DAL
             Food traVe = new Food();
             string query = "Select * from ThucAn where idThucAn = " + idThucAn;
             DataTable data = DatabaseExecute.sqlQuery(query);
-            foreach(DataRow r in data.Rows)
+            foreach (DataRow r in data.Rows)
             {
                 traVe = new Food(r);
             }
             return traVe;
         }
 
-        
+
 
         /// <summary>
         /// lấy danh sách thức ăn theo id danh mục
@@ -38,18 +38,13 @@ namespace QuanLyNhaHang.DAL
         public static List<Food> getListFoodByIdCategory(int idMenu)
         {
             List<Food> list = new List<Food>();
-            DataTable data = DatabaseExecute.sqlQuery("select * from ThucAn where idMenu = " + idMenu);
+            DataTable data = DatabaseExecute.sqlQuery(string.Format("select * from dbo.ThucAn where idMenu = {0} and checkDelete = 0",idMenu ));
             foreach(DataRow i in data.Rows)
             {
                 Food test = new Food(i);
                 list.Add(test);
             }
             return list;
-        }
-
-        public static void deleteFoodInCategory(int idDanhMuc)
-        {
-            DatabaseExecute.sqlQuery("StoredProcedure_DeleteAllFoodInCategory @idCategory", new object[] { idDanhMuc });
         }
 
 
@@ -62,7 +57,7 @@ namespace QuanLyNhaHang.DAL
 
         public static bool deleteFood(int id)
         {
-            int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("DELETE FROM dbo.ThucAn WHERE idThucAn =  {0}", id));
+            int result = DatabaseExecute.sqlExecuteNonQuery("UPDATE dbo.ThucAn SET checkDelete = 1 WHERE idThucAn = " + id);
             return result > 0;
         }
 

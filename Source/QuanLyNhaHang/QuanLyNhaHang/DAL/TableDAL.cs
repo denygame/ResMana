@@ -13,7 +13,7 @@ namespace QuanLyNhaHang.DAL
         public static List<Table> getListTableByIdSanh(int idSanh)
         {
             List<Table> list = new List<Table>();
-            DataTable data = DatabaseExecute.sqlQuery("SELECT * FROM BanAn WHERE idSanh = " + idSanh);
+            DataTable data = DatabaseExecute.sqlQuery("SELECT * FROM BanAn WHERE idSanh = " + idSanh + " AND checkDelete = 0");
             foreach (DataRow i in data.Rows)
             {
                 Table test = new Table(i);
@@ -21,9 +21,10 @@ namespace QuanLyNhaHang.DAL
             }
             return list;
         }
+
         public static DataTable getListTable()
         {
-            DataTable data = DatabaseExecute.sqlQuery("SELECT idBanAn, tenSanh, tenBan, trangThai  FROM dbo.BanAn, dbo.Sanh WHERE BanAn.idSanh = Sanh.idSanh");
+            DataTable data = DatabaseExecute.sqlQuery("SELECT idBanAn, tenSanh, tenBan, trangThai  FROM dbo.BanAn, dbo.Sanh WHERE BanAn.idSanh = Sanh.idSanh AND BanAn.checkDelete = 0");
             return data;
         }
 
@@ -65,5 +66,34 @@ namespace QuanLyNhaHang.DAL
             }
             catch { }
         }
+
+
+
+        public static bool insertTable()
+        {
+            /*if (tenThucAn.Length > 100) return false;
+            int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("INSERT dbo.ThucAn ( tenThucAn, idMenu, giaTien ) VALUES  ( N'{0}', {1} ,  {2} )", tenThucAn, idMenu, giaTien));
+            return result > 0;*/
+            return true;
+        }
+
+        public static bool deleteTable(int id)
+        {
+            int result = DatabaseExecute.sqlExecuteNonQuery("UPDATE dbo.ThucAn SET checkDelete = 1 WHERE idThucAn = " + id);
+            return result > 0;
+        }
+
+        public static bool updateTable()
+        {
+            /*int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("UPDATE dbo.ThucAn SET tenThucAn = N'{0}', idMenu = {1}, giaTien = {2} WHERE idThucAn = {3}", ten, idMenu, gia, idThucAn));
+            return result > 0;*/
+            return true;
+        }
+
+        public static int countTable()
+        {
+            return (int)DatabaseExecute.sqlExecuteScalar("SELECT COUNT(*) FROM dbo.BanAn");
+        }
+
     }
 }
