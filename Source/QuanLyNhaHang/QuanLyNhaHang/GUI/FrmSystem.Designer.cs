@@ -151,7 +151,7 @@
             this.fl_TaiKhoan = new System.Windows.Forms.FlowLayoutPanel();
             this.btnRestPass = new System.Windows.Forms.Button();
             this.panel_LoaiTK = new System.Windows.Forms.Panel();
-            this.txtLoaiTaiKhoan = new System.Windows.Forms.TextBox();
+            this.cbLoaiTK = new System.Windows.Forms.ComboBox();
             this.label18 = new System.Windows.Forms.Label();
             this.panel_TenTaiKhoan = new System.Windows.Forms.Panel();
             this.txtIdNhanVien = new System.Windows.Forms.TextBox();
@@ -173,6 +173,7 @@
             this.btnSuaNhanVien = new System.Windows.Forms.Button();
             this.btnXemNhanVien = new System.Windows.Forms.Button();
             this.panel47 = new System.Windows.Forms.Panel();
+            this.dataGridView_NhanVien = new System.Windows.Forms.DataGridView();
             this.tabControl1.SuspendLayout();
             this.tabhHoaDon.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -235,6 +236,8 @@
             this.panel45.SuspendLayout();
             this.tabNhanVien.SuspendLayout();
             this.panel48.SuspendLayout();
+            this.panel47.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_NhanVien)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -1180,6 +1183,7 @@
             this.dataGridView_BanAn.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_BanAn.Location = new System.Drawing.Point(3, 1);
             this.dataGridView_BanAn.Name = "dataGridView_BanAn";
+            this.dataGridView_BanAn.ReadOnly = true;
             this.dataGridView_BanAn.Size = new System.Drawing.Size(470, 446);
             this.dataGridView_BanAn.TabIndex = 0;
             // 
@@ -1312,7 +1316,7 @@
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label17.ForeColor = System.Drawing.Color.Blue;
-            this.label17.Location = new System.Drawing.Point(1, 20);
+            this.label17.Location = new System.Drawing.Point(-4, 20);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(88, 20);
             this.label17.TabIndex = 3;
@@ -1517,22 +1521,22 @@
             // 
             // panel_LoaiTK
             // 
-            this.panel_LoaiTK.Controls.Add(this.txtLoaiTaiKhoan);
+            this.panel_LoaiTK.Controls.Add(this.cbLoaiTK);
             this.panel_LoaiTK.Controls.Add(this.label18);
             this.panel_LoaiTK.Location = new System.Drawing.Point(3, 122);
             this.panel_LoaiTK.Name = "panel_LoaiTK";
             this.panel_LoaiTK.Size = new System.Drawing.Size(326, 53);
             this.panel_LoaiTK.TabIndex = 3;
             // 
-            // txtLoaiTaiKhoan
+            // cbLoaiTK
             // 
-            this.txtLoaiTaiKhoan.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLoaiTaiKhoan.Location = new System.Drawing.Point(116, 13);
-            this.txtLoaiTaiKhoan.Name = "txtLoaiTaiKhoan";
-            this.txtLoaiTaiKhoan.ReadOnly = true;
-            this.txtLoaiTaiKhoan.Size = new System.Drawing.Size(205, 27);
-            this.txtLoaiTaiKhoan.TabIndex = 1;
-            this.txtLoaiTaiKhoan.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.cbLoaiTK.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbLoaiTK.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbLoaiTK.FormattingEnabled = true;
+            this.cbLoaiTK.Location = new System.Drawing.Point(116, 12);
+            this.cbLoaiTK.Name = "cbLoaiTK";
+            this.cbLoaiTK.Size = new System.Drawing.Size(205, 28);
+            this.cbLoaiTK.TabIndex = 2;
             // 
             // label18
             // 
@@ -1748,10 +1752,23 @@
             // 
             // panel47
             // 
+            this.panel47.Controls.Add(this.dataGridView_NhanVien);
             this.panel47.Location = new System.Drawing.Point(0, 0);
             this.panel47.Name = "panel47";
             this.panel47.Size = new System.Drawing.Size(829, 392);
             this.panel47.TabIndex = 0;
+            // 
+            // dataGridView_NhanVien
+            // 
+            this.dataGridView_NhanVien.AllowUserToAddRows = false;
+            this.dataGridView_NhanVien.AllowUserToDeleteRows = false;
+            this.dataGridView_NhanVien.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView_NhanVien.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_NhanVien.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView_NhanVien.Name = "dataGridView_NhanVien";
+            this.dataGridView_NhanVien.ReadOnly = true;
+            this.dataGridView_NhanVien.Size = new System.Drawing.Size(829, 392);
+            this.dataGridView_NhanVien.TabIndex = 0;
             // 
             // FrmSystem
             // 
@@ -1853,6 +1870,8 @@
             this.tabNhanVien.ResumeLayout(false);
             this.panel48.ResumeLayout(false);
             this.panel48.PerformLayout();
+            this.panel47.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_NhanVien)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1968,7 +1987,6 @@
         private System.Windows.Forms.Button btnSuaTaiKhoan;
         private System.Windows.Forms.Panel panel40;
         private System.Windows.Forms.Panel panel_LoaiTK;
-        private System.Windows.Forms.TextBox txtLoaiTaiKhoan;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Panel panel_TenTaiKhoan;
         private System.Windows.Forms.TextBox txtIdNhanVien;
@@ -2004,5 +2022,7 @@
         private System.Windows.Forms.Button btnTrangDauBill;
         private System.Windows.Forms.Button btnTrangCuoiBill;
         private System.Windows.Forms.NumericUpDown nUdGiaTienThucAn;
+        private System.Windows.Forms.DataGridView dataGridView_NhanVien;
+        private System.Windows.Forms.ComboBox cbLoaiTK;
     }
 }

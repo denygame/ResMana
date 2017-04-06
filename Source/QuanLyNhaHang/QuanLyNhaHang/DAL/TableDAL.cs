@@ -69,30 +69,28 @@ namespace QuanLyNhaHang.DAL
 
 
 
-        public static bool insertTable()
+        public static bool insertTable(string tenBan, int idSanh, string trangThai)
         {
-            /*if (tenThucAn.Length > 100) return false;
-            int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("INSERT dbo.ThucAn ( tenThucAn, idMenu, giaTien ) VALUES  ( N'{0}', {1} ,  {2} )", tenThucAn, idMenu, giaTien));
-            return result > 0;*/
-            return true;
+            if (tenBan.Length > 100) return false;
+            int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("INSERT dbo.BanAn(tenBan, idSanh, trangThai) VALUES(N'{0}', {1}, N'{2}')",tenBan,idSanh, trangThai));
+            return result > 0;
         }
 
         public static bool deleteTable(int id)
         {
-            int result = DatabaseExecute.sqlExecuteNonQuery("UPDATE dbo.ThucAn SET checkDelete = 1 WHERE idThucAn = " + id);
+            int result = DatabaseExecute.sqlExecuteNonQuery("UPDATE dbo.BanAn SET checkDelete = 1 WHERE idBanAn = " + id);
             return result > 0;
         }
 
-        public static bool updateTable()
+        public static bool updateTable(int idBan, int idSanh, string tenBan)
         {
-            /*int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("UPDATE dbo.ThucAn SET tenThucAn = N'{0}', idMenu = {1}, giaTien = {2} WHERE idThucAn = {3}", ten, idMenu, gia, idThucAn));
-            return result > 0;*/
-            return true;
+            int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("UPDATE dbo.BanAn SET tenBan = N'{0}', idSanh = {1} WHERE idBanAn = {2}",tenBan,idSanh, idBan));
+            return result > 0;
         }
 
         public static int countTable()
         {
-            return (int)DatabaseExecute.sqlExecuteScalar("SELECT COUNT(*) FROM dbo.BanAn");
+            return (int)DatabaseExecute.sqlExecuteScalar("SELECT COUNT(*) FROM dbo.BanAn WHERE checkDelete = 0");
         }
 
     }

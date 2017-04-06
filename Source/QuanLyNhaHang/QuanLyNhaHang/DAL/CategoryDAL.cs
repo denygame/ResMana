@@ -44,7 +44,7 @@ namespace QuanLyNhaHang.DAL
 
         public static int countCategory()
         {
-            return (int)DatabaseExecute.sqlExecuteScalar("SELECT COUNT(*) FROM DanhMuc");
+            return (int)DatabaseExecute.sqlExecuteScalar("SELECT COUNT(*) FROM DanhMuc WHERE checkDelete = 0");
         }
     }
 }

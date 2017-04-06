@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAL\IPConnectionDAL.cs" />
+    <Compile Include="DAL\StaffDAL.cs" />
     <Compile Include="DAL\TableDAL.cs" />
     <Compile Include="DAL\BillInfoDAL.cs" />
     <Compile Include="DAL\CategoryDAL.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="DTO\BillInfo.cs" />
     <Compile Include="DTO\Bill.cs" />
     <Compile Include="DTO\IPConnection.cs" />
+    <Compile Include="DTO\Staff.cs" />
     <Compile Include="DTO\TestLoadTable.cs" />
     <Compile Include="EventTruyenDuLieu.cs" />
     <Compile Include="DAL\HoaDonTheoBanDAL.cs" />

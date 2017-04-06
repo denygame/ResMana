@@ -32,8 +32,20 @@ namespace QuanLyNhaHang.DAL
 
         public static DataTable getListAccount()
         {
-            DataTable data = DatabaseExecute.sqlQuery("SELECT userName, idNhanVien, loaiTK from TaiKhoan");
+            DataTable data = DatabaseExecute.sqlQuery("SELECT userName, idNhanVien, loaiTK from dbo.TaiKhoan WHERE checkDelete = 0");
             return data;
+        }
+
+        public static bool deleteAccount(string userName)
+        {
+            int result = DatabaseExecute.sqlExecuteNonQuery("UPDATE dbo.TaiKhoan SET checkDelete = 1 WHERE userName = N'" + userName + "'");
+            return result > 0;
+        }
+
+        public static bool updateAccount(string userName, int loaiTK)
+        {
+            int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("UPDATE dbo.TaiKhoan SET loaiTK = {0} WHERE userName = N'{1}'", loaiTK, userName));
+            return result > 0;
         }
     }
 }

@@ -11,13 +11,15 @@ CREATE TABLE NhanVien
 (
 	idNhanVien INT IDENTITY PRIMARY KEY,
 	tenNhanVien NVARCHAR(100) NOT NULL,
-	ngaySinh DATETIME NOT NULL,
+	ngaySinh DATE NOT NULL,
 	gioiTinh NVARCHAR(3) NOT NULL,
 	chucVu NVARCHAR(100) NOT NULL, 
 	queQuan NVARCHAR(100),
 	email VARCHAR(100),
 	diaChi NVARCHAR(100),
 	tel INT NOT	NULL,
+
+	checkDelete INT DEFAULT 0,
 )
 
 CREATE TABLE TaiKhoan
@@ -26,6 +28,9 @@ CREATE TABLE TaiKhoan
 	pass NVARCHAR(1000) NOT NULL,
 	idNhanVien INT NOT NULL,
 	loaiTK INT NOT NULL DEFAULT 1, -- 0: Admin || 1: Nhân Viên || 2: Quản Lý
+
+	checkDelete INT DEFAULT 0,
+	checkLogin INT DEFAULT 0, -- 0:chưa login, 1:login 
 
 	FOREIGN KEY (idNhanVien) REFERENCES dbo.NhanVien(idNhanVien)
 )
@@ -461,6 +466,16 @@ GO
 
 
 
+
+
+
+
+
+
+
+
+
+
 --- TEST Bộ Dữ Liệu
 INSERT dbo.NhanVien
         ( tenNhanVien ,
@@ -473,7 +488,7 @@ INSERT dbo.NhanVien
           tel
         )
 VALUES  ( N'Nguyễn Thanh Huy' , -- tenNhanVien - nvarchar(100)
-          22/02/1996 , -- ngaySinh - date
+          '02/22/1996' , -- ngaySinh - date
           N'Nam' , -- gioiTinh - nvarchar(3)
           N'Tổng Giám Đốc' , -- chucVu - nvarchar(100)
           N'TPHCM' , -- queQuan - nvarchar(100)
@@ -495,7 +510,13 @@ VALUES  ( N'huy96', -- userName - nvarchar(100)
           1, -- idNhanVien - int
           0  -- loaiTK - int
           )
-
+INSERT dbo.TaiKhoan
+        ( userName, pass, idNhanVien, loaiTK )
+VALUES  ( N'aaaa', -- userName - nvarchar(100)
+          N'123', -- pass - nvarchar(1000)
+          1, -- idNhanVien - int
+          0  -- loaiTK - int
+          )
 INSERT dbo.Sanh
         ( tenSanh )
 VALUES  ( N'Sảnh 1'  -- tenSanh - nvarchar(100)

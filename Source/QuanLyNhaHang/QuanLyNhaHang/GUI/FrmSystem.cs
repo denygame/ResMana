@@ -18,6 +18,7 @@ namespace QuanLyNhaHang.GUI
         {
             InitializeComponent();
 
+
         }
 
 
@@ -54,6 +55,7 @@ namespace QuanLyNhaHang.GUI
             loadDataSanh();
             loadDataTable();
             loadDataAccount();
+            loadDataStaff();
 
             bindingAccount();
             bindingCategory();
@@ -63,6 +65,13 @@ namespace QuanLyNhaHang.GUI
 
             loadCbTenSanh();
             loadCbCategoryInFood();
+            loadCbLoaiTK();
+        }
+
+
+        private void loadDataStaff()
+        {
+            dataGridView_NhanVien.DataSource = StaffDAL.getDataTableStaff();
         }
 
         private void loadDataAccount()
@@ -123,6 +132,11 @@ namespace QuanLyNhaHang.GUI
             cbTenSanh.DisplayMember = "TenSanh";
         }
 
+        private void loadCbLoaiTK()
+        {
+            cbLoaiTK.DataSource = Constant.listLoaiTK;
+        }
+
         private void loadDataCategory()
         {
             danhmucBinding.DataSource = CategoryDAL.getListCategory();
@@ -166,6 +180,12 @@ namespace QuanLyNhaHang.GUI
         }
 
         #endregion
+
+
+        private void checkTable()
+        {
+            if (TableDAL.countTable() == 0) txtTrangThai.Text = Constant.trangThaiBanTrong;
+        }
 
 
         private void thietKeThemXoa(string themSua, string tab, FlowLayoutPanel fl)
@@ -400,7 +420,8 @@ namespace QuanLyNhaHang.GUI
 
         private void insertTable()
         {
-            if (TableDAL.insertTable())
+            int idSanh = (cbTenSanh.SelectedItem as Sanh).IdSanh;
+            if (TableDAL.insertTable(txtTenBan.Text, idSanh, txtTrangThai.Text))
             {
                 MessageBox.Show("Thêm bàn ăn thành công", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.None);
                 if (TableDAL.countTable() == 1)
@@ -415,15 +436,16 @@ namespace QuanLyNhaHang.GUI
             {
                 MessageBox.Show("Có lỗi khi thêm bàn ăn", "Thông Báo", MessageBoxButtons.OK);
                 txtTenBan.Text = "";
-               // nUdGiaTienThucAn.Value = 0;
+                // nUdGiaTienThucAn.Value = 0;
                 txtTenBan.Focus();
             }
         }
 
         private void updateTable()
         {
-            int idThucAn = Convert.ToInt32(txtIdBanAn.Text);
-            if (TableDAL.updateTable())
+            int idBan = Convert.ToInt32(txtIdBanAn.Text);
+            int idSanh = (cbTenSanh.SelectedItem as Sanh).IdSanh;
+            if (TableDAL.updateTable(idBan, idSanh, txtTenBan.Text))
             {
                 MessageBox.Show("Sửa bàn ăn thành công", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.None);
                 loadDataTable();
@@ -464,7 +486,39 @@ namespace QuanLyNhaHang.GUI
 
 
 
+        private void updateAccount()
+        {
+            int loaiTK = 0;
+            switch (cbLoaiTK.SelectedIndex)
+            {
+                case 0: loaiTK = 1; break;
+                case 1: loaiTK = 0; break;
+            }
+            if (AccountDAL.updateAccount(txtUsername.Text,loaiTK))
+            {
+                MessageBox.Show("Sửa tài khoản thành công", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.None);
+                loadDataAccount();
+               
+                setButtonHuyTaiKhoan();
+            }
+            else
+            {
+                MessageBox.Show("Có lỗi khi sửa tài khoản", "Thông Báo", MessageBoxButtons.OK);
+            }
+        }
 
+        private void deleteAccount()
+        {
+            
+            if (AccountDAL.deleteAccount(txtUsername.Text))
+            {
+                loadDataAccount();
+            }
+            else
+            {
+                MessageBox.Show("Có lỗi khi xóa tài khoản", "Thông Báo", MessageBoxButtons.OK);
+            }
+        }
 
 
 
@@ -515,6 +569,9 @@ namespace QuanLyNhaHang.GUI
             txtIdSanh.Enabled = true;
 
             panel_tenSanh.Location = new Point(3, 63);
+
+            txtTenSanh.Text = testTenSanh;
+            txtTenSanh.ReadOnly = true;
         }
 
         private void setButtonHuyBanAn()
@@ -527,6 +584,9 @@ namespace QuanLyNhaHang.GUI
             panel_tenBan.Location = new Point(3, 63);
             panel_cnTTban.Location = new Point(3, 122);
             panel_tenSanhBanAn.Location = new Point(3, 181);
+
+            txtTenBan.Text = testTenBanAn;
+            txtTenBan.ReadOnly = true;
         }
 
         private void setButtonHuyTaiKhoan()
@@ -592,6 +652,15 @@ namespace QuanLyNhaHang.GUI
                     break;
                 case "btnSuaSanh":
                     updateSanh();
+                    break;
+                case "btnThemBanAn":
+                    insertTable();
+                    break;
+                case "btnSuaBanAn":
+                    updateTable();
+                    break;
+                case "btnSuaTK":
+                    updateAccount();
                     break;
             }
         }
@@ -739,6 +808,14 @@ namespace QuanLyNhaHang.GUI
 
         private void btnThemBan_Click(object sender, EventArgs e)
         {
+            if (cbTenSanh.SelectedItem == null)
+            {
+                MessageBox.Show("Sảnh rỗng, hãy thêm sảnh!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            checkTable();
+
             panel_idBan.Visible = false;
             thietKeThemXoa(Constant.them, "BanAn", fl_BanAn);
             panel30.Visible = false;
@@ -746,18 +823,40 @@ namespace QuanLyNhaHang.GUI
             panel_tenBan.Location = new Point(3, 4);
             panel_cnTTban.Location = new Point(3, 63);
             panel_tenSanhBanAn.Location = new Point(3, 122);
+
+            testTenBanAn = txtTenBan.Text;
+
+            txtTenBan.Text = "";
+            txtTenBan.ReadOnly = false;
+            txtTenBan.Focus();
         }
 
         private void btnSuaBan_Click(object sender, EventArgs e)
         {
+            if (cbTenSanh.SelectedItem == null)
+            {
+                MessageBox.Show("Sảnh rỗng, hãy thêm sảnh!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (txtIdBanAn.Text == "")
+            {
+                MessageBox.Show("Bàn ăn rỗng, hãy thêm bàn ăn!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
             thietKeThemXoa(Constant.sua, "BanAn", fl_BanAn);
             panel30.Visible = false;
             txtIdBanAn.Enabled = false;
+
+            testTenBanAn = txtTenBan.Text;
+
+            txtTenBan.Text = "";
+            txtTenBan.ReadOnly = false;
+            txtTenBan.Focus();
         }
 
         private void btnXoaBan_Click(object sender, EventArgs e)
         {
-
+            deleteTable();
         }
 
         private void btnSuaTaiKhoan_Click(object sender, EventArgs e)
@@ -767,11 +866,13 @@ namespace QuanLyNhaHang.GUI
             thietKeThemXoa(Constant.sua, "TK", fl_TaiKhoan);
             panel39.Visible = false;
             txtUsername.Enabled = false;
+
+
         }
 
         private void btnXoaTaiKhoan_Click(object sender, EventArgs e)
         {
-
+            deleteAccount();
         }
 
         private void FrmSystem_Load(object sender, EventArgs e)
@@ -830,12 +931,12 @@ namespace QuanLyNhaHang.GUI
             Account acc = AccountDAL.getAccount(txtUsername.Text);
             switch (acc.LoaiTK)
             {
-                case 0: txtLoaiTaiKhoan.Text = "Nhân Viên"; break;
-                case 1: txtLoaiTaiKhoan.Text = "Quản Lý"; break;
+                case 0: cbLoaiTK.SelectedIndex = 1; break;
+                case 1: cbLoaiTK.SelectedIndex = 0; break;
             }
         }
         #endregion
 
-        
+
     }
 }

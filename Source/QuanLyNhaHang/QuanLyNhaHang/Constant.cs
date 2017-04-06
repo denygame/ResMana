@@ -28,5 +28,9 @@ namespace QuanLyNhaHang
 
         public static string them = "Them";
         public static string sua = "Sua";
+
+        public static List<string> listLoaiTK = new List<string>() { "Quản Lý", "Nhân Viên" };
+
+
     }
 }

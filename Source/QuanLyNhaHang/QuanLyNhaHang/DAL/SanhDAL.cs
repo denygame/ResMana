@@ -55,7 +55,7 @@ namespace QuanLyNhaHang.DAL
 
         public static int countSanh()
         {
-            return (int)DatabaseExecute.sqlExecuteScalar("SELECT COUNT(*) FROM dbo.Sanh");
+            return (int)DatabaseExecute.sqlExecuteScalar("SELECT COUNT(*) FROM dbo.Sanh WHERE checkDelete = 0");
         }
     }
 }

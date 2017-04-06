@@ -69,7 +69,7 @@ namespace QuanLyNhaHang.DAL
 
         public static int countFood()
         {
-            return (int)DatabaseExecute.sqlExecuteScalar("SELECT COUNT(*) FROM dbo.ThucAn");
+            return (int)DatabaseExecute.sqlExecuteScalar("SELECT COUNT(*) FROM dbo.ThucAn WHERE checkDelete = 0");
         }
 
 

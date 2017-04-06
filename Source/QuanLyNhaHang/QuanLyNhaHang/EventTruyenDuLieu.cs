@@ -37,19 +37,6 @@ namespace QuanLyNhaHang
             }
         }
 
-       /* public int TruyentestTrenMay
-        {
-            get
-            {
-                return truyentestTrenMay;
-            }
-
-            set
-            {
-                truyentestTrenMay = value;
-            }
-        }*/
-
         public EventTruyenDuLieu(Account t)
         {
             this.Tk = t;
@@ -61,14 +48,6 @@ namespace QuanLyNhaHang
         {
             this.BanAnGop = ba;
         }
-
-
-        /*private int truyentestTrenMay;
-        public EventTruyenDuLieu(int i)
-        {
-            TruyentestTrenMay = i;
-        }*/
-
         
     }
 }
