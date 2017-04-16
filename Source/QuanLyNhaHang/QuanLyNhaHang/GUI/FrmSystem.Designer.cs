@@ -167,13 +167,14 @@
             this.txtTrangNhanVien = new System.Windows.Forms.TextBox();
             this.btnTrangTruocNhanVien = new System.Windows.Forms.Button();
             this.btnTrangSauNhanVien = new System.Windows.Forms.Button();
-            this.btnTimNhanVien = new System.Windows.Forms.Button();
             this.btnThemNhanVien = new System.Windows.Forms.Button();
             this.btnXoaNhanVien = new System.Windows.Forms.Button();
-            this.btnSuaNhanVien = new System.Windows.Forms.Button();
             this.btnXemNhanVien = new System.Windows.Forms.Button();
             this.panel47 = new System.Windows.Forms.Panel();
             this.dataGridView_NhanVien = new System.Windows.Forms.DataGridView();
+            this.panel8 = new System.Windows.Forms.Panel();
+            this.btnFindStaff = new System.Windows.Forms.Button();
+            this.txtFindStaff = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabhHoaDon.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -238,6 +239,7 @@
             this.panel48.SuspendLayout();
             this.panel47.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_NhanVien)).BeginInit();
+            this.panel8.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -1655,10 +1657,8 @@
             this.panel48.Controls.Add(this.txtTrangNhanVien);
             this.panel48.Controls.Add(this.btnTrangTruocNhanVien);
             this.panel48.Controls.Add(this.btnTrangSauNhanVien);
-            this.panel48.Controls.Add(this.btnTimNhanVien);
             this.panel48.Controls.Add(this.btnThemNhanVien);
             this.panel48.Controls.Add(this.btnXoaNhanVien);
-            this.panel48.Controls.Add(this.btnSuaNhanVien);
             this.panel48.Controls.Add(this.btnXemNhanVien);
             this.panel48.Location = new System.Drawing.Point(0, 398);
             this.panel48.Name = "panel48";
@@ -1695,63 +1695,45 @@
             this.btnTrangSauNhanVien.Text = "Trang Sau";
             this.btnTrangSauNhanVien.UseVisualStyleBackColor = true;
             // 
-            // btnTimNhanVien
-            // 
-            this.btnTimNhanVien.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
-            this.btnTimNhanVien.ForeColor = System.Drawing.Color.Blue;
-            this.btnTimNhanVien.Location = new System.Drawing.Point(249, 2);
-            this.btnTimNhanVien.Name = "btnTimNhanVien";
-            this.btnTimNhanVien.Size = new System.Drawing.Size(75, 50);
-            this.btnTimNhanVien.TabIndex = 8;
-            this.btnTimNhanVien.Text = "Lọc";
-            this.btnTimNhanVien.UseVisualStyleBackColor = true;
-            // 
             // btnThemNhanVien
             // 
             this.btnThemNhanVien.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
             this.btnThemNhanVien.ForeColor = System.Drawing.Color.Blue;
-            this.btnThemNhanVien.Location = new System.Drawing.Point(6, 2);
+            this.btnThemNhanVien.Location = new System.Drawing.Point(70, 3);
             this.btnThemNhanVien.Name = "btnThemNhanVien";
             this.btnThemNhanVien.Size = new System.Drawing.Size(75, 50);
             this.btnThemNhanVien.TabIndex = 5;
             this.btnThemNhanVien.Text = "Thêm";
             this.btnThemNhanVien.UseVisualStyleBackColor = true;
+            this.btnThemNhanVien.Click += new System.EventHandler(this.btnThemNhanVien_Click);
             // 
             // btnXoaNhanVien
             // 
             this.btnXoaNhanVien.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
             this.btnXoaNhanVien.ForeColor = System.Drawing.Color.Red;
-            this.btnXoaNhanVien.Location = new System.Drawing.Point(87, 2);
+            this.btnXoaNhanVien.Location = new System.Drawing.Point(170, 3);
             this.btnXoaNhanVien.Name = "btnXoaNhanVien";
             this.btnXoaNhanVien.Size = new System.Drawing.Size(75, 50);
             this.btnXoaNhanVien.TabIndex = 6;
             this.btnXoaNhanVien.Text = "Xóa";
             this.btnXoaNhanVien.UseVisualStyleBackColor = true;
-            // 
-            // btnSuaNhanVien
-            // 
-            this.btnSuaNhanVien.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
-            this.btnSuaNhanVien.ForeColor = System.Drawing.Color.Blue;
-            this.btnSuaNhanVien.Location = new System.Drawing.Point(168, 2);
-            this.btnSuaNhanVien.Name = "btnSuaNhanVien";
-            this.btnSuaNhanVien.Size = new System.Drawing.Size(75, 50);
-            this.btnSuaNhanVien.TabIndex = 7;
-            this.btnSuaNhanVien.Text = "Sửa";
-            this.btnSuaNhanVien.UseVisualStyleBackColor = true;
+            this.btnXoaNhanVien.Click += new System.EventHandler(this.btnXoaNhanVien_Click);
             // 
             // btnXemNhanVien
             // 
             this.btnXemNhanVien.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
             this.btnXemNhanVien.ForeColor = System.Drawing.Color.Blue;
-            this.btnXemNhanVien.Location = new System.Drawing.Point(330, 2);
+            this.btnXemNhanVien.Location = new System.Drawing.Point(270, 3);
             this.btnXemNhanVien.Name = "btnXemNhanVien";
             this.btnXemNhanVien.Size = new System.Drawing.Size(75, 50);
             this.btnXemNhanVien.TabIndex = 4;
             this.btnXemNhanVien.Text = "Xem";
             this.btnXemNhanVien.UseVisualStyleBackColor = true;
+            this.btnXemNhanVien.Click += new System.EventHandler(this.btnXemNhanVien_Click);
             // 
             // panel47
             // 
+            this.panel47.Controls.Add(this.panel8);
             this.panel47.Controls.Add(this.dataGridView_NhanVien);
             this.panel47.Location = new System.Drawing.Point(0, 0);
             this.panel47.Name = "panel47";
@@ -1764,11 +1746,40 @@
             this.dataGridView_NhanVien.AllowUserToDeleteRows = false;
             this.dataGridView_NhanVien.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView_NhanVien.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView_NhanVien.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView_NhanVien.Location = new System.Drawing.Point(0, 54);
             this.dataGridView_NhanVien.Name = "dataGridView_NhanVien";
             this.dataGridView_NhanVien.ReadOnly = true;
-            this.dataGridView_NhanVien.Size = new System.Drawing.Size(829, 392);
+            this.dataGridView_NhanVien.Size = new System.Drawing.Size(829, 338);
             this.dataGridView_NhanVien.TabIndex = 0;
+            this.dataGridView_NhanVien.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_NhanVien_CellDoubleClick);
+            // 
+            // panel8
+            // 
+            this.panel8.Controls.Add(this.btnFindStaff);
+            this.panel8.Controls.Add(this.txtFindStaff);
+            this.panel8.Location = new System.Drawing.Point(213, 0);
+            this.panel8.Name = "panel8";
+            this.panel8.Size = new System.Drawing.Size(399, 52);
+            this.panel8.TabIndex = 1;
+            // 
+            // btnFindStaff
+            // 
+            this.btnFindStaff.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFindStaff.ForeColor = System.Drawing.Color.Blue;
+            this.btnFindStaff.Location = new System.Drawing.Point(308, 12);
+            this.btnFindStaff.Name = "btnFindStaff";
+            this.btnFindStaff.Size = new System.Drawing.Size(79, 27);
+            this.btnFindStaff.TabIndex = 1;
+            this.btnFindStaff.Text = "Tìm";
+            this.btnFindStaff.UseVisualStyleBackColor = true;
+            // 
+            // txtFindStaff
+            // 
+            this.txtFindStaff.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtFindStaff.Location = new System.Drawing.Point(8, 12);
+            this.txtFindStaff.Name = "txtFindStaff";
+            this.txtFindStaff.Size = new System.Drawing.Size(268, 27);
+            this.txtFindStaff.TabIndex = 0;
             // 
             // FrmSystem
             // 
@@ -1872,6 +1883,8 @@
             this.panel48.PerformLayout();
             this.panel47.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_NhanVien)).EndInit();
+            this.panel8.ResumeLayout(false);
+            this.panel8.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2007,9 +2020,7 @@
         private System.Windows.Forms.Panel panel47;
         private System.Windows.Forms.Button btnThemNhanVien;
         private System.Windows.Forms.Button btnXoaNhanVien;
-        private System.Windows.Forms.Button btnSuaNhanVien;
         private System.Windows.Forms.Button btnXemNhanVien;
-        private System.Windows.Forms.Button btnTimNhanVien;
         private System.Windows.Forms.TextBox txtTrangNhanVien;
         private System.Windows.Forms.Button btnTrangTruocNhanVien;
         private System.Windows.Forms.Button btnTrangSauNhanVien;
@@ -2024,5 +2035,8 @@
         private System.Windows.Forms.NumericUpDown nUdGiaTienThucAn;
         private System.Windows.Forms.DataGridView dataGridView_NhanVien;
         private System.Windows.Forms.ComboBox cbLoaiTK;
+        private System.Windows.Forms.Panel panel8;
+        private System.Windows.Forms.Button btnFindStaff;
+        private System.Windows.Forms.TextBox txtFindStaff;
     }
 }

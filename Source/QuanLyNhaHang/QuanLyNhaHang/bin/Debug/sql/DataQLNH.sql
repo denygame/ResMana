@@ -17,7 +17,7 @@ CREATE TABLE NhanVien
 	queQuan NVARCHAR(100),
 	email VARCHAR(100),
 	diaChi NVARCHAR(100),
-	tel INT NOT	NULL,
+	tel VARCHAR(11) NOT	NULL,
 
 	checkDelete INT DEFAULT 0,
 )
@@ -494,7 +494,7 @@ VALUES  ( N'Nguyễn Thanh Huy' , -- tenNhanVien - nvarchar(100)
           N'TPHCM' , -- queQuan - nvarchar(100)
           'thanhhuy96.gtvt@gmail.com' , -- email - varchar(100)
           N'839/11 Hậu Giang' , -- diaChi - nvarchar(100)
-          0907352619  -- tel - int
+          '0907352619'  -- tel - int
         )
 INSERT dbo.TaiKhoan
         ( userName, pass, idNhanVien, loaiTK )

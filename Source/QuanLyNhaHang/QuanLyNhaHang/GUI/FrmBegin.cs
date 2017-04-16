@@ -68,7 +68,7 @@ namespace QuanLyNhaHang
 
         private void btnSystem_Click(object sender, EventArgs e)
         {
-            FrmSystem f = new FrmSystem();
+            FrmSystem f = new FrmSystem(tkDangNhap);
             this.Hide();
             f.ShowDialog();
             this.Show();

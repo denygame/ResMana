@@ -17,7 +17,7 @@ namespace QuanLyNhaHang.DTO
         private string queQuan;
         private string email;
         private string diaChi;
-        private int tel;
+        private string tel;
         
         public Staff(DataRow r)
         {
@@ -29,7 +29,7 @@ namespace QuanLyNhaHang.DTO
             this.QueQuan = r["queQuan"].ToString();
             this.Email = r["email"].ToString();
             this.DiaChi = r["diaChi"].ToString();
-            this.Tel = (int)r["tel"];
+            this.Tel = r["tel"].ToString();
         }
 
 
@@ -137,7 +137,7 @@ namespace QuanLyNhaHang.DTO
             }
         }
 
-        public int Tel
+        public string Tel
         {
             get
             {

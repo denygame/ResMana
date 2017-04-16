@@ -311,13 +311,16 @@ namespace QuanLyNhaHang
         /// <param name="cb"></param>
         private void loadCbSwitchTable(int idBanAnCoKhachDangClick, ComboBox cb)
         {
-            List<Table> listBanAn = TableDAL.getListTableByIdSanh((cbSanh.SelectedItem as Sanh).IdSanh);
-            List<Table> kq = new List<Table>();
-            foreach (Table ba in listBanAn)
-                if (ba.IdBanAn != idBanAnCoKhachDangClick)
-                    kq.Add(ba);
-            cb.DataSource = kq;
-            cb.DisplayMember = "TenBan";
+            if (cbSanh.SelectedItem != null)
+            {
+                List<Table> listBanAn = TableDAL.getListTableByIdSanh((cbSanh.SelectedItem as Sanh).IdSanh);
+                List<Table> kq = new List<Table>();
+                foreach (Table ba in listBanAn)
+                    if (ba.IdBanAn != idBanAnCoKhachDangClick)
+                        kq.Add(ba);
+                cb.DataSource = kq;
+                cb.DisplayMember = "TenBan";
+            }
         }
 
         /// <summary>
@@ -325,13 +328,16 @@ namespace QuanLyNhaHang
         /// </summary>
         private void loadCbLumpTable1()
         {
-            List<Table> listBanAn = TableDAL.getListTableByIdSanh((cbSanh.SelectedItem as Sanh).IdSanh);
-            List<Table> kq = new List<Table>();
-            foreach (Table ba in listBanAn)
-                if (ba.TrangThai != Constant.trangThaiBanTrong)
-                    kq.Add(ba);
-            cbGopBan1.DataSource = kq;
-            cbGopBan1.DisplayMember = "TenBan";
+            if (cbSanh.SelectedItem != null)
+            {
+                List<Table> listBanAn = TableDAL.getListTableByIdSanh((cbSanh.SelectedItem as Sanh).IdSanh);
+                List<Table> kq = new List<Table>();
+                foreach (Table ba in listBanAn)
+                    if (ba.TrangThai != Constant.trangThaiBanTrong)
+                        kq.Add(ba);
+                cbGopBan1.DataSource = kq;
+                cbGopBan1.DisplayMember = "TenBan";
+            }
         }
 
         private void loadCbLumpTable2()
@@ -390,11 +396,14 @@ namespace QuanLyNhaHang
         private void loadTableWithIdSanh(int idSanh)
         {
             flowLayoutPanel_BanAn.Controls.Clear();
-            List<Table> listBanAn = TableDAL.getListTableByIdSanh(idSanh);
-            foreach (Table i in listBanAn)
+            if (cbSanh.SelectedItem != null)
             {
-                Button btn = initTable(i);
-                flowLayoutPanel_BanAn.Controls.Add(btn);
+                List<Table> listBanAn = TableDAL.getListTableByIdSanh(idSanh);
+                foreach (Table i in listBanAn)
+                {
+                    Button btn = initTable(i);
+                    flowLayoutPanel_BanAn.Controls.Add(btn);
+                }
             }
         }
 

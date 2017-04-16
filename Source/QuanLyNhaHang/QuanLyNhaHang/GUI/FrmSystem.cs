@@ -14,11 +14,14 @@ namespace QuanLyNhaHang.GUI
 {
     public partial class FrmSystem : Form
     {
-        public FrmSystem()
+        private Account acc;
+        private int idNhanVienLogin;
+        public FrmSystem(Account acc)
         {
             InitializeComponent();
+            this.acc = acc;
 
-
+            idNhanVienLogin =  AccountDAL.getAccount(acc.UserName).IdNhanVien;
         }
 
 
@@ -494,11 +497,11 @@ namespace QuanLyNhaHang.GUI
                 case 0: loaiTK = 1; break;
                 case 1: loaiTK = 0; break;
             }
-            if (AccountDAL.updateAccount(txtUsername.Text,loaiTK))
+            if (AccountDAL.updateAccount(txtUsername.Text, loaiTK))
             {
                 MessageBox.Show("Sửa tài khoản thành công", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.None);
                 loadDataAccount();
-               
+
                 setButtonHuyTaiKhoan();
             }
             else
@@ -509,7 +512,11 @@ namespace QuanLyNhaHang.GUI
 
         private void deleteAccount()
         {
-            
+            if(txtUsername.Text == acc.UserName)
+            {
+                MessageBox.Show("Bạn đang đăng nhập tài khoản này!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             if (AccountDAL.deleteAccount(txtUsername.Text))
             {
                 loadDataAccount();
@@ -519,16 +526,6 @@ namespace QuanLyNhaHang.GUI
                 MessageBox.Show("Có lỗi khi xóa tài khoản", "Thông Báo", MessageBoxButtons.OK);
             }
         }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -935,8 +932,72 @@ namespace QuanLyNhaHang.GUI
                 case 1: cbLoaiTK.SelectedIndex = 0; break;
             }
         }
+
         #endregion
 
+
+
+
+
+
+        private void loadFrmStaff(string test = null)
+        {
+
+            int rowindex = dataGridView_NhanVien.CurrentCell.RowIndex;
+            //int columnindex = dataGridView_NhanVien.CurrentCell.ColumnIndex;
+            string result = dataGridView_NhanVien.Rows[rowindex].Cells[0].Value.ToString();
+
+            if (result != null)
+            {
+                FrmStaffProfile f;
+                Staff nv = StaffDAL.getStaff(Convert.ToInt32(result));
+                if (test != null)
+                    f = new FrmStaffProfile(test);
+                else f = new FrmStaffProfile(nv);
+
+                f.Thaydoi += F_Thaydoi;
+                f.ShowDialog();
+            }
+        }
+
+
+
+
+        private void dataGridView_NhanVien_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            loadFrmStaff();
+        }
+
+        private void F_Thaydoi(object sender, EventArgs e)
+        {
+            loadDataStaff();
+        }
+
+        private void btnXemNhanVien_Click(object sender, EventArgs e)
+        {
+            loadFrmStaff();
+        }
+
+        private void btnXoaNhanVien_Click(object sender, EventArgs e)
+        {
+            int rowindex = dataGridView_NhanVien.CurrentCell.RowIndex;
+            //int columnindex = dataGridView_NhanVien.CurrentCell.ColumnIndex;
+            string result = dataGridView_NhanVien.Rows[rowindex].Cells[0].Value.ToString();
+            if (result != null)
+            {
+                if (result != idNhanVienLogin.ToString())
+                {
+                    if (StaffDAL.deleteStaff(Convert.ToInt32(result)))
+                        loadDataStaff();
+                }
+                else MessageBox.Show("Không thể xóa!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnThemNhanVien_Click(object sender, EventArgs e)
+        {
+            loadFrmStaff("testNotNull");
+        }
 
     }
 }

@@ -31,6 +31,8 @@ namespace QuanLyNhaHang
 
         public static List<string> listLoaiTK = new List<string>() { "Quản Lý", "Nhân Viên" };
 
-
+        public static List<string> listGioiTinh = new List<string>() { "Nam", "Nữ" };
+        public static List<string> listNu = new List<string>() { "Nữ" };
+        public static List<string> listNam = new List<string>() { "Nam" };
     }
 }

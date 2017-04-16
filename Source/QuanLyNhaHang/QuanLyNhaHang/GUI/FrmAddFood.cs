@@ -114,10 +114,5 @@ namespace QuanLyNhaHang.GUI
             cbDanhMuc.DisplayMember = "TenMenu";
         }
         #endregion
-
-        private void FrmAddFood_MouseEnter(object sender, EventArgs e)
-        {
-            loadCbCategory();
-        }
     }
 }

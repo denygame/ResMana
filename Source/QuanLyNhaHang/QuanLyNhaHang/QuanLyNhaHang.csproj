@@ -93,6 +93,12 @@
     <Compile Include="DTO\Account.cs" />
     <Compile Include="DTO\Food.cs" />
     <Compile Include="GetIPconnectSql.cs" />
+    <Compile Include="GUI\FrmAddAccount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmAddAccount.Designer.cs">
+      <DependentUpon>FrmAddAccount.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\FrmBegin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -136,6 +142,12 @@
     <Compile Include="GUI\FrmSqlConnection.Designer.cs">
       <DependentUpon>FrmSqlConnection.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\FrmStaffProfile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmStaffProfile.Designer.cs">
+      <DependentUpon>FrmStaffProfile.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\FrmSystem.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -144,6 +156,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="GUI\FrmAddAccount.resx">
+      <DependentUpon>FrmAddAccount.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmBegin.resx">
       <DependentUpon>FrmBegin.cs</DependentUpon>
     </EmbeddedResource>
@@ -164,6 +179,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmSqlConnection.resx">
       <DependentUpon>FrmSqlConnection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmStaffProfile.resx">
+      <DependentUpon>FrmStaffProfile.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmSystem.resx">
       <DependentUpon>FrmSystem.cs</DependentUpon>
