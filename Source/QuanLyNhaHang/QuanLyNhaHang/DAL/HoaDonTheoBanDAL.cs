@@ -18,7 +18,7 @@ namespace QuanLyNhaHang.DAL
         public static List<ChiTietHoaDonTheoBan> getBillByIdTable(int idBanAn)
         {
             List<ChiTietHoaDonTheoBan> list = new List<ChiTietHoaDonTheoBan>();
-            string query = "SELECT t.tenThucAn, ct.soLuong, ct.soLuong*t.giaTien AS [thanhTien] FROM dbo.ChiTietHoaDon AS ct, dbo.HoaDon AS hd, dbo.ThucAn AS t WHERE ct.idHoaDon = hd.idHoaDon AND ct.idThucAn = t.idThucAn AND hd.idBanAn = " + idBanAn;
+            string query = "SELECT t.tenThucAn, ct.soLuong, ct.soLuong*t.giaTien AS [thanhTien] FROM dbo.ChiTietHoaDon AS ct, dbo.HoaDon AS hd, dbo.ThucAn AS t WHERE ct.idHoaDon = hd.idHoaDon AND ct.idThucAn = t.idThucAn AND hd.trangThai = N'Chưa thanh toán' AND hd.idBanAn = " + idBanAn;
             DataTable data = DatabaseExecute.sqlQuery(query);
             foreach(DataRow r in data.Rows)
             {

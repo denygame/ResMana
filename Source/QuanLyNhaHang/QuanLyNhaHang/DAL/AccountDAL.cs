@@ -12,14 +12,13 @@ namespace QuanLyNhaHang.DAL
     public class AccountDAL
     {
         //test
-        public static bool login(string userName, string passWord)
+        public static int login(string userName, string passWord)
         {
             try
             {
-                DatabaseExecute.sqlExecuteNonQuery("StoredProcedure_DangNhap @userName , @pass ", new object[] { userName, passWord });
-                return true;
+                return (int)DatabaseExecute.sqlExecuteScalar("SELECT COUNT(*) FROM dbo.TaiKhoan WHERE userName = @userName AND pass = @passWOrd AND checkDelete = 0", new object[] { userName, passWord });
             }
-            catch { return false; }
+            catch { return 0; }
         }
         public static Account getAccount(string userName)
         {
@@ -45,6 +44,23 @@ namespace QuanLyNhaHang.DAL
         public static bool updateAccount(string userName, int loaiTK)
         {
             int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("UPDATE dbo.TaiKhoan SET loaiTK = {0} WHERE userName = N'{1}'", loaiTK, userName));
+            return result > 0;
+        }
+
+        public static bool insertAccount(string userName, int loaiTK, int idNhanVien)
+        {
+            int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("INSERT TaiKhoan (userName, pass, idNhanVien, loaiTK) VALUES ('{0}', '{1}', {2}, {3} )", userName, "123", idNhanVien, loaiTK));
+            return result > 0;
+        }
+
+        public static int countAccByUsername(string username)
+        {
+            return (int)DatabaseExecute.sqlExecuteScalar("SELECT COUNT(*) FROM dbo.TaiKhoan WHERE userName = '" + username + "'");
+        }
+
+        public static bool deleteAccByIdStaff(int id)
+        {
+            int result = DatabaseExecute.sqlExecuteNonQuery("UPDATE dbo.TaiKhoan SET checkDelete = 1 WHERE idNhanVien = " + id);
             return result > 0;
         }
     }

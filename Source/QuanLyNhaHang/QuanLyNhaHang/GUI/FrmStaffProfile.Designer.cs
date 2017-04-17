@@ -48,18 +48,18 @@
             this.txtIdNhanVien = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.dTp_NgaySinh = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.cbGT = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
             this.txtChucVu = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.panel11 = new System.Windows.Forms.Panel();
+            this.btnThayDoi = new System.Windows.Forms.Button();
             this.panel12 = new System.Windows.Forms.Panel();
             this.btnCapAcc = new System.Windows.Forms.Button();
-            this.btnThayDoi = new System.Windows.Forms.Button();
-            this.cbGT = new System.Windows.Forms.ComboBox();
-            this.dTp_NgaySinh = new System.Windows.Forms.DateTimePicker();
             this.panel1.SuspendLayout();
             this.panel10.SuspendLayout();
             this.panel9.SuspendLayout();
@@ -276,6 +276,15 @@
             this.panel4.Size = new System.Drawing.Size(310, 52);
             this.panel4.TabIndex = 2;
             // 
+            // dTp_NgaySinh
+            // 
+            this.dTp_NgaySinh.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dTp_NgaySinh.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dTp_NgaySinh.Location = new System.Drawing.Point(143, 17);
+            this.dTp_NgaySinh.Name = "dTp_NgaySinh";
+            this.dTp_NgaySinh.Size = new System.Drawing.Size(136, 27);
+            this.dTp_NgaySinh.TabIndex = 1;
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -295,6 +304,16 @@
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(310, 52);
             this.panel5.TabIndex = 2;
+            // 
+            // cbGT
+            // 
+            this.cbGT.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbGT.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbGT.FormattingEnabled = true;
+            this.cbGT.Location = new System.Drawing.Point(143, 14);
+            this.cbGT.Name = "cbGT";
+            this.cbGT.Size = new System.Drawing.Size(136, 28);
+            this.cbGT.TabIndex = 1;
             // 
             // label4
             // 
@@ -345,6 +364,19 @@
             this.panel11.Size = new System.Drawing.Size(309, 48);
             this.panel11.TabIndex = 3;
             // 
+            // btnThayDoi
+            // 
+            this.btnThayDoi.BackColor = System.Drawing.Color.Silver;
+            this.btnThayDoi.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnThayDoi.ForeColor = System.Drawing.Color.Blue;
+            this.btnThayDoi.Location = new System.Drawing.Point(23, 4);
+            this.btnThayDoi.Name = "btnThayDoi";
+            this.btnThayDoi.Size = new System.Drawing.Size(221, 41);
+            this.btnThayDoi.TabIndex = 1;
+            this.btnThayDoi.Text = "Thay Đổi Thông Tin";
+            this.btnThayDoi.UseVisualStyleBackColor = false;
+            this.btnThayDoi.Click += new System.EventHandler(this.btnThayDoi_Click);
+            // 
             // panel12
             // 
             this.panel12.Controls.Add(this.btnCapAcc);
@@ -366,38 +398,6 @@
             this.btnCapAcc.UseVisualStyleBackColor = false;
             this.btnCapAcc.Click += new System.EventHandler(this.btnCapAcc_Click);
             // 
-            // btnThayDoi
-            // 
-            this.btnThayDoi.BackColor = System.Drawing.Color.Silver;
-            this.btnThayDoi.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnThayDoi.ForeColor = System.Drawing.Color.Blue;
-            this.btnThayDoi.Location = new System.Drawing.Point(23, 4);
-            this.btnThayDoi.Name = "btnThayDoi";
-            this.btnThayDoi.Size = new System.Drawing.Size(221, 41);
-            this.btnThayDoi.TabIndex = 1;
-            this.btnThayDoi.Text = "Thay Đổi Thông Tin";
-            this.btnThayDoi.UseVisualStyleBackColor = false;
-            this.btnThayDoi.Click += new System.EventHandler(this.btnThayDoi_Click);
-            // 
-            // cbGT
-            // 
-            this.cbGT.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbGT.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbGT.FormattingEnabled = true;
-            this.cbGT.Location = new System.Drawing.Point(143, 14);
-            this.cbGT.Name = "cbGT";
-            this.cbGT.Size = new System.Drawing.Size(136, 28);
-            this.cbGT.TabIndex = 1;
-            // 
-            // dTp_NgaySinh
-            // 
-            this.dTp_NgaySinh.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dTp_NgaySinh.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dTp_NgaySinh.Location = new System.Drawing.Point(143, 17);
-            this.dTp_NgaySinh.Name = "dTp_NgaySinh";
-            this.dTp_NgaySinh.Size = new System.Drawing.Size(136, 27);
-            this.dTp_NgaySinh.TabIndex = 1;
-            // 
             // FrmStaffProfile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -410,7 +410,7 @@
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MinimizeBox = false;
+            this.MaximizeBox = false;
             this.Name = "FrmStaffProfile";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Thông Tin Nhân Viên";

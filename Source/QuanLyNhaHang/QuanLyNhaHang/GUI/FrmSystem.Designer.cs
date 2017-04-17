@@ -39,11 +39,9 @@
             this.btnTrangSauBill = new System.Windows.Forms.Button();
             this.dataGridView_HoaDon = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel_Xoa = new System.Windows.Forms.Panel();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.btnXoaHoaDon = new System.Windows.Forms.Button();
             this.btnLoc = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
+            this.label_TongTien = new System.Windows.Forms.Label();
             this.txtTongTien = new System.Windows.Forms.TextBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
@@ -171,17 +169,17 @@
             this.btnXoaNhanVien = new System.Windows.Forms.Button();
             this.btnXemNhanVien = new System.Windows.Forms.Button();
             this.panel47 = new System.Windows.Forms.Panel();
-            this.dataGridView_NhanVien = new System.Windows.Forms.DataGridView();
             this.panel8 = new System.Windows.Forms.Panel();
             this.btnFindStaff = new System.Windows.Forms.Button();
             this.txtFindStaff = new System.Windows.Forms.TextBox();
+            this.dataGridView_NhanVien = new System.Windows.Forms.DataGridView();
+            this.btnHDctt = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabhHoaDon.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel46.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_HoaDon)).BeginInit();
             this.panel1.SuspendLayout();
-            this.panel_Xoa.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tabDanhMuc.SuspendLayout();
@@ -238,8 +236,8 @@
             this.tabNhanVien.SuspendLayout();
             this.panel48.SuspendLayout();
             this.panel47.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_NhanVien)).BeginInit();
             this.panel8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_NhanVien)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -300,6 +298,7 @@
             this.btnTrangCuoiBill.TabIndex = 4;
             this.btnTrangCuoiBill.Text = "Trang Cuối";
             this.btnTrangCuoiBill.UseVisualStyleBackColor = true;
+            this.btnTrangCuoiBill.Click += new System.EventHandler(this.btnTrangCuoiBill_Click);
             // 
             // btnTrangDauBill
             // 
@@ -311,6 +310,7 @@
             this.btnTrangDauBill.TabIndex = 1;
             this.btnTrangDauBill.Text = "Trang Đầu";
             this.btnTrangDauBill.UseVisualStyleBackColor = true;
+            this.btnTrangDauBill.Click += new System.EventHandler(this.btnTrangDauBill_Click);
             // 
             // txtTrangBill
             // 
@@ -319,6 +319,9 @@
             this.txtTrangBill.Name = "txtTrangBill";
             this.txtTrangBill.Size = new System.Drawing.Size(63, 27);
             this.txtTrangBill.TabIndex = 2;
+            this.txtTrangBill.Text = "1";
+            this.txtTrangBill.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtTrangBill.TextChanged += new System.EventHandler(this.txtTrangBill_TextChanged);
             // 
             // btnTrangTruocBill
             // 
@@ -346,19 +349,24 @@
             // 
             // dataGridView_HoaDon
             // 
+            this.dataGridView_HoaDon.AllowUserToAddRows = false;
+            this.dataGridView_HoaDon.AllowUserToDeleteRows = false;
+            this.dataGridView_HoaDon.AllowUserToResizeColumns = false;
+            this.dataGridView_HoaDon.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView_HoaDon.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
             this.dataGridView_HoaDon.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_HoaDon.Location = new System.Drawing.Point(0, 0);
             this.dataGridView_HoaDon.Name = "dataGridView_HoaDon";
+            this.dataGridView_HoaDon.ReadOnly = true;
             this.dataGridView_HoaDon.Size = new System.Drawing.Size(605, 378);
             this.dataGridView_HoaDon.TabIndex = 2;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.panel_Xoa);
+            this.panel1.Controls.Add(this.btnHDctt);
             this.panel1.Controls.Add(this.btnXoaHoaDon);
             this.panel1.Controls.Add(this.btnLoc);
-            this.panel1.Controls.Add(this.label4);
+            this.panel1.Controls.Add(this.label_TongTien);
             this.panel1.Controls.Add(this.txtTongTien);
             this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.panel2);
@@ -367,25 +375,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(208, 444);
             this.panel1.TabIndex = 0;
-            // 
-            // panel_Xoa
-            // 
-            this.panel_Xoa.Controls.Add(this.checkBox1);
-            this.panel_Xoa.Location = new System.Drawing.Point(9, 316);
-            this.panel_Xoa.Name = "panel_Xoa";
-            this.panel_Xoa.Size = new System.Drawing.Size(193, 88);
-            this.panel_Xoa.TabIndex = 18;
-            this.panel_Xoa.Visible = false;
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(31, 26);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(80, 17);
-            this.checkBox1.TabIndex = 0;
-            this.checkBox1.Text = "checkBox1";
-            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // btnXoaHoaDon
             // 
@@ -403,23 +392,25 @@
             // 
             this.btnLoc.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLoc.ForeColor = System.Drawing.Color.Blue;
-            this.btnLoc.Location = new System.Drawing.Point(98, 243);
+            this.btnLoc.Location = new System.Drawing.Point(7, 243);
             this.btnLoc.Name = "btnLoc";
-            this.btnLoc.Size = new System.Drawing.Size(104, 27);
+            this.btnLoc.Size = new System.Drawing.Size(195, 27);
             this.btnLoc.TabIndex = 16;
-            this.btnLoc.Text = "Lọc Hóa Đơn";
+            this.btnLoc.Text = "Lọc Doanh Thu";
             this.btnLoc.UseVisualStyleBackColor = true;
+            this.btnLoc.Click += new System.EventHandler(this.btnLoc_Click);
             // 
-            // label4
+            // label_TongTien
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.label4.Location = new System.Drawing.Point(35, 160);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(134, 29);
-            this.label4.TabIndex = 15;
-            this.label4.Text = "Tổng Tiền";
+            this.label_TongTien.AutoSize = true;
+            this.label_TongTien.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_TongTien.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.label_TongTien.Location = new System.Drawing.Point(35, 160);
+            this.label_TongTien.Name = "label_TongTien";
+            this.label_TongTien.Size = new System.Drawing.Size(134, 29);
+            this.label_TongTien.TabIndex = 15;
+            this.label_TongTien.Text = "Tổng Tiền";
+            this.label_TongTien.Visible = false;
             // 
             // txtTongTien
             // 
@@ -432,6 +423,7 @@
             this.txtTongTien.Size = new System.Drawing.Size(195, 24);
             this.txtTongTien.TabIndex = 14;
             this.txtTongTien.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtTongTien.Visible = false;
             // 
             // panel3
             // 
@@ -1740,19 +1732,6 @@
             this.panel47.Size = new System.Drawing.Size(829, 392);
             this.panel47.TabIndex = 0;
             // 
-            // dataGridView_NhanVien
-            // 
-            this.dataGridView_NhanVien.AllowUserToAddRows = false;
-            this.dataGridView_NhanVien.AllowUserToDeleteRows = false;
-            this.dataGridView_NhanVien.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView_NhanVien.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView_NhanVien.Location = new System.Drawing.Point(0, 54);
-            this.dataGridView_NhanVien.Name = "dataGridView_NhanVien";
-            this.dataGridView_NhanVien.ReadOnly = true;
-            this.dataGridView_NhanVien.Size = new System.Drawing.Size(829, 338);
-            this.dataGridView_NhanVien.TabIndex = 0;
-            this.dataGridView_NhanVien.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_NhanVien_CellDoubleClick);
-            // 
             // panel8
             // 
             this.panel8.Controls.Add(this.btnFindStaff);
@@ -1781,6 +1760,31 @@
             this.txtFindStaff.Size = new System.Drawing.Size(268, 27);
             this.txtFindStaff.TabIndex = 0;
             // 
+            // dataGridView_NhanVien
+            // 
+            this.dataGridView_NhanVien.AllowUserToAddRows = false;
+            this.dataGridView_NhanVien.AllowUserToDeleteRows = false;
+            this.dataGridView_NhanVien.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView_NhanVien.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_NhanVien.Location = new System.Drawing.Point(0, 54);
+            this.dataGridView_NhanVien.Name = "dataGridView_NhanVien";
+            this.dataGridView_NhanVien.ReadOnly = true;
+            this.dataGridView_NhanVien.Size = new System.Drawing.Size(829, 338);
+            this.dataGridView_NhanVien.TabIndex = 0;
+            this.dataGridView_NhanVien.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_NhanVien_CellDoubleClick);
+            // 
+            // btnHDctt
+            // 
+            this.btnHDctt.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnHDctt.ForeColor = System.Drawing.Color.Blue;
+            this.btnHDctt.Location = new System.Drawing.Point(7, 293);
+            this.btnHDctt.Name = "btnHDctt";
+            this.btnHDctt.Size = new System.Drawing.Size(195, 27);
+            this.btnHDctt.TabIndex = 18;
+            this.btnHDctt.Text = "Hóa Đơn Chưa Thanh Toán";
+            this.btnHDctt.UseVisualStyleBackColor = true;
+            this.btnHDctt.Click += new System.EventHandler(this.btnHDctt_Click);
+            // 
             // FrmSystem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1801,8 +1805,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_HoaDon)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.panel_Xoa.ResumeLayout(false);
-            this.panel_Xoa.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -1882,9 +1884,9 @@
             this.panel48.ResumeLayout(false);
             this.panel48.PerformLayout();
             this.panel47.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_NhanVien)).EndInit();
             this.panel8.ResumeLayout(false);
             this.panel8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_NhanVien)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1902,14 +1904,12 @@
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DateTimePicker dateTimePicker_To;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label_TongTien;
         private System.Windows.Forms.TextBox txtTongTien;
         private System.Windows.Forms.Button btnLoc;
         private System.Windows.Forms.Button btnXoaHoaDon;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.DataGridView dataGridView_HoaDon;
-        private System.Windows.Forms.Panel panel_Xoa;
-        private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.DataGridView dataGridView_DanhMuc;
@@ -2038,5 +2038,6 @@
         private System.Windows.Forms.Panel panel8;
         private System.Windows.Forms.Button btnFindStaff;
         private System.Windows.Forms.TextBox txtFindStaff;
+        private System.Windows.Forms.Button btnHDctt;
     }
 }

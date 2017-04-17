@@ -52,17 +52,17 @@ namespace QuanLyNhaHang.DAL
             }
             catch { }
         }
-         /// <summary>
-         /// gộp bàn
-         /// </summary>
-         /// <param name="idBan1"></param>
-         /// <param name="idBan2"></param>
-         /// <param name="idBanGop"></param>
+        /// <summary>
+        /// gộp bàn
+        /// </summary>
+        /// <param name="idBan1"></param>
+        /// <param name="idBan2"></param>
+        /// <param name="idBanGop"></param>
         public static void lumpTable(int idBan1, int idBan2, int idBanGop)
         {
             try
             {
-                DatabaseExecute.sqlExecuteNonQuery("StoredProcedure_GopBan @idBan1 , @idBan2 , @idBanGop ", new object[] { idBan1, idBan2, idBanGop});
+                DatabaseExecute.sqlExecuteNonQuery("StoredProcedure_GopBan @idBan1 , @idBan2 , @idBanGop ", new object[] { idBan1, idBan2, idBanGop });
             }
             catch { }
         }
@@ -72,7 +72,7 @@ namespace QuanLyNhaHang.DAL
         public static bool insertTable(string tenBan, int idSanh, string trangThai)
         {
             if (tenBan.Length > 100) return false;
-            int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("INSERT dbo.BanAn(tenBan, idSanh, trangThai) VALUES(N'{0}', {1}, N'{2}')",tenBan,idSanh, trangThai));
+            int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("INSERT dbo.BanAn(tenBan, idSanh, trangThai) VALUES(N'{0}', {1}, N'{2}')", tenBan, idSanh, trangThai));
             return result > 0;
         }
 
@@ -84,7 +84,7 @@ namespace QuanLyNhaHang.DAL
 
         public static bool updateTable(int idBan, int idSanh, string tenBan)
         {
-            int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("UPDATE dbo.BanAn SET tenBan = N'{0}', idSanh = {1} WHERE idBanAn = {2}",tenBan,idSanh, idBan));
+            int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("UPDATE dbo.BanAn SET tenBan = N'{0}', idSanh = {1} WHERE idBanAn = {2}", tenBan, idSanh, idBan));
             return result > 0;
         }
 
@@ -92,6 +92,13 @@ namespace QuanLyNhaHang.DAL
         {
             return (int)DatabaseExecute.sqlExecuteScalar("SELECT COUNT(*) FROM dbo.BanAn WHERE checkDelete = 0");
         }
+
+
+        //public static bool updateEmptyTable(int idTable)
+        //{
+        //    int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("UPDATE dbo.BanAn SET trangThai = N'Bàn Trống' WHERE idBanAn = {0}", idTable));
+        //    return result > 0;
+        //}
 
     }
 }

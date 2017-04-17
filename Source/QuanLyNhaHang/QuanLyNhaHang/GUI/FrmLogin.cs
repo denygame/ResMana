@@ -29,15 +29,15 @@ namespace QuanLyNhaHang.GUI
 
         private void btnDangNhap_Click(object sender, EventArgs e)
         {
-            eventDN(this, new EventTruyenDuLieu(AccountDAL.getAccount(txtUserName.Text)));
-            
-            if(AccountDAL.login(txtUserName.Text, txtPassWord.Text))
+            if (AccountDAL.login(txtUserName.Text, txtPassWord.Text) != 0)
             {
+                eventDN(this, new EventTruyenDuLieu(AccountDAL.getAccount(txtUserName.Text)));
                 this.Close();
             }
             else
             {
                 MessageBox.Show("Sai tài khoản hoặc mật khẩu", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
         }
 

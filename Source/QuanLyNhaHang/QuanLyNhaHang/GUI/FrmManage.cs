@@ -63,12 +63,7 @@ namespace QuanLyNhaHang
             BillDAL.deleteBill_CancleTable((dataGridView_HDtheoBan.Tag as Table).IdBanAn);
             showBill((dataGridView_HDtheoBan.Tag as Table).IdBanAn);
             loadTableWithIdSanh((cbSanh.SelectedItem as Sanh).IdSanh);
-            btnHuyBan.Enabled = false;
-            cbChuyenBan.Enabled = false;
-            btnChuyenBan.Enabled = false;
-            cbChuyenBan.DataSource = null;
-            cbSanh.Select();
-            txtBan.Text = "";
+            resetTagTable();
         }
 
         private void btnChuyenBan_Click(object sender, EventArgs e)
@@ -100,9 +95,44 @@ namespace QuanLyNhaHang
             loadTableWithIdSanh((cbSanh.SelectedItem as Sanh).IdSanh);
         }
 
+        /// <summary>
+        /// test lai
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnThanhToan_Click(object sender, EventArgs e)
         {
+            if (dataGridView_HDtheoBan.Tag == null)
+            {
+                MessageBox.Show("Hãy chọn bàn cần thanh toán!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            int idBill = BillDAL.getIdBillUncheckByIdTable((dataGridView_HDtheoBan.Tag as Table).IdBanAn);
 
+            int discount = (int)nUdGiamGia.Value;
+
+            //đổi chuỗi
+            string[] test = txtTongTien.Text.ToString().Split(new char[] { ',', '.' });
+            string tP = "";
+            for (int i = 0; i < test.Length - 1; i++) tP += test[i];
+
+            double totalPrice = Convert.ToDouble(tP);
+
+            double finalPrice = totalPrice - (totalPrice * discount) / 100;
+
+            string tenBan = (dataGridView_HDtheoBan.Tag as Table).TenBan;
+
+            if (idBill != -1)
+            {
+                if (MessageBox.Show(string.Format("Bạn có chắc thanh toán hóa đơn cho {0}\n\nTổng tiền phải trả = (Tổng tiền) X (Giảm giá)% \n => {1} X {2}% = {3}", tenBan, totalPrice, discount, finalPrice), "Xác Nhận", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                {
+                    BillDAL.CheckOut(idBill, discount, (float)finalPrice);
+                    showBill((dataGridView_HDtheoBan.Tag as Table).IdBanAn);
+                    loadTableWithIdSanh((cbSanh.SelectedItem as Sanh).IdSanh);
+
+                    resetTagTable();
+                }
+            }
         }
 
         //load bàn theo cbSanh
@@ -285,6 +315,19 @@ namespace QuanLyNhaHang
 
 
         /// <summary>
+        /// dùng cho nút thanh toán vs hủy bàn
+        /// </summary>
+        private void resetTagTable()
+        {
+            btnHuyBan.Enabled = false;
+            cbChuyenBan.Enabled = false;
+            btnChuyenBan.Enabled = false;
+            cbChuyenBan.DataSource = null;
+            cbSanh.Select();
+            txtBan.Text = "";
+        }
+
+        /// <summary>
         /// list bàn có thể gộp
         /// </summary>
         /// <returns></returns>
@@ -407,7 +450,7 @@ namespace QuanLyNhaHang
             }
         }
 
-        //hàm tạo bàn ăn (test lại)
+        //hàm tạo bàn ăn (test lại phần default)
         private Button initTable(Table banAn)
         {
             Button btn = new Button() { Width = this.widthButtonBanAn, Height = this.widthButtonBanAn };
@@ -432,11 +475,11 @@ namespace QuanLyNhaHang
                     btn.ImageAlign = ContentAlignment.TopCenter;
                     btn.BackColor = Color.LightPink;
                     break;
-                case "Bàn Đặt Chỗ":
-                    bmp = new Bitmap(@"Img\datCho.png");
+                default:
+                    bmp = new Bitmap(@"Img\banTrong.png");
                     btn.Image = bmp;
                     btn.ImageAlign = ContentAlignment.TopCenter;
-                    btn.BackColor = Color.LightGray;
+                    btn.BackColor = Color.LightBlue;
                     break;
             }
             //phải để event ở đây, k để trên khởi tạo danh sách bàn ăn <bug>

@@ -62,12 +62,45 @@ namespace QuanLyNhaHang.DAL
         }
 
         /// <summary>
-        /// lấy danh sách hóa đơn chưa thanh toán
+        /// lấy danh sách hóa đơn chưa thanh toán (không dùng nữa)
         /// </summary>
         /// <returns></returns>
         public static DataTable getListUncheckBill()
         {
             return DatabaseExecute.sqlQuery("SELECT s.tenSanh, ba.tenBan, hd.ngayDen, hd.trangThai FROM dbo.HoaDon AS hd, dbo.BanAn AS ba, dbo.Sanh AS s WHERE ba.idBanAn = hd.idBanAn AND ba.idSanh = s.idSanh AND hd.trangThai = N'Chưa thanh toán'");
+        }
+
+        public static DataTable GetBillListByDateANDpage(DateTime In, DateTime Out, int page, int pageRows)
+        {
+            return DatabaseExecute.sqlQuery("StoredProcedure_PhanTrangHoaDonDTT @dateIn , @dateOut , @page , @pageRows", new object[] { In, Out, page, pageRows });
+        }
+
+        public static DataTable GetBillUncheckListByDateANDpage(int page, int pageRows)
+        {
+            return DatabaseExecute.sqlQuery("StoredProcedure_PhanTrangHoaDonCTT @page , @pageRows", new object[] { page, pageRows });
+        }
+
+
+        public static void CheckOut(int idBill, int discount, float totalPrice)
+        {
+            string query = "UPDATE dbo.HoaDon SET tongTien = " + totalPrice + ", ngayDen = GETDATE(), trangThai = N'Đã thanh toán', discount = " + discount + " WHERE idHoaDon = " + idBill;
+            DatabaseExecute.sqlExecuteNonQuery(query);
+        }
+
+        public static int GetNumBillByDate(DateTime from, DateTime to)
+        {
+            return (int)DatabaseExecute.sqlExecuteScalar("StoredProcedure_laySoHoaDonDTT @dateIn , @dateOut", new object[] { from, to });
+        }
+
+        public static int GetNumUncheckBill()
+        {
+            return (int)DatabaseExecute.sqlExecuteScalar("StoredProcedure_laySoHoaDonCTT");
+        }
+
+
+        public static double getTotalMoney(DateTime from, DateTime to)
+        {
+            return (double)DatabaseExecute.sqlExecuteScalar("StoredProcedure_layTongDoanhThu @dateIn , @dateOut ", new object[] { from, to });
         }
     }
 }

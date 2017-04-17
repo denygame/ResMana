@@ -49,7 +49,6 @@ namespace QuanLyNhaHang.GUI
             //format custom datetimepicker
             dTp_NgaySinh.Format = DateTimePickerFormat.Custom;
             dTp_NgaySinh.CustomFormat = "dd/MM/yyyy";
-
             
             if (test != null)
             {
@@ -80,6 +79,7 @@ namespace QuanLyNhaHang.GUI
             txtQue.Text = nv.QueQuan;
             txtSDT.Text = nv.Tel;
         }
+
         private void closeReadOnly()
         {
             txtTen.ReadOnly = false;
@@ -95,17 +95,20 @@ namespace QuanLyNhaHang.GUI
             txtChucVu.ReadOnly = false;
             txtIdNhanVien.Enabled = false;
         }
+
         private void btnThayDoi_Click(object sender, EventArgs e)
         {
             if(checkClickTD == false)
             {
                 btnCapAcc.Visible = false;
                 btnThayDoi.BackColor = Color.PaleTurquoise;
+                this.AcceptButton = btnThayDoi;
                 checkClickTD = true;
                 closeReadOnly();
             }
             else
             {
+                this.AcceptButton = null;
                 string gT = "";
                 btnCapAcc.Visible = true;
                 btnThayDoi.BackColor = Color.Silver;
@@ -149,9 +152,15 @@ namespace QuanLyNhaHang.GUI
             }
             else
             {
-                FrmAddAccount f = new FrmAddAccount();
+                FrmAddAccount f = new FrmAddAccount(nv);
+                f.EvFromAddAccount += F_EvFromAddAccount;
                 f.ShowDialog();
             }
+        }
+
+        private void F_EvFromAddAccount(object sender, EventArgs e)
+        {
+            thaydoi(this, new EventArgs());
         }
     }
 }

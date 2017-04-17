@@ -42,10 +42,15 @@ namespace QuanLyNhaHang.DAL
             return result > 0;
         }
 
+        //xoa 1 nhan vien fai xoa cac tk
         public static bool deleteStaff(int id)
         {
-            int result = DatabaseExecute.sqlExecuteNonQuery("UPDATE dbo.NhanVien SET checkDelete = 1 WHERE idNhanVien = " + id);
-            return result > 0;
+            if (AccountDAL.deleteAccByIdStaff(id))
+            {
+                int result = DatabaseExecute.sqlExecuteNonQuery("UPDATE dbo.NhanVien SET checkDelete = 1 WHERE idNhanVien = " + id);
+                return result > 0;
+            }
+            return false;
         }
 
         public static bool updateStaff(int id, string ten, DateTime ngSinh, string gT, string cV, string que, string dC, string tel, string email)

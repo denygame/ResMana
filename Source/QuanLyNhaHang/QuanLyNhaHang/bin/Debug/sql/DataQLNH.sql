@@ -24,8 +24,8 @@ CREATE TABLE NhanVien
 
 CREATE TABLE TaiKhoan
 (
-	userName NVARCHAR(100) PRIMARY KEY,
-	pass NVARCHAR(1000) NOT NULL,
+	userName VARCHAR(100) PRIMARY KEY,
+	pass VARCHAR(1000) NOT NULL,
 	idNhanVien INT NOT NULL,
 	loaiTK INT NOT NULL DEFAULT 1, -- 0: Admin || 1: Nhân Viên || 2: Quản Lý
 
@@ -84,7 +84,7 @@ CREATE TABLE HoaDon
 	discount INT DEFAULT 0, -- mặc định giảm giá 0%
 
 	tongTien FLOAT NOT NULL,
-	userName NVARCHAR(100),
+	userName VARCHAR(100),
 	trangThai NVARCHAR(100) DEFAULT N'Chưa thanh toán', -- 0: Chưa thanh toán || 1: OK
 
 	FOREIGN KEY (idBanAn) REFERENCES dbo.BanAn(idBanAn),
@@ -118,13 +118,13 @@ GO
 
 
 
-CREATE PROC	StoredProcedure_DangNhap
-@userName nvarchar(100), @passWOrd nvarchar(1000)
-AS
-BEGIN
-	SELECT * FROM dbo.TaiKhoan WHERE userName = @userName AND pass = @passWOrd 
-END
-GO
+--CREATE PROC	StoredProcedure_DangNhap
+--@userName nvarchar(100), @passWOrd nvarchar(1000)
+--AS
+--BEGIN
+--	SELECT * FROM dbo.TaiKhoan WHERE userName = @userName AND pass = @passWOrd AND checkDelete = 0
+--END
+--GO
 
 CREATE PROC	StoredProcedure_ThemHoaDon
 @idBanAn INT, @userName NVARCHAR(100)
@@ -347,6 +347,79 @@ GO
 
 
 
+CREATE PROC StoredProcedure_PhanTrangHoaDonDTT
+@dateIn DATE, @dateOut DATE, @page INT, @pageRows INT
+AS
+BEGIN
+	DECLARE @exceptRows INT = (@page - 1) * @pageRows
+-- tạo 1 table tạm cách khác
+	;WITH BillShow AS (SELECT b.idHoaDon AS [ID Bill], s.tenSanh AS [Tên sảnh],t.tenBan AS [Tên bàn], b.ngayDen AS [Ngày đến], b.tongTien AS [Tổng tiền], CAST(discount AS NVARCHAR(100)) + N'%' AS [Đã giảm giá]
+	FROM dbo.HoaDon AS b, dbo.BanAn AS t, dbo.Sanh AS s
+	WHERE b.ngayDen >= @dateIn AND b.ngayDen <= @dateOut AND b.trangThai = N'Đã thanh toán'
+	AND t.idBanAn = b.idBanAn AND t.idSanh = s.idSanh) 
+	
+	SELECT TOP (@pageRows) * FROM BillShow WHERE BillShow.[ID Bill] NOT IN (SELECT TOP (@exceptRows) BillShow.[ID Bill] FROM BillShow)
+END
+GO
+
+
+CREATE PROC StoredProcedure_laySoHoaDonDTT
+@dateIn DATE, @dateOut DATE
+AS
+BEGIN
+	SELECT COUNT(*)
+	FROM dbo.HoaDon AS b, dbo.BanAn AS t
+	WHERE b.ngayDen >= @dateIn AND b.ngayDen <= @dateOut AND b.trangThai = N'Đã thanh toán'
+	AND t.idBanAn = b.idBanAn 
+END
+GO
+
+CREATE PROC StoredProcedure_PhanTrangHoaDonCTT
+@page INT, @pageRows INT
+AS
+BEGIN
+	DECLARE @exceptRows INT = (@page - 1) * @pageRows
+-- tạo 1 table tạm cách khác
+	;WITH BillShow AS (SELECT b.idHoaDon AS [ID Bill], s.tenSanh AS[Tên sảnh], t.tenBan AS [Tên bàn], b.ngayDen AS [Ngày đến], b.trangThai AS [Trạng thái] 
+	FROM dbo.HoaDon AS b, dbo.BanAn AS t, dbo.Sanh AS s
+	WHERE b.trangThai = N'Chưa thanh toán'
+	AND t.idBanAn = b.idBanAn AND t.idSanh = s.idSanh) 
+	
+	SELECT TOP (@pageRows) * FROM BillShow WHERE BillShow.[ID Bill] NOT IN (SELECT TOP (@exceptRows) BillShow.[ID Bill] FROM BillShow)
+END
+GO
+
+
+CREATE PROC StoredProcedure_laySoHoaDonCTT
+AS
+BEGIN
+	SELECT COUNT(*)
+	FROM dbo.HoaDon
+	WHERE trangThai = N'Chưa thanh toán'
+END
+GO
+
+
+
+CREATE PROC StoredProcedure_layTongDoanhThu
+@dateIn DATE, @dateOut DATE
+AS
+BEGIN
+	SELECT SUM(tongTien)
+	FROM dbo.HoaDon
+	WHERE ngayDen >= @dateIn AND ngayDen <= @dateOut AND trangThai = N'Đã thanh toán'
+END
+GO
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -458,18 +531,19 @@ END
 GO
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+CREATE TRIGGER TG_update_HoaDon ON dbo.HoaDon FOR UPDATE
+AS
+BEGIN
+	DECLARE @idBill INT
+	SELECT @idBill = Inserted.idHoaDon FROM Inserted
+	DECLARE @idTable INT
+	SELECT @idTable = idBanAn FROM dbo.HoaDon WHERE idHoaDon = @idBill
+	DECLARE @count INT = 0
+	SELECT @count = COUNT(*) FROM dbo.HoaDon WHERE idBanAn = @idTable AND trangThai = N'Chưa thanh toán'
+	IF(@count = 0)
+		UPDATE dbo.BanAn SET trangThai = N'Bàn Trống' WHERE idBanAn = @idTable
+END
+GO
 
 
 
@@ -501,21 +575,21 @@ INSERT dbo.TaiKhoan
 VALUES  ( N'denygame', -- userName - nvarchar(100)
           N'123', -- pass - nvarchar(1000)
           1, -- idNhanVien - int
-          1  -- loaiTK - int
+          2  -- loaiTK - int
           )
 INSERT dbo.TaiKhoan
         ( userName, pass, idNhanVien, loaiTK )
 VALUES  ( N'huy96', -- userName - nvarchar(100)
           N'123', -- pass - nvarchar(1000)
           1, -- idNhanVien - int
-          0  -- loaiTK - int
+          1  -- loaiTK - int
           )
 INSERT dbo.TaiKhoan
         ( userName, pass, idNhanVien, loaiTK )
 VALUES  ( N'aaaa', -- userName - nvarchar(100)
           N'123', -- pass - nvarchar(1000)
           1, -- idNhanVien - int
-          0  -- loaiTK - int
+          1  -- loaiTK - int
           )
 INSERT dbo.Sanh
         ( tenSanh )

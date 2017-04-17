@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,6 +43,7 @@ namespace QuanLyNhaHang.GUI
         #region - KHỞI TẠO -
         private void Initialize()
         {
+            fullRowSelectDtGv();
             getListUncheckBill();
 
             setTime1Month();
@@ -71,6 +73,17 @@ namespace QuanLyNhaHang.GUI
             loadCbLoaiTK();
         }
 
+
+        private void fullRowSelectDtGv()
+        {
+            dataGridView_BanAn.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView_DanhMuc.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView_HoaDon.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView_NhanVien.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView_Sanh.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView_TaiKhoan.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView_ThucAn.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+        }
 
         private void loadDataStaff()
         {
@@ -191,36 +204,7 @@ namespace QuanLyNhaHang.GUI
         }
 
 
-        private void thietKeThemXoa(string themSua, string tab, FlowLayoutPanel fl)
-        {
-            Button btnTX = new Button();
-            btnTX.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            btnTX.Name = "btn" + themSua + tab;
-            btnTX.Size = new System.Drawing.Size(155, 32);
-            btnTX.TabIndex = 17;
-            if (themSua == Constant.them)
-                btnTX.Text = "Thêm";
-            else btnTX.Text = "Sửa";
-            btnTX.ForeColor = Color.Blue;
-            btnTX.UseVisualStyleBackColor = false;
-            this.AcceptButton = btnTX;
-            btnTX.Click += btnTX_Click;
-            fl.Controls.Add(btnTX);
-
-
-            Button btnHuy = new Button();
-            btnHuy.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            btnHuy.Name = "btnHuy" + tab;
-            btnHuy.ForeColor = Color.Red;
-            btnHuy.Size = new System.Drawing.Size(155, 32);
-            btnHuy.TabIndex = 17;
-            btnHuy.Text = "Hủy";
-            btnHuy.UseVisualStyleBackColor = false;
-
-            btnHuy.Click += btnHuy_Click;
-            fl.Controls.Add(btnHuy);
-        }
-
+        #region - Method thêm xóa sửa -
         private void insertCategory()
         {
             if (txtTenDanhMuc.Text != "")
@@ -486,7 +470,7 @@ namespace QuanLyNhaHang.GUI
                 MessageBox.Show("Có lỗi khi xóa bàn ăn", "Thông Báo", MessageBoxButtons.OK);
             }
         }
-
+        
 
 
         private void updateAccount()
@@ -494,8 +478,8 @@ namespace QuanLyNhaHang.GUI
             int loaiTK = 0;
             switch (cbLoaiTK.SelectedIndex)
             {
-                case 0: loaiTK = 1; break;
-                case 1: loaiTK = 0; break;
+                case 0: loaiTK = 2; break;
+                case 1: loaiTK = 1; break;
             }
             if (AccountDAL.updateAccount(txtUsername.Text, loaiTK))
             {
@@ -527,8 +511,10 @@ namespace QuanLyNhaHang.GUI
             }
         }
 
+        #endregion
 
 
+        #region - Setup Controls
         private void setButtonHuyDanhMuc()
         {
             panel11.Visible = true;
@@ -596,8 +582,36 @@ namespace QuanLyNhaHang.GUI
         }
 
 
+        
+        private void thietKeThemXoa(string themSua, string tab, FlowLayoutPanel fl)
+        {
+            Button btnTX = new Button();
+            btnTX.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            btnTX.Name = "btn" + themSua + tab;
+            btnTX.Size = new System.Drawing.Size(155, 32);
+            btnTX.TabIndex = 17;
+            if (themSua == Constant.them)
+                btnTX.Text = "Thêm";
+            else btnTX.Text = "Sửa";
+            btnTX.ForeColor = Color.Blue;
+            btnTX.UseVisualStyleBackColor = false;
+            this.AcceptButton = btnTX;
+            btnTX.Click += btnTX_Click;
+            fl.Controls.Add(btnTX);
 
 
+            Button btnHuy = new Button();
+            btnHuy.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            btnHuy.Name = "btnHuy" + tab;
+            btnHuy.ForeColor = Color.Red;
+            btnHuy.Size = new System.Drawing.Size(155, 32);
+            btnHuy.TabIndex = 17;
+            btnHuy.Text = "Hủy";
+            btnHuy.UseVisualStyleBackColor = false;
+
+            btnHuy.Click += btnHuy_Click;
+            fl.Controls.Add(btnHuy);
+        }
 
         private void btnHuy_Click(object sender, EventArgs e)
         {
@@ -662,18 +676,128 @@ namespace QuanLyNhaHang.GUI
             }
         }
 
+        #endregion
+
+
         private void getListUncheckBill()
         {
-            dataGridView_HoaDon.DataSource = BillDAL.getListUncheckBill();
-
-            dataGridView_HoaDon.Columns[0].HeaderText = "Tên Sảnh";
-            dataGridView_HoaDon.Columns[1].HeaderText = "Tên Bàn";
-            dataGridView_HoaDon.Columns[2].HeaderText = "Ngày Đến";
-            dataGridView_HoaDon.Columns[3].HeaderText = "Trạng Thái";
+            dataGridView_HoaDon.DataSource = BillDAL.GetBillUncheckListByDateANDpage(Convert.ToInt32(txtTrangBill.Text), Constant.phanTrangHD);
         }
+
+        private void loadFrmStaff(string test = null)
+        {
+            int rowindex = dataGridView_NhanVien.CurrentCell.RowIndex;
+            //int columnindex = dataGridView_NhanVien.CurrentCell.ColumnIndex;
+            string result = dataGridView_NhanVien.Rows[rowindex].Cells[0].Value.ToString();
+
+            if (result != null)
+            {
+                FrmStaffProfile f;
+                Staff nv = StaffDAL.getStaff(Convert.ToInt32(result));
+                if (test != null)
+                    f = new FrmStaffProfile(test);
+                else f = new FrmStaffProfile(nv);
+
+                f.Thaydoi += F_Thaydoi;
+                f.ShowDialog();
+            }
+        }
+
+
         #endregion
 
         #region Events
+
+
+        #region - Phân Trang Hóa Đơn - 
+
+        private bool checkPageBill = false; //chua thanh toan false, da thanh toan true 
+
+        private void btnTrangTruocBill_Click(object sender, EventArgs e)
+        {
+            int pageNow = Convert.ToInt32(txtTrangBill.Text);
+            if (pageNow > 1)
+                pageNow--;
+            txtTrangBill.Text = pageNow.ToString();
+        }
+
+        private void btnTrangSauBill_Click(object sender, EventArgs e)
+        {
+            int tongHd;
+            int pageNow = Convert.ToInt32(txtTrangBill.Text);
+            if (checkPageBill == true)
+                tongHd = BillDAL.GetNumBillByDate(dateTimePicker_From.Value, dateTimePicker_To.Value);
+            else tongHd = BillDAL.GetNumUncheckBill();
+
+            int lastPage = tongHd / Constant.phanTrangHD;
+            if (tongHd % Constant.phanTrangHD != 0)
+                lastPage++;
+            if (pageNow < lastPage)
+                pageNow++;
+            txtTrangBill.Text = pageNow.ToString();
+        }
+
+        private void txtTrangBill_TextChanged(object sender, EventArgs e)
+        {
+            if (checkPageBill == false)
+                dataGridView_HoaDon.DataSource = BillDAL.GetBillUncheckListByDateANDpage(Convert.ToInt32(txtTrangBill.Text), Constant.phanTrangHD);
+            else
+                dataGridView_HoaDon.DataSource = BillDAL.GetBillListByDateANDpage(dateTimePicker_From.Value, dateTimePicker_To.Value, Convert.ToInt32(txtTrangBill.Text), Constant.phanTrangHD);
+        }
+
+        private void btnLoc_Click(object sender, EventArgs e)
+        {
+            label_TongTien.Visible = true;
+            txtTongTien.Visible = true;
+            txtTongTien.Text = "Nothing...";
+
+            checkPageBill = true;
+            txtTrangBill.Text = "1";
+            dataGridView_HoaDon.DataSource = BillDAL.GetBillListByDateANDpage(dateTimePicker_From.Value, dateTimePicker_To.Value, Convert.ToInt32(txtTrangBill.Text), Constant.phanTrangHD);
+
+            try
+            {
+                double tongtien = BillDAL.getTotalMoney(dateTimePicker_From.Value, dateTimePicker_To.Value);
+
+                //thay đổi giá trị tiền về việt nam đồng
+                CultureInfo culture = new CultureInfo("vi-vN");
+                txtTongTien.Text = tongtien.ToString("c", culture);
+            }
+            catch { }
+        }
+
+        private void btnTrangCuoiBill_Click(object sender, EventArgs e)
+        {
+            int tongHd;
+            if (checkPageBill == true)
+                tongHd = BillDAL.GetNumBillByDate(dateTimePicker_From.Value, dateTimePicker_To.Value);
+            else tongHd = BillDAL.GetNumUncheckBill();
+
+            int lastPage = tongHd / 10;
+            if (tongHd % 10 != 0)
+                lastPage++;
+            txtTrangBill.Text = lastPage.ToString();
+        }
+
+        private void btnTrangDauBill_Click(object sender, EventArgs e)
+        {
+            txtTrangBill.Text = "1";
+        }
+
+        private void btnHDctt_Click(object sender, EventArgs e)
+        {
+            label_TongTien.Visible = false;
+            txtTongTien.Visible = false;
+
+            checkPageBill = false;
+            txtTrangBill.Text = "1";
+            dataGridView_HoaDon.DataSource = BillDAL.GetBillUncheckListByDateANDpage(Convert.ToInt32(txtTrangBill.Text), Constant.phanTrangHD);
+        }
+
+        #endregion
+
+
+        #region - Event thêm xóa sửa -
         private void btnThemDanhMuc_Click(object sender, EventArgs e)
         {
             panel_IdDM.Visible = false;
@@ -872,22 +996,33 @@ namespace QuanLyNhaHang.GUI
             deleteAccount();
         }
 
-        private void FrmSystem_Load(object sender, EventArgs e)
+
+        private void btnXemNhanVien_Click(object sender, EventArgs e)
         {
-            Initialize();
-
-
+            loadFrmStaff();
         }
 
-        private void btnTrangTruocBill_Click(object sender, EventArgs e)
+        private void btnXoaNhanVien_Click(object sender, EventArgs e)
         {
-
+            int rowindex = dataGridView_NhanVien.CurrentCell.RowIndex;
+            //int columnindex = dataGridView_NhanVien.CurrentCell.ColumnIndex;
+            string result = dataGridView_NhanVien.Rows[rowindex].Cells[0].Value.ToString();
+            if (result != null)
+            {
+                if (result != idNhanVienLogin.ToString())
+                {
+                    if (StaffDAL.deleteStaff(Convert.ToInt32(result)))
+                        F_Thaydoi(sender, e);
+                }
+                else MessageBox.Show("Không thể xóa!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        private void btnTrangSauBill_Click(object sender, EventArgs e)
+        private void btnThemNhanVien_Click(object sender, EventArgs e)
         {
-
+            loadFrmStaff("testNotNull");
         }
+
 
         private void txtIdThucAn_TextChanged(object sender, EventArgs e)
         {
@@ -928,40 +1063,10 @@ namespace QuanLyNhaHang.GUI
             Account acc = AccountDAL.getAccount(txtUsername.Text);
             switch (acc.LoaiTK)
             {
-                case 0: cbLoaiTK.SelectedIndex = 1; break;
-                case 1: cbLoaiTK.SelectedIndex = 0; break;
+                case 1: cbLoaiTK.SelectedIndex = 1; break;
+                case 2: cbLoaiTK.SelectedIndex = 0; break;
             }
         }
-
-        #endregion
-
-
-
-
-
-
-        private void loadFrmStaff(string test = null)
-        {
-
-            int rowindex = dataGridView_NhanVien.CurrentCell.RowIndex;
-            //int columnindex = dataGridView_NhanVien.CurrentCell.ColumnIndex;
-            string result = dataGridView_NhanVien.Rows[rowindex].Cells[0].Value.ToString();
-
-            if (result != null)
-            {
-                FrmStaffProfile f;
-                Staff nv = StaffDAL.getStaff(Convert.ToInt32(result));
-                if (test != null)
-                    f = new FrmStaffProfile(test);
-                else f = new FrmStaffProfile(nv);
-
-                f.Thaydoi += F_Thaydoi;
-                f.ShowDialog();
-            }
-        }
-
-
-
 
         private void dataGridView_NhanVien_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -970,34 +1075,19 @@ namespace QuanLyNhaHang.GUI
 
         private void F_Thaydoi(object sender, EventArgs e)
         {
+            loadDataAccount();
             loadDataStaff();
         }
 
-        private void btnXemNhanVien_Click(object sender, EventArgs e)
+        #endregion
+
+        private void FrmSystem_Load(object sender, EventArgs e)
         {
-            loadFrmStaff();
+            Initialize();
         }
 
-        private void btnXoaNhanVien_Click(object sender, EventArgs e)
-        {
-            int rowindex = dataGridView_NhanVien.CurrentCell.RowIndex;
-            //int columnindex = dataGridView_NhanVien.CurrentCell.ColumnIndex;
-            string result = dataGridView_NhanVien.Rows[rowindex].Cells[0].Value.ToString();
-            if (result != null)
-            {
-                if (result != idNhanVienLogin.ToString())
-                {
-                    if (StaffDAL.deleteStaff(Convert.ToInt32(result)))
-                        loadDataStaff();
-                }
-                else MessageBox.Show("Không thể xóa!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+        #endregion
 
-        private void btnThemNhanVien_Click(object sender, EventArgs e)
-        {
-            loadFrmStaff("testNotNull");
-        }
 
     }
 }

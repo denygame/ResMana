@@ -29,10 +29,13 @@ namespace QuanLyNhaHang
         public static string them = "Them";
         public static string sua = "Sua";
 
+        //3 loại tk : 0 là admin, 1 là nhân viên 2 là quản lý
         public static List<string> listLoaiTK = new List<string>() { "Quản Lý", "Nhân Viên" };
 
         public static List<string> listGioiTinh = new List<string>() { "Nam", "Nữ" };
         public static List<string> listNu = new List<string>() { "Nữ" };
         public static List<string> listNam = new List<string>() { "Nam" };
+
+        public static int phanTrangHD = 16;
     }
 }
