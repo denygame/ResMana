@@ -18,8 +18,8 @@ namespace QuanLyNhaHang.GUI
 
         private bool checkClickTD;
 
-        private event EventHandler thaydoi;
-        public event EventHandler Thaydoi
+        private event EventHandler<EventTruyenDuLieu> thaydoi;
+        public event EventHandler<EventTruyenDuLieu> Thaydoi
         {
             add { thaydoi += value; }
             remove { thaydoi -= value; }
@@ -49,7 +49,7 @@ namespace QuanLyNhaHang.GUI
             //format custom datetimepicker
             dTp_NgaySinh.Format = DateTimePickerFormat.Custom;
             dTp_NgaySinh.CustomFormat = "dd/MM/yyyy";
-            
+
             if (test != null)
             {
                 btnThayDoi.Visible = false;
@@ -80,6 +80,9 @@ namespace QuanLyNhaHang.GUI
             txtSDT.Text = nv.Tel;
         }
 
+        /// <summary>
+        /// tắt readonly để có thể thay đổi dc
+        /// </summary>
         private void closeReadOnly()
         {
             txtTen.ReadOnly = false;
@@ -96,46 +99,65 @@ namespace QuanLyNhaHang.GUI
             txtIdNhanVien.Enabled = false;
         }
 
+        /// <summary>
+        /// mở readonly đồng thời trả về giới tính
+        /// </summary>
+        /// <returns></returns>
+        private string openReadOnly()
+        {
+            string gT = "";
+            dTp_NgaySinh.MinDate = dTp_NgaySinh.Value;
+            dTp_NgaySinh.MaxDate = dTp_NgaySinh.Value;
+            if (cbGT.SelectedIndex == 0)
+            {
+                gT = Constant.listNam[0];
+                cbGT.DataSource = Constant.listNam;
+            }
+            else
+            {
+                gT = Constant.listNu[0];
+                cbGT.DataSource = Constant.listNu;
+            }
+            txtTen.ReadOnly = true;
+            txtSDT.ReadOnly = true;
+            txtQue.ReadOnly = true;
+            txtEmail.ReadOnly = true;
+            txtDiaChi.ReadOnly = true;
+            txtChucVu.ReadOnly = true;
+            txtIdNhanVien.Enabled = true;
+
+            return gT;
+        }
+
         private void btnThayDoi_Click(object sender, EventArgs e)
         {
-            if(checkClickTD == false)
+            if (checkClickTD == false)
             {
                 btnCapAcc.Visible = false;
                 btnThayDoi.BackColor = Color.PaleTurquoise;
                 this.AcceptButton = btnThayDoi;
                 checkClickTD = true;
+
                 closeReadOnly();
             }
             else
             {
                 this.AcceptButton = null;
-                string gT = "";
                 btnCapAcc.Visible = true;
                 btnThayDoi.BackColor = Color.Silver;
                 checkClickTD = false;
-                dTp_NgaySinh.MinDate = dTp_NgaySinh.Value;
-                dTp_NgaySinh.MaxDate = dTp_NgaySinh.Value;
-                if (cbGT.SelectedIndex == 0)
+
+                string gT = openReadOnly();
+
+                if (StaffDAL.updateStaff(Convert.ToInt32(txtIdNhanVien.Text), txtTen.Text, dTp_NgaySinh.Value, gT, txtChucVu.Text, txtQue.Text, txtDiaChi.Text, txtSDT.Text, txtEmail.Text))
                 {
-                    gT = Constant.listNam[0];
-                    cbGT.DataSource = Constant.listNam;
+                    thaydoi(sender, new EventTruyenDuLieu(false));
                 }
                 else
                 {
-                    gT = Constant.listNu[0];
-                    cbGT.DataSource = Constant.listNu;
+                    MessageBox.Show("Có lỗi khi sửa nhân viên", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.txtTen.Focus();
                 }
-                txtTen.ReadOnly = true;
-                txtSDT.ReadOnly = true;
-                txtQue.ReadOnly = true;
-                txtEmail.ReadOnly = true;
-                txtDiaChi.ReadOnly = true;
-                txtChucVu.ReadOnly = true;
-                txtIdNhanVien.Enabled = true;
-
-                StaffDAL.updateStaff(Convert.ToInt32(txtIdNhanVien.Text), txtTen.Text, dTp_NgaySinh.Value, gT, txtChucVu.Text, txtQue.Text, txtDiaChi.Text, txtSDT.Text, txtEmail.Text);
-
-                thaydoi(sender, e);
             }
         }
 
@@ -145,10 +167,17 @@ namespace QuanLyNhaHang.GUI
             {
                 string gt = "";
                 if (cbGT.SelectedIndex == 0) gt = "Nam"; else gt = "Nữ";
-                StaffDAL.insertStaff(txtTen.Text, dTp_NgaySinh.Value, gt, txtChucVu.Text, txtQue.Text, txtDiaChi.Text, txtSDT.Text, txtEmail.Text);
 
-                thaydoi(sender, e);
-                this.Close();
+                if (StaffDAL.insertStaff(txtTen.Text, dTp_NgaySinh.Value, gt, txtChucVu.Text, txtQue.Text, txtDiaChi.Text, txtSDT.Text, txtEmail.Text))
+                {
+                    thaydoi(sender, new EventTruyenDuLieu(false));
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Có lỗi khi thêm nhân viên", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.txtTen.Focus();
+                }
             }
             else
             {
@@ -160,7 +189,7 @@ namespace QuanLyNhaHang.GUI
 
         private void F_EvFromAddAccount(object sender, EventArgs e)
         {
-            thaydoi(this, new EventArgs());
+            thaydoi(this, new EventTruyenDuLieu(true));
         }
     }
 }

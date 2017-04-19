@@ -29,7 +29,7 @@ namespace QuanLyNhaHang.GUI
 
         private void btnDangNhap_Click(object sender, EventArgs e)
         {
-            if (AccountDAL.login(txtUserName.Text, txtPassWord.Text) != 0)
+            if (AccountDAL.login(txtUserName.Text, EncryptPassword.md5(txtPassWord.Text)) != 0)
             {
                 eventDN(this, new EventTruyenDuLieu(AccountDAL.getAccount(txtUserName.Text)));
                 this.Close();

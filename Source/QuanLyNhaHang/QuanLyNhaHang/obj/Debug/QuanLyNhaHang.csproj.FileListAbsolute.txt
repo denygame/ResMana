@@ -114,3 +114,4 @@ C:\Users\H005\Downloads\ResMana-master\ResMana-master\Source\QuanLyNhaHang\QuanL
 C:\Users\H005\Downloads\ResMana-master\ResMana-master\Source\QuanLyNhaHang\QuanLyNhaHang\obj\Debug\QuanLyNhaHang.pdb
 E:\QLNHhqtcsdl\Source\QuanLyNhaHang\QuanLyNhaHang\obj\Debug\QuanLyNhaHang.GUI.FrmAddAccount.resources
 E:\QLNHhqtcsdl\Source\QuanLyNhaHang\QuanLyNhaHang\obj\Debug\QuanLyNhaHang.GUI.FrmStaffProfile.resources
+E:\QLNHhqtcsdl\Source\QuanLyNhaHang\QuanLyNhaHang\obj\Debug\QuanLyNhaHang.GUI.FrmAccountProfile.resources

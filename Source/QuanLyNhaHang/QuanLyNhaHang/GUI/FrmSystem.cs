@@ -25,7 +25,6 @@ namespace QuanLyNhaHang.GUI
             idNhanVienLogin =  AccountDAL.getAccount(acc.UserName).IdNhanVien;
         }
 
-
         BindingSource danhmucBinding = new BindingSource();
         BindingSource thucAnBinding = new BindingSource();
         BindingSource sanhBinding = new BindingSource();
@@ -79,7 +78,7 @@ namespace QuanLyNhaHang.GUI
             dataGridView_BanAn.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView_DanhMuc.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView_HoaDon.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView_NhanVien.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            //dataGridView_NhanVien.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView_Sanh.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView_TaiKhoan.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView_ThucAn.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -87,7 +86,7 @@ namespace QuanLyNhaHang.GUI
 
         private void loadDataStaff()
         {
-            dataGridView_NhanVien.DataSource = StaffDAL.getDataTableStaff();
+            dataGridView_NhanVien.DataSource = StaffDAL.GetStaffListANDpage(Convert.ToInt32(txtTrangNhanVien.Text), Constant.phanTrangNV);
         }
 
         private void loadDataAccount()
@@ -193,6 +192,11 @@ namespace QuanLyNhaHang.GUI
 
             //thêm một tháng trừ 1 ngày => cuối tháng
             dateTimePicker_To.Value = dateTimePicker_From.Value.AddMonths(1).AddDays(-1);
+        }
+
+        private void getListUncheckBill()
+        {
+            dataGridView_HoaDon.DataSource = BillDAL.GetBillUncheckListByDateANDpage(Convert.ToInt32(txtTrangBill.Text), Constant.phanTrangHD);
         }
 
         #endregion
@@ -577,7 +581,7 @@ namespace QuanLyNhaHang.GUI
             panel39.Visible = true;
             fl_TaiKhoan.Controls.Clear();
             fl_TaiKhoan.Visible = false;
-            btnRestPass.Visible = true;
+            btnResetPass.Visible = true;
             txtUsername.Enabled = true;
         }
 
@@ -679,10 +683,7 @@ namespace QuanLyNhaHang.GUI
         #endregion
 
 
-        private void getListUncheckBill()
-        {
-            dataGridView_HoaDon.DataSource = BillDAL.GetBillUncheckListByDateANDpage(Convert.ToInt32(txtTrangBill.Text), Constant.phanTrangHD);
-        }
+
 
         private void loadFrmStaff(string test = null)
         {
@@ -739,6 +740,7 @@ namespace QuanLyNhaHang.GUI
 
         private void txtTrangBill_TextChanged(object sender, EventArgs e)
         {
+            if (txtTrangBill.Text == "0") txtTrangBill.Text = "1";
             if (checkPageBill == false)
                 dataGridView_HoaDon.DataSource = BillDAL.GetBillUncheckListByDateANDpage(Convert.ToInt32(txtTrangBill.Text), Constant.phanTrangHD);
             else
@@ -773,8 +775,8 @@ namespace QuanLyNhaHang.GUI
                 tongHd = BillDAL.GetNumBillByDate(dateTimePicker_From.Value, dateTimePicker_To.Value);
             else tongHd = BillDAL.GetNumUncheckBill();
 
-            int lastPage = tongHd / 10;
-            if (tongHd % 10 != 0)
+            int lastPage = tongHd / Constant.phanTrangHD;
+            if (tongHd % Constant.phanTrangHD != 0)
                 lastPage++;
             txtTrangBill.Text = lastPage.ToString();
         }
@@ -792,6 +794,37 @@ namespace QuanLyNhaHang.GUI
             checkPageBill = false;
             txtTrangBill.Text = "1";
             dataGridView_HoaDon.DataSource = BillDAL.GetBillUncheckListByDateANDpage(Convert.ToInt32(txtTrangBill.Text), Constant.phanTrangHD);
+        }
+
+        #endregion
+
+
+        #region - Phân Trang Nhân Viên -
+        private void txtTrangNhanVien_TextChanged(object sender, EventArgs e)
+        {
+            dataGridView_NhanVien.DataSource = StaffDAL.GetStaffListANDpage(Convert.ToInt32(txtTrangNhanVien.Text), Constant.phanTrangNV);
+        }
+
+        private void btnTrangTruocNhanVien_Click(object sender, EventArgs e)
+        {
+            int pageNow = Convert.ToInt32(txtTrangNhanVien.Text);
+            if (pageNow > 1)
+                pageNow--;
+            txtTrangNhanVien.Text = pageNow.ToString();
+        }
+
+        private void btnTrangSauNhanVien_Click(object sender, EventArgs e)
+        {
+            int tongNhanVien;
+            int pageNow = Convert.ToInt32(txtTrangNhanVien.Text);
+            tongNhanVien = StaffDAL.GetTotalStaff();
+
+            int lastPage = tongNhanVien / Constant.phanTrangNV;
+            if (tongNhanVien % Constant.phanTrangNV != 0)
+                lastPage++;
+            if (pageNow < lastPage)
+                pageNow++;
+            txtTrangNhanVien.Text = pageNow.ToString();
         }
 
         #endregion
@@ -982,7 +1015,7 @@ namespace QuanLyNhaHang.GUI
 
         private void btnSuaTaiKhoan_Click(object sender, EventArgs e)
         {
-            btnRestPass.Visible = false;
+            btnResetPass.Visible = false;
             fl_TaiKhoan.Visible = true;
             thietKeThemXoa(Constant.sua, "TK", fl_TaiKhoan);
             panel39.Visible = false;
@@ -1012,7 +1045,10 @@ namespace QuanLyNhaHang.GUI
                 if (result != idNhanVienLogin.ToString())
                 {
                     if (StaffDAL.deleteStaff(Convert.ToInt32(result)))
-                        F_Thaydoi(sender, e);
+                    {
+                        loadDataAccount();
+                        loadDataStaff();
+                    }
                 }
                 else MessageBox.Show("Không thể xóa!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -1073,10 +1109,12 @@ namespace QuanLyNhaHang.GUI
             loadFrmStaff();
         }
 
-        private void F_Thaydoi(object sender, EventArgs e)
+        private void F_Thaydoi(object sender, EventTruyenDuLieu e)
         {
-            loadDataAccount();
-            loadDataStaff();
+            if (e.CapTaiKhoan == true)
+                loadDataAccount();
+            else loadDataStaff();
+
         }
 
         #endregion
@@ -1086,8 +1124,26 @@ namespace QuanLyNhaHang.GUI
             Initialize();
         }
 
-        #endregion
+        private void btnResetPass_Click(object sender, EventArgs e)
+        {
+            string UserName = txtUsername.Text;
+            //if (UserName.ToLower() == "admin")
+            //{
+            //    MessageBox.Show("Không thể reset user admin", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.None);
+            //    return;
+            //}
+            if (AccountDAL.ResetAccount(UserName))
+            {
+                MessageBox.Show(string.Format("Đặt lại mật khẩu mặc định thành công: {0}", Constant.passDefault), "Thông Báo", MessageBoxButtons.OK);
+            }
+            else
+            {
+                MessageBox.Show("Có lỗi khi đặt lại mật khẩu!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
+
+        #endregion
 
     }
 }

@@ -49,6 +49,7 @@ namespace QuanLyNhaHang.DAL
 
         public static bool updateSanh(int id, string name)
         {
+            if (name.Length > 100) return false;
             int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("UPDATE dbo.Sanh SET tenSanh = N'{0}' WHERE idSanh = {1}", name, id));
             return result > 0;
         }

@@ -63,6 +63,7 @@ namespace QuanLyNhaHang.DAL
 
         public static bool updateFood(int idThucAn, string ten, float gia, int idMenu)
         {
+            if (ten.Length > 100) return false;
             int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("UPDATE dbo.ThucAn SET tenThucAn = N'{0}', idMenu = {1}, giaTien = {2} WHERE idThucAn = {3}", ten, idMenu, gia, idThucAn));
             return result > 0;
         }

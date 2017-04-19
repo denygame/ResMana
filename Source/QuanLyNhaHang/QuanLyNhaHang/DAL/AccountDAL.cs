@@ -58,9 +58,31 @@ namespace QuanLyNhaHang.DAL
             return (int)DatabaseExecute.sqlExecuteScalar("SELECT COUNT(*) FROM dbo.TaiKhoan WHERE userName = '" + username + "'");
         }
 
+
+        public static int countAccByIdStaff(int idStaff)
+        {
+            return (int)DatabaseExecute.sqlExecuteScalar("SELECT COUNT(*) FROM dbo.TaiKhoan WHERE idNhanVien = '" + idStaff + "'");
+        }
+
+
         public static bool deleteAccByIdStaff(int id)
         {
             int result = DatabaseExecute.sqlExecuteNonQuery("UPDATE dbo.TaiKhoan SET checkDelete = 1 WHERE idNhanVien = " + id);
+            return result > 0;
+        }
+
+        public static bool ResetAccount(string userName)
+        {
+            string query = string.Format("UPDATE dbo.TaiKhoan SET pass = N'{0}' WHERE userName = N'{1}'", EncryptPassword.md5(Constant.passDefault), userName);
+            int result = DatabaseExecute.sqlExecuteNonQuery(query);
+
+            return result > 0;
+        }
+
+        public static bool changePass(string userName, string oldPass, string newPass)
+        {
+            int result = DatabaseExecute.sqlExecuteNonQuery("StoredProcedure_doiMatKhau @userName , @passWord , @newPassword ", new object[] { userName, oldPass, newPass });
+
             return result > 0;
         }
     }

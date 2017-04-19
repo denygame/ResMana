@@ -63,7 +63,8 @@ namespace QuanLyNhaHang
 
         private void btnAcc_Click(object sender, EventArgs e)
         {
-
+            FrmAccountProfile f = new FrmAccountProfile(tkDangNhap);
+            f.ShowDialog();
         }
 
         private void btnSystem_Click(object sender, EventArgs e)

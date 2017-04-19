@@ -39,6 +39,7 @@
             this.btnTrangSauBill = new System.Windows.Forms.Button();
             this.dataGridView_HoaDon = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnHDctt = new System.Windows.Forms.Button();
             this.btnXoaHoaDon = new System.Windows.Forms.Button();
             this.btnLoc = new System.Windows.Forms.Button();
             this.label_TongTien = new System.Windows.Forms.Label();
@@ -147,7 +148,7 @@
             this.btnSuaTaiKhoan = new System.Windows.Forms.Button();
             this.panel40 = new System.Windows.Forms.Panel();
             this.fl_TaiKhoan = new System.Windows.Forms.FlowLayoutPanel();
-            this.btnRestPass = new System.Windows.Forms.Button();
+            this.btnResetPass = new System.Windows.Forms.Button();
             this.panel_LoaiTK = new System.Windows.Forms.Panel();
             this.cbLoaiTK = new System.Windows.Forms.ComboBox();
             this.label18 = new System.Windows.Forms.Label();
@@ -173,7 +174,6 @@
             this.btnFindStaff = new System.Windows.Forms.Button();
             this.txtFindStaff = new System.Windows.Forms.TextBox();
             this.dataGridView_NhanVien = new System.Windows.Forms.DataGridView();
-            this.btnHDctt = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabhHoaDon.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -295,7 +295,7 @@
             this.btnTrangCuoiBill.Location = new System.Drawing.Point(502, 12);
             this.btnTrangCuoiBill.Name = "btnTrangCuoiBill";
             this.btnTrangCuoiBill.Size = new System.Drawing.Size(103, 32);
-            this.btnTrangCuoiBill.TabIndex = 4;
+            this.btnTrangCuoiBill.TabIndex = 11;
             this.btnTrangCuoiBill.Text = "Trang Cuối";
             this.btnTrangCuoiBill.UseVisualStyleBackColor = true;
             this.btnTrangCuoiBill.Click += new System.EventHandler(this.btnTrangCuoiBill_Click);
@@ -307,7 +307,7 @@
             this.btnTrangDauBill.Location = new System.Drawing.Point(0, 12);
             this.btnTrangDauBill.Name = "btnTrangDauBill";
             this.btnTrangDauBill.Size = new System.Drawing.Size(103, 32);
-            this.btnTrangDauBill.TabIndex = 1;
+            this.btnTrangDauBill.TabIndex = 7;
             this.btnTrangDauBill.Text = "Trang Đầu";
             this.btnTrangDauBill.UseVisualStyleBackColor = true;
             this.btnTrangDauBill.Click += new System.EventHandler(this.btnTrangDauBill_Click);
@@ -317,8 +317,9 @@
             this.txtTrangBill.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTrangBill.Location = new System.Drawing.Point(275, 15);
             this.txtTrangBill.Name = "txtTrangBill";
+            this.txtTrangBill.ReadOnly = true;
             this.txtTrangBill.Size = new System.Drawing.Size(63, 27);
-            this.txtTrangBill.TabIndex = 2;
+            this.txtTrangBill.TabIndex = 9;
             this.txtTrangBill.Text = "1";
             this.txtTrangBill.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtTrangBill.TextChanged += new System.EventHandler(this.txtTrangBill_TextChanged);
@@ -330,7 +331,7 @@
             this.btnTrangTruocBill.Location = new System.Drawing.Point(118, 12);
             this.btnTrangTruocBill.Name = "btnTrangTruocBill";
             this.btnTrangTruocBill.Size = new System.Drawing.Size(103, 32);
-            this.btnTrangTruocBill.TabIndex = 2;
+            this.btnTrangTruocBill.TabIndex = 8;
             this.btnTrangTruocBill.Text = "Trang Trước";
             this.btnTrangTruocBill.UseVisualStyleBackColor = true;
             this.btnTrangTruocBill.Click += new System.EventHandler(this.btnTrangTruocBill_Click);
@@ -342,7 +343,7 @@
             this.btnTrangSauBill.Location = new System.Drawing.Point(393, 12);
             this.btnTrangSauBill.Name = "btnTrangSauBill";
             this.btnTrangSauBill.Size = new System.Drawing.Size(103, 32);
-            this.btnTrangSauBill.TabIndex = 3;
+            this.btnTrangSauBill.TabIndex = 10;
             this.btnTrangSauBill.Text = "Trang Sau";
             this.btnTrangSauBill.UseVisualStyleBackColor = true;
             this.btnTrangSauBill.Click += new System.EventHandler(this.btnTrangSauBill_Click);
@@ -358,8 +359,8 @@
             this.dataGridView_HoaDon.Location = new System.Drawing.Point(0, 0);
             this.dataGridView_HoaDon.Name = "dataGridView_HoaDon";
             this.dataGridView_HoaDon.ReadOnly = true;
-            this.dataGridView_HoaDon.Size = new System.Drawing.Size(605, 378);
-            this.dataGridView_HoaDon.TabIndex = 2;
+            this.dataGridView_HoaDon.Size = new System.Drawing.Size(605, 375);
+            this.dataGridView_HoaDon.TabIndex = 12;
             // 
             // panel1
             // 
@@ -376,6 +377,18 @@
             this.panel1.Size = new System.Drawing.Size(208, 444);
             this.panel1.TabIndex = 0;
             // 
+            // btnHDctt
+            // 
+            this.btnHDctt.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnHDctt.ForeColor = System.Drawing.Color.Blue;
+            this.btnHDctt.Location = new System.Drawing.Point(7, 293);
+            this.btnHDctt.Name = "btnHDctt";
+            this.btnHDctt.Size = new System.Drawing.Size(195, 27);
+            this.btnHDctt.TabIndex = 2;
+            this.btnHDctt.Text = "Hóa Đơn Chưa Thanh Toán";
+            this.btnHDctt.UseVisualStyleBackColor = true;
+            this.btnHDctt.Click += new System.EventHandler(this.btnHDctt_Click);
+            // 
             // btnXoaHoaDon
             // 
             this.btnXoaHoaDon.BackColor = System.Drawing.Color.Black;
@@ -384,7 +397,7 @@
             this.btnXoaHoaDon.Location = new System.Drawing.Point(9, 410);
             this.btnXoaHoaDon.Name = "btnXoaHoaDon";
             this.btnXoaHoaDon.Size = new System.Drawing.Size(193, 34);
-            this.btnXoaHoaDon.TabIndex = 17;
+            this.btnXoaHoaDon.TabIndex = 3;
             this.btnXoaHoaDon.Text = "Xóa Hóa Đơn";
             this.btnXoaHoaDon.UseVisualStyleBackColor = false;
             // 
@@ -395,7 +408,7 @@
             this.btnLoc.Location = new System.Drawing.Point(7, 243);
             this.btnLoc.Name = "btnLoc";
             this.btnLoc.Size = new System.Drawing.Size(195, 27);
-            this.btnLoc.TabIndex = 16;
+            this.btnLoc.TabIndex = 1;
             this.btnLoc.Text = "Lọc Doanh Thu";
             this.btnLoc.UseVisualStyleBackColor = true;
             this.btnLoc.Click += new System.EventHandler(this.btnLoc_Click);
@@ -421,7 +434,7 @@
             this.txtTongTien.Name = "txtTongTien";
             this.txtTongTien.ReadOnly = true;
             this.txtTongTien.Size = new System.Drawing.Size(195, 24);
-            this.txtTongTien.TabIndex = 14;
+            this.txtTongTien.TabIndex = 4;
             this.txtTongTien.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtTongTien.Visible = false;
             // 
@@ -454,7 +467,7 @@
             this.dateTimePicker_To.Location = new System.Drawing.Point(85, 3);
             this.dateTimePicker_To.Name = "dateTimePicker_To";
             this.dateTimePicker_To.Size = new System.Drawing.Size(114, 26);
-            this.dateTimePicker_To.TabIndex = 3;
+            this.dateTimePicker_To.TabIndex = 1;
             // 
             // panel2
             // 
@@ -485,7 +498,7 @@
             this.dateTimePicker_From.Location = new System.Drawing.Point(85, 3);
             this.dateTimePicker_From.Name = "dateTimePicker_From";
             this.dateTimePicker_From.Size = new System.Drawing.Size(114, 26);
-            this.dateTimePicker_From.TabIndex = 3;
+            this.dateTimePicker_From.TabIndex = 1;
             // 
             // label1
             // 
@@ -1461,7 +1474,7 @@
             // 
             this.btnXoaTaiKhoan.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
             this.btnXoaTaiKhoan.ForeColor = System.Drawing.Color.Red;
-            this.btnXoaTaiKhoan.Location = new System.Drawing.Point(87, 12);
+            this.btnXoaTaiKhoan.Location = new System.Drawing.Point(53, 12);
             this.btnXoaTaiKhoan.Name = "btnXoaTaiKhoan";
             this.btnXoaTaiKhoan.Size = new System.Drawing.Size(75, 50);
             this.btnXoaTaiKhoan.TabIndex = 2;
@@ -1473,7 +1486,7 @@
             // 
             this.btnSuaTaiKhoan.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
             this.btnSuaTaiKhoan.ForeColor = System.Drawing.Color.Blue;
-            this.btnSuaTaiKhoan.Location = new System.Drawing.Point(168, 12);
+            this.btnSuaTaiKhoan.Location = new System.Drawing.Point(200, 12);
             this.btnSuaTaiKhoan.Name = "btnSuaTaiKhoan";
             this.btnSuaTaiKhoan.Size = new System.Drawing.Size(75, 50);
             this.btnSuaTaiKhoan.TabIndex = 3;
@@ -1484,7 +1497,7 @@
             // panel40
             // 
             this.panel40.Controls.Add(this.fl_TaiKhoan);
-            this.panel40.Controls.Add(this.btnRestPass);
+            this.panel40.Controls.Add(this.btnResetPass);
             this.panel40.Controls.Add(this.panel_LoaiTK);
             this.panel40.Controls.Add(this.panel_TenTaiKhoan);
             this.panel40.Controls.Add(this.panel_usnameTK);
@@ -1501,17 +1514,18 @@
             this.fl_TaiKhoan.TabIndex = 7;
             this.fl_TaiKhoan.Visible = false;
             // 
-            // btnRestPass
+            // btnResetPass
             // 
-            this.btnRestPass.BackColor = System.Drawing.Color.Silver;
-            this.btnRestPass.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRestPass.ForeColor = System.Drawing.Color.Red;
-            this.btnRestPass.Location = new System.Drawing.Point(8, 240);
-            this.btnRestPass.Name = "btnRestPass";
-            this.btnRestPass.Size = new System.Drawing.Size(316, 33);
-            this.btnRestPass.TabIndex = 4;
-            this.btnRestPass.Text = "Reset lại mật khẩu";
-            this.btnRestPass.UseVisualStyleBackColor = false;
+            this.btnResetPass.BackColor = System.Drawing.Color.Silver;
+            this.btnResetPass.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnResetPass.ForeColor = System.Drawing.Color.Red;
+            this.btnResetPass.Location = new System.Drawing.Point(8, 240);
+            this.btnResetPass.Name = "btnResetPass";
+            this.btnResetPass.Size = new System.Drawing.Size(316, 33);
+            this.btnResetPass.TabIndex = 4;
+            this.btnResetPass.Text = "Reset lại mật khẩu";
+            this.btnResetPass.UseVisualStyleBackColor = false;
+            this.btnResetPass.Click += new System.EventHandler(this.btnResetPass_Click);
             // 
             // panel_LoaiTK
             // 
@@ -1662,8 +1676,12 @@
             this.txtTrangNhanVien.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTrangNhanVien.Location = new System.Drawing.Point(618, 17);
             this.txtTrangNhanVien.Name = "txtTrangNhanVien";
+            this.txtTrangNhanVien.ReadOnly = true;
             this.txtTrangNhanVien.Size = new System.Drawing.Size(71, 27);
-            this.txtTrangNhanVien.TabIndex = 11;
+            this.txtTrangNhanVien.TabIndex = 6;
+            this.txtTrangNhanVien.Text = "1";
+            this.txtTrangNhanVien.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtTrangNhanVien.TextChanged += new System.EventHandler(this.txtTrangNhanVien_TextChanged);
             // 
             // btnTrangTruocNhanVien
             // 
@@ -1672,9 +1690,10 @@
             this.btnTrangTruocNhanVien.Location = new System.Drawing.Point(484, 14);
             this.btnTrangTruocNhanVien.Name = "btnTrangTruocNhanVien";
             this.btnTrangTruocNhanVien.Size = new System.Drawing.Size(128, 32);
-            this.btnTrangTruocNhanVien.TabIndex = 10;
+            this.btnTrangTruocNhanVien.TabIndex = 5;
             this.btnTrangTruocNhanVien.Text = "Trang Trước";
             this.btnTrangTruocNhanVien.UseVisualStyleBackColor = true;
+            this.btnTrangTruocNhanVien.Click += new System.EventHandler(this.btnTrangTruocNhanVien_Click);
             // 
             // btnTrangSauNhanVien
             // 
@@ -1683,9 +1702,10 @@
             this.btnTrangSauNhanVien.Location = new System.Drawing.Point(695, 14);
             this.btnTrangSauNhanVien.Name = "btnTrangSauNhanVien";
             this.btnTrangSauNhanVien.Size = new System.Drawing.Size(128, 32);
-            this.btnTrangSauNhanVien.TabIndex = 9;
+            this.btnTrangSauNhanVien.TabIndex = 7;
             this.btnTrangSauNhanVien.Text = "Trang Sau";
             this.btnTrangSauNhanVien.UseVisualStyleBackColor = true;
+            this.btnTrangSauNhanVien.Click += new System.EventHandler(this.btnTrangSauNhanVien_Click);
             // 
             // btnThemNhanVien
             // 
@@ -1694,7 +1714,7 @@
             this.btnThemNhanVien.Location = new System.Drawing.Point(70, 3);
             this.btnThemNhanVien.Name = "btnThemNhanVien";
             this.btnThemNhanVien.Size = new System.Drawing.Size(75, 50);
-            this.btnThemNhanVien.TabIndex = 5;
+            this.btnThemNhanVien.TabIndex = 2;
             this.btnThemNhanVien.Text = "Thêm";
             this.btnThemNhanVien.UseVisualStyleBackColor = true;
             this.btnThemNhanVien.Click += new System.EventHandler(this.btnThemNhanVien_Click);
@@ -1706,7 +1726,7 @@
             this.btnXoaNhanVien.Location = new System.Drawing.Point(170, 3);
             this.btnXoaNhanVien.Name = "btnXoaNhanVien";
             this.btnXoaNhanVien.Size = new System.Drawing.Size(75, 50);
-            this.btnXoaNhanVien.TabIndex = 6;
+            this.btnXoaNhanVien.TabIndex = 3;
             this.btnXoaNhanVien.Text = "Xóa";
             this.btnXoaNhanVien.UseVisualStyleBackColor = true;
             this.btnXoaNhanVien.Click += new System.EventHandler(this.btnXoaNhanVien_Click);
@@ -1766,24 +1786,12 @@
             this.dataGridView_NhanVien.AllowUserToDeleteRows = false;
             this.dataGridView_NhanVien.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView_NhanVien.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView_NhanVien.Location = new System.Drawing.Point(0, 54);
+            this.dataGridView_NhanVien.Location = new System.Drawing.Point(0, 58);
             this.dataGridView_NhanVien.Name = "dataGridView_NhanVien";
             this.dataGridView_NhanVien.ReadOnly = true;
-            this.dataGridView_NhanVien.Size = new System.Drawing.Size(829, 338);
-            this.dataGridView_NhanVien.TabIndex = 0;
+            this.dataGridView_NhanVien.Size = new System.Drawing.Size(829, 331);
+            this.dataGridView_NhanVien.TabIndex = 1;
             this.dataGridView_NhanVien.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_NhanVien_CellDoubleClick);
-            // 
-            // btnHDctt
-            // 
-            this.btnHDctt.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnHDctt.ForeColor = System.Drawing.Color.Blue;
-            this.btnHDctt.Location = new System.Drawing.Point(7, 293);
-            this.btnHDctt.Name = "btnHDctt";
-            this.btnHDctt.Size = new System.Drawing.Size(195, 27);
-            this.btnHDctt.TabIndex = 18;
-            this.btnHDctt.Text = "Hóa Đơn Chưa Thanh Toán";
-            this.btnHDctt.UseVisualStyleBackColor = true;
-            this.btnHDctt.Click += new System.EventHandler(this.btnHDctt_Click);
             // 
             // FrmSystem
             // 
@@ -2010,7 +2018,7 @@
         private System.Windows.Forms.Panel panel45;
         private System.Windows.Forms.Button btnTimTaiKhoan;
         private System.Windows.Forms.TextBox txtTimTaiKhoan;
-        private System.Windows.Forms.Button btnRestPass;
+        private System.Windows.Forms.Button btnResetPass;
         private System.Windows.Forms.Panel panel46;
         private System.Windows.Forms.Button btnTrangSauBill;
         private System.Windows.Forms.Button btnTrangTruocBill;

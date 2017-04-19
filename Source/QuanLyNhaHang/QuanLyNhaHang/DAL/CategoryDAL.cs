@@ -38,6 +38,7 @@ namespace QuanLyNhaHang.DAL
 
         public static bool updateCategory(int id, string name)
         {
+            if (name.Length > 100) return false;
             int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("UPDATE dbo.DanhMuc SET tenMenu = N'{0}' WHERE idMenu = {1}", name, id));
             return result > 0;
         }

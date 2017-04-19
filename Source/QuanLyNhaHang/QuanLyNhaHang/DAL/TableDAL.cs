@@ -84,6 +84,7 @@ namespace QuanLyNhaHang.DAL
 
         public static bool updateTable(int idBan, int idSanh, string tenBan)
         {
+            if (tenBan.Length > 100) return false;
             int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("UPDATE dbo.BanAn SET tenBan = N'{0}', idSanh = {1} WHERE idBanAn = {2}", tenBan, idSanh, idBan));
             return result > 0;
         }

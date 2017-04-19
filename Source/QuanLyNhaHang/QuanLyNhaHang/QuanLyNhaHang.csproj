@@ -81,6 +81,7 @@
     <Compile Include="DTO\IPConnection.cs" />
     <Compile Include="DTO\Staff.cs" />
     <Compile Include="DTO\TestLoadTable.cs" />
+    <Compile Include="EncryptPassword.cs" />
     <Compile Include="EventTruyenDuLieu.cs" />
     <Compile Include="DAL\HoaDonTheoBanDAL.cs" />
     <Compile Include="DAL\SanhDAL.cs" />
@@ -93,6 +94,12 @@
     <Compile Include="DTO\Account.cs" />
     <Compile Include="DTO\Food.cs" />
     <Compile Include="GetIPconnectSql.cs" />
+    <Compile Include="GUI\FrmAccountProfile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmAccountProfile.Designer.cs">
+      <DependentUpon>FrmAccountProfile.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\FrmAddAccount.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -156,6 +163,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="GUI\FrmAccountProfile.resx">
+      <DependentUpon>FrmAccountProfile.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmAddAccount.resx">
       <DependentUpon>FrmAddAccount.cs</DependentUpon>
     </EmbeddedResource>
@@ -241,7 +251,6 @@
     <Content Include="KyThuat\SqlServer_Winforms.txt" />
     <Content Include="KyThuat\Thread.txt" />
     <Content Include="KyThuat\Timer_ProcessBar_WinForms.txt" />
-    <Content Include="KyThuat\TryCatch.txt" />
     <Content Include="txtExplain\Server-Client.txt" />
     <None Include="bin\Debug\Img\home.png" />
     <None Include="bin\Debug\Img\system.png" />
@@ -250,8 +259,7 @@
     <None Include="bin\Debug\Img\logout.png" />
     <None Include="bin\Debug\Img\about.png" />
     <Content Include="txtExplain\chuoiKetNoi.txt" />
-    <Content Include="txtExplain\DangNho.txt" />
-    <Content Include="txtExplain\ghiChu.txt" />
+    <Content Include="txtExplain\rem.txt" />
     <Content Include="txtExplain\GiaoDienFrmManage.txt" />
     <Content Include="txtExplain\GTdatabaseExecute.txt" />
     <Content Include="txtExplain\KetNoiSqlServerLANorWIFI.txt" />

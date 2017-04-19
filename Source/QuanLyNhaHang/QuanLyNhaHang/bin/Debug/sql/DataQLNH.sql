@@ -6,6 +6,7 @@ GO
 
 
 
+
 --USE master DROP DATABASE HQTCSDL
 CREATE TABLE NhanVien
 (
@@ -15,8 +16,8 @@ CREATE TABLE NhanVien
 	gioiTinh NVARCHAR(3) NOT NULL,
 	chucVu NVARCHAR(100) NOT NULL, 
 	queQuan NVARCHAR(100),
-	email VARCHAR(100),
-	diaChi NVARCHAR(100),
+	email VARCHAR(200),
+	diaChi NVARCHAR(200),
 	tel VARCHAR(11) NOT	NULL,
 
 	checkDelete INT DEFAULT 0,
@@ -118,13 +119,6 @@ GO
 
 
 
---CREATE PROC	StoredProcedure_DangNhap
---@userName nvarchar(100), @passWOrd nvarchar(1000)
---AS
---BEGIN
---	SELECT * FROM dbo.TaiKhoan WHERE userName = @userName AND pass = @passWOrd AND checkDelete = 0
---END
---GO
 
 CREATE PROC	StoredProcedure_ThemHoaDon
 @idBanAn INT, @userName NVARCHAR(100)
@@ -154,7 +148,7 @@ BEGIN
 END
 GO
 
--- procedure quan trọng --- <nhớ test lại> 8/3/2017 thanhhuy
+-- procedure quan trọng --- nhớ test lại (8/3/2017) 
 CREATE PROC StoredProcedure_ThemCTHD
 @idHoaDon INT, @idThucAn INT, @soLuong INT
 AS
@@ -233,7 +227,7 @@ BEGIN
 END
 GO
 
--- mặc định bàn gộp là bàn trống hoặc 2 bàn 1 2 nhập vào 12/3/2017 thanhhuy
+-- mặc định bàn gộp là bàn trống hoặc 2 bàn 1 2 nhập vào (12/3/2017)
 CREATE PROC StoredProcedure_GopBan
 @idBan1 INT, @idBan2 INT, @idBanGop INT
 AS
@@ -320,8 +314,6 @@ BEGIN
 END
 GO
 
-
-
 CREATE PROC StoredProcedure_InsertIP
 @ip VARCHAR(100)
 AS
@@ -341,10 +333,7 @@ BEGIN
 END
 GO
 
---DBCC CHECKIDENT (@nameTable, RESEED, 0)
-
-
-
+--DBCC CHECKIDENT (@nameTable, RESEED, 0) -> reset id
 
 
 CREATE PROC StoredProcedure_PhanTrangHoaDonDTT
@@ -361,7 +350,6 @@ BEGIN
 	SELECT TOP (@pageRows) * FROM BillShow WHERE BillShow.[ID Bill] NOT IN (SELECT TOP (@exceptRows) BillShow.[ID Bill] FROM BillShow)
 END
 GO
-
 
 CREATE PROC StoredProcedure_laySoHoaDonDTT
 @dateIn DATE, @dateOut DATE
@@ -389,7 +377,6 @@ BEGIN
 END
 GO
 
-
 CREATE PROC StoredProcedure_laySoHoaDonCTT
 AS
 BEGIN
@@ -398,8 +385,6 @@ BEGIN
 	WHERE trangThai = N'Chưa thanh toán'
 END
 GO
-
-
 
 CREATE PROC StoredProcedure_layTongDoanhThu
 @dateIn DATE, @dateOut DATE
@@ -411,6 +396,37 @@ BEGIN
 END
 GO
 
+CREATE PROC StoredProcedure_PhanTrangNhanVien
+@page INT, @pageRows INT
+AS
+BEGIN
+	DECLARE @exceptRows INT = (@page - 1) * @pageRows
+-- tạo 1 table tạm cách khác
+	;WITH IdNV AS (SELECT idNhanVien AS [ID Nhân Viên], tenNhanVien AS [Tên Nhân Viên], ngaySinh AS [Ngày Sinh], gioiTinh AS [Giới Tính], chucVu AS [Chức Vụ]
+	 FROM dbo.NhanVien
+	 WHERE checkDelete = 0)
+	
+	SELECT TOP (@pageRows) * FROM IdNV WHERE IdNV.[ID Nhân Viên] NOT IN (SELECT TOP (@exceptRows) IdNV.[ID Nhân Viên] FROM IdNV)
+END
+GO
+
+CREATE PROC StoredProcedure_layTongSoNhanVien
+AS
+BEGIN
+	SELECT COUNT(*) FROM dbo.NhanVien WHERE checkDelete = 0
+END
+GO
+
+CREATE PROC StoredProcedure_doiMatKhau
+@userName VARCHAR(100), @passWord VARCHAR(1000), @newPassword VARCHAR(1000)
+AS
+BEGIN
+	DECLARE @isRightPass INT = 0
+	SELECT @isRightPass = COUNT(*) FROM	dbo.TaiKhoan WHERE userName = @userName AND pass = @passWord
+	IF(@isRightPass = 1)
+		UPDATE dbo.TaiKhoan SET pass = @newPassword WHERE userName = @userName 
+END
+GO
 
 
 
@@ -424,7 +440,15 @@ GO
 
 
 
--- trigger cho update sửa idHoaDon, hay 12/3/2017 thanhhuy
+
+
+
+
+
+
+
+
+-- trigger cho update sửa idHoaDon (12/3/2017)  -> xem kỹ test lại
 CREATE TRIGGER TG_update_ChiTietHoaDon ON dbo.ChiTietHoaDon FOR UPDATE
 AS
 BEGIN
@@ -530,7 +554,6 @@ BEGIN
 END
 GO
 
-
 CREATE TRIGGER TG_update_HoaDon ON dbo.HoaDon FOR UPDATE
 AS
 BEGIN
@@ -564,30 +587,30 @@ INSERT dbo.NhanVien
 VALUES  ( N'Nguyễn Thanh Huy' , -- tenNhanVien - nvarchar(100)
           '02/22/1996' , -- ngaySinh - date
           N'Nam' , -- gioiTinh - nvarchar(3)
-          N'Tổng Giám Đốc' , -- chucVu - nvarchar(100)
+          N'Quản Lý' , -- chucVu - nvarchar(100)
           N'TPHCM' , -- queQuan - nvarchar(100)
-          'thanhhuy96.gtvt@gmail.com' , -- email - varchar(100)
+          'zxcvbnm8888@gmail.com' , -- email - varchar(100)
           N'839/11 Hậu Giang' , -- diaChi - nvarchar(100)
-          '0907352619'  -- tel - int
+          '0123456789' 
         )
 INSERT dbo.TaiKhoan
         ( userName, pass, idNhanVien, loaiTK )
 VALUES  ( N'denygame', -- userName - nvarchar(100)
-          N'123', -- pass - nvarchar(1000)
+          N'2ksadjhq1592cb962ac#->87@o{}9ksadjhq159leuleu#->87@o{}b964bksadjhq159leuleuute#->87@o{}2d234bleuleuksadjhq159qwsxaczdervhdsfuebfewpof5jgikngdHSsSFfdspofjsdoifuiegtfweg6514fds65f85sd1fffd65xf', -- pass - nvarchar(1000)
           1, -- idNhanVien - int
           2  -- loaiTK - int
           )
 INSERT dbo.TaiKhoan
         ( userName, pass, idNhanVien, loaiTK )
 VALUES  ( N'huy96', -- userName - nvarchar(100)
-          N'123', -- pass - nvarchar(1000)
+          N'2ksadjhq1592cb962ac#->87@o{}9ksadjhq159leuleu#->87@o{}b964bksadjhq159leuleuute#->87@o{}2d234bleuleuksadjhq159qwsxaczdervhdsfuebfewpof5jgikngdHSsSFfdspofjsdoifuiegtfweg6514fds65f85sd1fffd65xf', -- pass - nvarchar(1000)
           1, -- idNhanVien - int
           1  -- loaiTK - int
           )
 INSERT dbo.TaiKhoan
         ( userName, pass, idNhanVien, loaiTK )
 VALUES  ( N'aaaa', -- userName - nvarchar(100)
-          N'123', -- pass - nvarchar(1000)
+          N'2ksadjhq1592cb962ac#->87@o{}9ksadjhq159leuleu#->87@o{}b964bksadjhq159leuleuute#->87@o{}2d234bleuleuksadjhq159qwsxaczdervhdsfuebfewpof5jgikngdHSsSFfdspofjsdoifuiegtfweg6514fds65f85sd1fffd65xf', -- pass - nvarchar(1000)
           1, -- idNhanVien - int
           1  -- loaiTK - int
           )
@@ -720,3 +743,53 @@ VALUES  ( N'Nước Suối' , -- tenThucAn - nvarchar(100)
           4 , -- idMenu - int
           10000.0  -- giaTien - float
         )
+
+
+
+--DECLARE @test INT = 0
+--WHILE(@test <= 50)
+--BEGIN
+--	INSERT dbo.NhanVien
+--	        ( tenNhanVien ,
+--	          ngaySinh ,
+--	          gioiTinh ,
+--	          chucVu ,
+--	          queQuan ,
+--	          email ,
+--	          diaChi ,
+--	          tel ,
+--	          checkDelete
+--	        )
+--	VALUES  ( N'asdsadf' , -- tenNhanVien - nvarchar(100)
+--	          GETDATE() , -- ngaySinh - date
+--	          N'Nam' , -- gioiTinh - nvarchar(3)
+--	          N'ads' , -- chucVu - nvarchar(100)
+--	          N'sad' , -- queQuan - nvarchar(100)
+--	          'sada' , -- email - varchar(100)
+--	          N'sad' , -- diaChi - nvarchar(100)
+--	          'sadas' , -- tel - varchar(11)
+--	          0  -- checkDelete - int
+--	        )
+--	SET @test = @test + 1
+--END
+
+--DECLARE @test1 INT = 0
+--WHILE(@test1 <= 50)
+--BEGIN
+--	INSERT dbo.HoaDon
+--	        ( ngayDen ,
+--	          idBanAn ,
+--	          discount ,
+--	          tongTien ,
+--	          userName ,
+--	          trangThai
+--	        )
+--	VALUES  ( GETDATE() , -- ngayDen - date
+--	          2 , -- idBanAn - int
+--	          0 , -- discount - int
+--	          100000.0 , -- tongTien - float
+--	          'denygame' , -- userName - varchar(100)
+--	          N'Đã thanh toán'  -- trangThai - nvarchar(100)
+--	        )
+--		SET @test1 = @test1 + 1
+--END

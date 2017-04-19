@@ -37,6 +37,19 @@ namespace QuanLyNhaHang
             }
         }
 
+        public bool CapTaiKhoan
+        {
+            get
+            {
+                return capTaiKhoan;
+            }
+
+            set
+            {
+                capTaiKhoan = value;
+            }
+        }
+
         public EventTruyenDuLieu(Account t)
         {
             this.Tk = t;
@@ -48,6 +61,12 @@ namespace QuanLyNhaHang
         {
             this.BanAnGop = ba;
         }
-        
+
+        private bool capTaiKhoan;   // true là cấp
+
+        public EventTruyenDuLieu(bool capTaiKhoan)
+        {
+            this.CapTaiKhoan = capTaiKhoan;
+        }
     }
 }
