@@ -1,0 +1,4 @@
+USE TEST
+GO
+
+UPDATE dbo.Item SET NAME = 'UPD' WHERE id = 3

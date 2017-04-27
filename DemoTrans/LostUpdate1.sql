@@ -1,0 +1,31 @@
+USE master
+CREATE DATABASE TEST
+GO
+USE TEST
+GO
+CREATE TABLE dbo.Item (id INT, NAME VARCHAR(50))
+ 
+INSERT INTO dbo.Item SELECT 1,'a'
+INSERT INTO dbo.Item SELECT 2,'b'
+INSERT INTO dbo.Item SELECT 3,'c'
+ 
+SELECT * FROM dbo.Item
+
+BEGIN TRAN
+UPDATE dbo.Item
+SET name = 'x'
+WHERE id>2
+WAITFOR DELAY '00:00:10' --wait for 10 seconds
+ROLLBACK
+
+SELECT * FROM dbo.Item
+
+
+BEGIN TRAN;
+UPDATE dbo.Item
+SET NAME = 'test'
+WHERE id = 1;
+WAITFOR DELAY '00:00:08.000';
+SELECT *
+FROM dbo.Item WHERE id = 1;
+COMMIT TRAN
