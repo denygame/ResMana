@@ -1,6 +1,7 @@
 ﻿CREATE DATABASE HQTCSDL
 GO
 
+
 USE HQTCSDL
 GO
 
@@ -115,6 +116,52 @@ CREATE TABLE IPConnectionDatabase
 )
 GO
 
+
+
+
+
+
+
+
+-- Func copy trên mạng, dùng để thay thế toàn bộ ký tự đặc biệt (có dấu) thành các ký tự bình thường, dùng cho tìm kiếm gần đúng
+CREATE FUNCTION [dbo].[fChuyenCoDauThanhKhongDau](@inputVar NVARCHAR(MAX) )
+RETURNS NVARCHAR(MAX)
+AS
+BEGIN    
+    IF (@inputVar IS NULL OR @inputVar = '')  RETURN ''
+   
+    DECLARE @RT NVARCHAR(MAX)
+    DECLARE @SIGN_CHARS NCHAR(256)
+    DECLARE @UNSIGN_CHARS NCHAR (256)
+ 
+    SET @SIGN_CHARS = N'ăâđêôơưàảãạáằẳẵặắầẩẫậấèẻẽẹéềểễệếìỉĩịíòỏõọóồổỗộốờởỡợớùủũụúừửữựứỳỷỹỵýĂÂĐÊÔƠƯÀẢÃẠÁẰẲẴẶẮẦẨẪẬẤÈẺẼẸÉỀỂỄỆẾÌỈĨỊÍÒỎÕỌÓỒỔỖỘỐỜỞỠỢỚÙỦŨỤÚỪỬỮỰỨỲỶỸỴÝ' + NCHAR(272) + NCHAR(208)
+    SET @UNSIGN_CHARS = N'aadeoouaaaaaaaaaaaaaaaeeeeeeeeeeiiiiiooooooooooooooouuuuuuuuuuyyyyyAADEOOUAAAAAAAAAAAAAAAEEEEEEEEEEIIIIIOOOOOOOOOOOOOOOUUUUUUUUUUYYYYYDD'
+ 
+    DECLARE @COUNTER int
+    DECLARE @COUNTER1 int
+   
+    SET @COUNTER = 1
+    WHILE (@COUNTER <= LEN(@inputVar))
+    BEGIN  
+        SET @COUNTER1 = 1
+        WHILE (@COUNTER1 <= LEN(@SIGN_CHARS) + 1)
+        BEGIN
+            IF UNICODE(SUBSTRING(@SIGN_CHARS, @COUNTER1,1)) = UNICODE(SUBSTRING(@inputVar,@COUNTER ,1))
+            BEGIN          
+                IF @COUNTER = 1
+                    SET @inputVar = SUBSTRING(@UNSIGN_CHARS, @COUNTER1,1) + SUBSTRING(@inputVar, @COUNTER+1,LEN(@inputVar)-1)      
+                ELSE
+                    SET @inputVar = SUBSTRING(@inputVar, 1, @COUNTER-1) +SUBSTRING(@UNSIGN_CHARS, @COUNTER1,1) + SUBSTRING(@inputVar, @COUNTER+1,LEN(@inputVar)- @COUNTER)
+                BREAK
+            END
+            SET @COUNTER1 = @COUNTER1 +1
+        END
+        SET @COUNTER = @COUNTER +1
+    END
+    -- SET @inputVar = replace(@inputVar,' ','-')
+    RETURN @inputVar
+END
+GO
 
 
 
@@ -431,10 +478,87 @@ GO
 
 
 
+--------------- Demo Transaction ---------------
+/*lost updated - mất dữ liệu đã cập nhật*/
+CREATE PROC SP_waitUpdate
+@chucVu NVARCHAR(100),@id INT
+AS
+BEGIN
+	BEGIN TRAN
+		UPDATE dbo.NhanVien SET chucVu = @chucVu WHERE idNhanVien = @id
+		WAITFOR DELAY '00:00:05.000'
+	COMMIT TRAN
+END
+GO
+
+CREATE PROC SP_pokeUpdate
+@chucVu NVARCHAR(100),@id INT
+AS
+BEGIN
+	SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+	BEGIN TRAN
+		UPDATE dbo.NhanVien SET chucVu = @chucVu WHERE idNhanVien = @id
+	COMMIT TRAN
+	END
+GO
+/*lost updated*/
+
+/*du lieu rac*/
+--reset hàm lại
+CREATE PROC SP_waitInsertRollback
+AS
+BEGIN
+	BEGIN TRAN
+		INSERT dbo.NhanVien ( tenNhanVien ,ngaySinh ,gioiTinh ,chucVu ,queQuan ,email ,diaChi ,tel)
+		VALUES  ( N'Nguyễn' , GETDATE() , N'Nữ' , N'Bảo Trì' , N'Hà Tĩnh' , 'asss@gmail.com' , N'dsadm' ,'51515')
+		WAITFOR DELAY '00:00:05.000';
+	ROLLBACK
+END
+GO
+
+CREATE PROC SP_PhanTrangDEMOrac
+@page INT, @pageRows INT
+AS
+BEGIN
+	SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED; -- dùng cho demo problem doc du lieu rac 
+	DECLARE @exceptRows INT = (@page - 1) * @pageRows
+-- tạo 1 table tạm cách khác
+	;WITH IdNV AS (SELECT idNhanVien AS [ID Nhân Viên], tenNhanVien AS [Tên Nhân Viên], ngaySinh AS [Ngày Sinh], gioiTinh AS [Giới Tính], chucVu AS [Chức Vụ]
+	 FROM dbo.NhanVien
+	 WHERE checkDelete = 0)
+	
+	SELECT TOP (@pageRows) * FROM IdNV WHERE IdNV.[ID Nhân Viên] NOT IN (SELECT TOP (@exceptRows) IdNV.[ID Nhân Viên] FROM IdNV)
+END
+GO
+/*du lieu rac*/
+
+CREATE PROC SP_InsertBongMa
+AS
+BEGIN
+	BEGIN TRAN
+		INSERT dbo.NhanVien ( tenNhanVien ,ngaySinh ,gioiTinh ,chucVu ,queQuan ,email ,diaChi ,tel)
+		VALUES  ( N'Nguyễn' , GETDATE() , N'Nữ' , N'Bảo Trì' , N'Hà Tĩnh' , 'asss@gmail.com' , N'dsadm' ,'51515');
+	COMMIT TRAN
+END
+GO
+-------------------------------------------------
 
 
 
 
+
+CREATE PROC seachCateOrSanhOrThucAn
+@id INT, @name NVARCHAR(100), @cateOrSanhOrFood INT
+AS
+BEGIN
+	IF @cateOrSanhOrFood = 0
+		SELECT * FROM dbo.DanhMuc WHERE ( idMenu = @id OR @id = 0 ) AND ( dbo.fChuyenCoDauThanhKhongDau(tenMenu) LIKE (N'%'+ dbo.fChuyenCoDauThanhKhongDau(@name) + N'%') OR @name = '') AND checkDelete = 0
+	IF @cateOrSanhOrFood = 1 
+		SELECT * FROM dbo.Sanh WHERE ( idSanh = @id OR @id = 0 ) AND ( dbo.fChuyenCoDauThanhKhongDau(tenSanh) LIKE (N'%'+ dbo.fChuyenCoDauThanhKhongDau(@name) + N'%') OR @name = '') AND checkDelete = 0
+	IF @cateOrSanhOrFood = 2
+		SELECT * FROM dbo.ThucAn WHERE (idThucAn = @id OR @id = 0) AND (dbo.fChuyenCoDauThanhKhongDau(tenThucAn) LIKE (N'%'+dbo.fChuyenCoDauThanhKhongDau(@name) +N'%') OR @name = '') AND ThucAn.checkDelete = 0
+END
+GO
 
 
 
@@ -593,6 +717,7 @@ VALUES  ( N'Nguyễn Thanh Huy' , -- tenNhanVien - nvarchar(100)
           N'839/11 Hậu Giang' , -- diaChi - nvarchar(100)
           '0123456789' 
         )
+
 INSERT dbo.TaiKhoan
         ( userName, pass, idNhanVien, loaiTK )
 VALUES  ( N'denygame', -- userName - nvarchar(100)
@@ -614,182 +739,182 @@ VALUES  ( N'aaaa', -- userName - nvarchar(100)
           1, -- idNhanVien - int
           1  -- loaiTK - int
           )
-INSERT dbo.Sanh
-        ( tenSanh )
-VALUES  ( N'Sảnh 1'  -- tenSanh - nvarchar(100)
+INSERT dbo.DanhMuc
+        ( tenMenu, checkDelete )
+VALUES  ( N'Món Nướng', -- tenMenu - nvarchar(100)
+          0  -- checkDelete - int
           )
-INSERT dbo.Sanh
-        ( tenSanh )
-VALUES  ( N'Sảnh 2'  -- tenSanh - nvarchar(100)
+INSERT dbo.DanhMuc
+        ( tenMenu, checkDelete )
+VALUES  ( N'Món Xào', -- tenMenu - nvarchar(100)
+          0  -- checkDelete - int
           )
-DECLARE @i INT = 0
-WHILE (@i < 10)
-BEGIN
-	INSERT dbo.BanAn
-	        ( tenBan ,
-	          idSanh
-	        )
-	VALUES  ( N'Bàn ' + CAST((@i+1) AS NVARCHAR(100)) , -- tenBan - nvarchar(100)
-	          1  -- idSanh - int
-	        )
-	SET @i = @i + 1
-END
-
-DECLARE @j INT = 0
-WHILE (@j < 50)
-BEGIN
-	INSERT dbo.BanAn
-	        ( tenBan ,
-	          idSanh
-	        )
-	VALUES  ( N'Bàn ' + CAST((@j+1) AS NVARCHAR(100)) , -- tenBan - nvarchar(100)
-	          2  -- idSanh - int
-	        )
-	SET @j = @j + 1
-END
-
-
-INSERT dbo.DanhMuc ( tenMenu )
-VALUES  ( N'Món Nướng' )
-
-INSERT dbo.DanhMuc ( tenMenu )
-VALUES  ( N'Món Xào' )
-
-INSERT dbo.DanhMuc ( tenMenu )
-VALUES  ( N'Lẩu' )
-
-INSERT dbo.DanhMuc ( tenMenu )
-VALUES  ( N'Nước uống' )
-
-
+INSERT dbo.DanhMuc
+        ( tenMenu, checkDelete )
+VALUES  ( N'Hải Sản', -- tenMenu - nvarchar(100)
+          0  -- checkDelete - int
+          )
+INSERT dbo.DanhMuc
+        ( tenMenu, checkDelete )
+VALUES  ( N'Nước Uống', -- tenMenu - nvarchar(100)
+          0  -- checkDelete - int
+          )
 INSERT dbo.ThucAn
-         ( tenThucAn ,
+        ( tenThucAn ,
           idMenu ,
-          giaTien
+          giaTien ,
+          checkDelete
         )
-VALUES  ( N'Gà Nướng Muối Ớt' , -- tenThucAn - nvarchar(100)
+VALUES  ( N'Gà Nướng' , -- tenThucAn - nvarchar(100)
           1 , -- idMenu - int
-          200000.0  -- giaTien - float
+          100000.0 , -- giaTien - float
+          0  -- checkDelete - int
         )
 INSERT dbo.ThucAn
-         ( tenThucAn ,
+        ( tenThucAn ,
           idMenu ,
-          giaTien
+          giaTien ,
+          checkDelete
         )
-VALUES  ( N'Heo Mọi Nướng' , -- tenThucAn - nvarchar(100)
+VALUES  ( N'Tôm Nướng' , -- tenThucAn - nvarchar(100)
           1 , -- idMenu - int
-          500000.0  -- giaTien - float
+          50000.0 , -- giaTien - float
+          0  -- checkDelete - int
         )
 INSERT dbo.ThucAn
-         ( tenThucAn ,
+        ( tenThucAn ,
           idMenu ,
-          giaTien
+          giaTien ,
+          checkDelete
         )
-VALUES  ( N'Rau muống xào tỏi' , -- tenThucAn - nvarchar(100)
+VALUES  ( N'Rau Muống Xào Tỏi' , -- tenThucAn - nvarchar(100)
           2 , -- idMenu - int
-          30000.0  -- giaTien - float
+          30000.0 , -- giaTien - float
+          0  -- checkDelete - int
         )
 INSERT dbo.ThucAn
-        (  tenThucAn ,
+        ( tenThucAn ,
           idMenu ,
-          giaTien
+          giaTien ,
+          checkDelete
         )
-VALUES  ( N'Lẩu Thái' , -- tenThucAn - nvarchar(100)
+VALUES  ( N'Mực Xào' , -- tenThucAn - nvarchar(100)
+          2 , -- idMenu - int
+          90000.0 , -- giaTien - float
+          0  -- checkDelete - int
+        )
+INSERT dbo.ThucAn
+        ( tenThucAn ,
+          idMenu ,
+          giaTien ,
+          checkDelete
+        )
+VALUES  ( N'Cá Hấp' , -- tenThucAn - nvarchar(100)
           3 , -- idMenu - int
-          199000.0  -- giaTien - float
+          150000.0 , -- giaTien - float
+          0  -- checkDelete - int
         )
 INSERT dbo.ThucAn
-        (  tenThucAn ,
+        ( tenThucAn ,
           idMenu ,
-          giaTien
+          giaTien ,
+          checkDelete
         )
-VALUES  ( N'Lẩu Cá Mập' , -- tenThucAn - nvarchar(100)
+VALUES  ( N'Bào Ngư 7 Vị' , -- tenThucAn - nvarchar(100)
           3 , -- idMenu - int
-          500000.0  -- giaTien - float
-        )
+          500000.0 , -- giaTien - float
+          0  -- checkDelete - int
+		  )
 INSERT dbo.ThucAn
-        (  tenThucAn ,
+        ( tenThucAn ,
           idMenu ,
-          giaTien
-        )
-VALUES  ( N'Dú Heo Nướng' , -- tenThucAn - nvarchar(100)
-          1 , -- idMenu - int
-          99000.0  -- giaTien - float
-        )
-INSERT dbo.ThucAn
-        (  tenThucAn ,
-          idMenu ,
-          giaTien
+          giaTien ,
+          checkDelete
         )
 VALUES  ( N'Ken' , -- tenThucAn - nvarchar(100)
           4 , -- idMenu - int
-          18000.0  -- giaTien - float
+          21000.0 , -- giaTien - float
+          0  -- checkDelete - int
         )
 INSERT dbo.ThucAn
-        (  tenThucAn ,
+        ( tenThucAn ,
           idMenu ,
-          giaTien
+          giaTien ,
+          checkDelete
         )
 VALUES  ( N'Tiger' , -- tenThucAn - nvarchar(100)
           4 , -- idMenu - int
-          16000.0  -- giaTien - float
+          16000.0 , -- giaTien - float
+          0  -- checkDelete - int
         )
 INSERT dbo.ThucAn
-        (  tenThucAn ,
+        ( tenThucAn ,
           idMenu ,
-          giaTien
+          giaTien ,
+          checkDelete
         )
-VALUES  ( N'Nước Suối' , -- tenThucAn - nvarchar(100)
+VALUES  ( N'Nước Suối' , -- tenThucAn - nvarchar(100)
           4 , -- idMenu - int
-          10000.0  -- giaTien - float
+          10000.0 , -- giaTien - float
+          0  -- checkDelete - int
         )
-
-
-
---DECLARE @test INT = 0
---WHILE(@test <= 50)
---BEGIN
---	INSERT dbo.NhanVien
---	        ( tenNhanVien ,
---	          ngaySinh ,
---	          gioiTinh ,
---	          chucVu ,
---	          queQuan ,
---	          email ,
---	          diaChi ,
---	          tel ,
---	          checkDelete
---	        )
---	VALUES  ( N'asdsadf' , -- tenNhanVien - nvarchar(100)
---	          GETDATE() , -- ngaySinh - date
---	          N'Nam' , -- gioiTinh - nvarchar(3)
---	          N'ads' , -- chucVu - nvarchar(100)
---	          N'sad' , -- queQuan - nvarchar(100)
---	          'sada' , -- email - varchar(100)
---	          N'sad' , -- diaChi - nvarchar(100)
---	          'sadas' , -- tel - varchar(11)
---	          0  -- checkDelete - int
---	        )
---	SET @test = @test + 1
---END
-
---DECLARE @test1 INT = 0
---WHILE(@test1 <= 50)
---BEGIN
---	INSERT dbo.HoaDon
---	        ( ngayDen ,
---	          idBanAn ,
---	          discount ,
---	          tongTien ,
---	          userName ,
---	          trangThai
---	        )
---	VALUES  ( GETDATE() , -- ngayDen - date
---	          2 , -- idBanAn - int
---	          0 , -- discount - int
---	          100000.0 , -- tongTien - float
---	          'denygame' , -- userName - varchar(100)
---	          N'Đã thanh toán'  -- trangThai - nvarchar(100)
---	        )
---		SET @test1 = @test1 + 1
---END
+INSERT dbo.ThucAn
+        ( tenThucAn ,
+          idMenu ,
+          giaTien ,
+          checkDelete
+        )
+VALUES  ( N'Trà Đá' , -- tenThucAn - nvarchar(100)
+          4 , -- idMenu - int
+          5000.0 , -- giaTien - float
+          0  -- checkDelete - int
+        )
+INSERT dbo.ThucAn
+        ( tenThucAn ,
+          idMenu ,
+          giaTien ,
+          checkDelete
+        )
+VALUES  ( N'Nước Ngọt Các Loại' , -- tenThucAn - nvarchar(100)
+          4 , -- idMenu - int
+          15000.0 , -- giaTien - float
+          0  -- checkDelete - int
+        )
+INSERT dbo.Sanh
+        ( tenSanh, checkDelete )
+VALUES  ( N'Sảnh A', -- tenSanh - nvarchar(100)
+          0  -- checkDelete - int
+          )
+INSERT dbo.Sanh
+        ( tenSanh, checkDelete )
+VALUES  ( N'Sảnh B', -- tenSanh - nvarchar(100)
+          0  -- checkDelete - int
+          )
+DECLARE @i INT = 0
+WHILE @i < 10
+BEGIN
+	INSERT dbo.BanAn
+	        ( tenBan ,
+	          idSanh ,
+	          checkDelete
+	        )
+	VALUES  ( N'Bàn '+CAST((@i+1) AS NVARCHAR(100)) , -- tenBan - nvarchar(100)
+	          1 , -- idSanh - int
+	          0  -- checkDelete - int
+	        )
+	SET @i = @i + 1
+END
+DECLARE @j INT = 0
+WHILE @j < 50
+BEGIN
+	INSERT dbo.BanAn
+	        ( tenBan ,
+	          idSanh ,
+	          checkDelete
+	        )
+	VALUES  ( N'Bàn '+CAST((@j+1) AS NVARCHAR(100)) , -- tenBan - nvarchar(100)
+	          2 , -- idSanh - int
+	          0  -- checkDelete - int
+	        )
+	SET @j = @j + 1
+END

@@ -51,7 +51,7 @@ namespace QuanLyNhaHang
         private void FrmManage_Load(object sender, EventArgs e)
         {
             loadCbSanh();
-            this.Text += " - Tài khoản: " + tkDangNhap.UserName;
+            this.Text += "  -+-  Tài Khoản: " + tkDangNhap.UserName;
             cbSanh.Select(); //focus
             loadCbLumpTable1();
         }
@@ -558,9 +558,6 @@ namespace QuanLyNhaHang
         }
 
         #endregion
-
-
-
-
+        
     }
 }

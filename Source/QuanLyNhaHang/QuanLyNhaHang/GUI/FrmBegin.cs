@@ -22,7 +22,6 @@ namespace QuanLyNhaHang
             InitializeComponent();
 
             IPConnectionDAL.insertIP(GetIPconnectSql.getIP());
-
         }
 
         #region - Methods -
@@ -31,15 +30,14 @@ namespace QuanLyNhaHang
         /// </summary>
         /// <param name="tk"></param>
         /// <returns></returns>
-        private TextBox initTextBoxAccount(Account tk)
+        private Label initLabelXC()
         {
-            string ten = string.Format("Xin chào: {0}", tk.UserName);
-            TextBox txt = new TextBox();
+            string ten = string.Format("ĐÃ ĐĂNG NHẬP");
+            Label txt = new Label();
             txt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             txt.Text = ten;
-            txt.Location = new Point(5, 3);
+            txt.Location = new Point(130, 3);
             txt.Size = new Size(381, 40);
-            txt.TextAlign = HorizontalAlignment.Center;
             txt.Name = "txtTest";
             txt.ForeColor = Color.Blue;
             txt.KeyPress += Txt_KeyPress;
@@ -84,6 +82,9 @@ namespace QuanLyNhaHang
         {
             foreach (Control i in flowLayoutPanel1.Controls) i.Enabled = false;
             btnDangNhap.Visible = true;
+
+            AccountDAL.replaceCheckLogin(tkDangNhap.UserName, 0);//đăng xuất
+
             foreach (Control item in panel2.Controls.OfType<Control>())
             {
                 if (item.Name == "txtTest")
@@ -106,6 +107,9 @@ namespace QuanLyNhaHang
             if (testDisconnect())
             {
                 IPConnectionDAL.deleteIP(GetIPconnectSql.getIP());
+
+                AccountDAL.replaceCheckLogin(tkDangNhap.UserName, 0);//đăng xuất
+
                 MessageBox.Show("Ngắt kết nối với server thành công! Chương trình sẽ khởi động lại", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Application.Restart();
             }
@@ -129,8 +133,8 @@ namespace QuanLyNhaHang
             btnDangNhap.Visible = false;
 
             //btnAcc.Text = e.Tk.UserName;
-
-            panel2.Controls.Add(initTextBoxAccount(e.Tk));
+            this.Text += "  -+-  Tài Khoản: " + e.Tk.UserName;
+            panel2.Controls.Add(initLabelXC());
         }
 
         private void Txt_KeyPress(object sender, KeyPressEventArgs e)
@@ -140,6 +144,11 @@ namespace QuanLyNhaHang
 
         private void FrmBegin_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (tkDangNhap != null)
+            {
+                if (tkDangNhap.CheckLogin == 1)
+                    AccountDAL.replaceCheckLogin(tkDangNhap.UserName, 0);//đăng xuất
+            }
             IPConnectionDAL.deleteIP(GetIPconnectSql.getIP());
         }
 

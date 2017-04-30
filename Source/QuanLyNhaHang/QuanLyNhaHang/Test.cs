@@ -8,6 +8,13 @@ namespace QuanLyNhaHang
 {
     public class Test
     {
+        //có chứa 1 số trở lên
+        public static bool HasNumber(string input)
+        {
+            return input.Where(x => Char.IsDigit(x)).Any();
+        }
+
+        //chuỗi là số thôi
         public static bool IsNumber(string pValue)
         {
             foreach (Char c in pValue)

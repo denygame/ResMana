@@ -125,6 +125,12 @@
     <Compile Include="GUI\FrmBookTable.Designer.cs">
       <DependentUpon>FrmBookTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\FrmDemoProblem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmDemoProblem.designer.cs">
+      <DependentUpon>FrmDemoProblem.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\FrmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -163,6 +169,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Test.cs" />
     <EmbeddedResource Include="GUI\FrmAccountProfile.resx">
       <DependentUpon>FrmAccountProfile.cs</DependentUpon>
     </EmbeddedResource>
@@ -177,6 +184,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmBookTable.resx">
       <DependentUpon>FrmBookTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmDemoProblem.resx">
+      <DependentUpon>FrmDemoProblem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmLogin.resx">
       <DependentUpon>FrmLogin.cs</DependentUpon>
@@ -251,6 +261,7 @@
     <Content Include="KyThuat\SqlServer_Winforms.txt" />
     <Content Include="KyThuat\Thread.txt" />
     <Content Include="KyThuat\Timer_ProcessBar_WinForms.txt" />
+    <Content Include="txtExplain\demoProblem.txt" />
     <Content Include="txtExplain\Server-Client.txt" />
     <None Include="bin\Debug\Img\home.png" />
     <None Include="bin\Debug\Img\system.png" />

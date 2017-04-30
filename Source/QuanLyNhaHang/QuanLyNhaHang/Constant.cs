@@ -46,6 +46,8 @@ namespace QuanLyNhaHang
         public static List<string> listNam = new List<string>() { "Nam" };
 
         public static int phanTrangHD = 16;
-        public static int phanTrangNV = 14;
+        public static int phanTrangNV = 16;
+
+        public static List<string> listProblem = new List<string>() { "Vấn đề đọc dữ liệu rác", "Vấn đề bóng ma dữ liệu", "Vấn đề mất dữ liệu đã cập nhật" };
     }
 }

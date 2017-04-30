@@ -1,0 +1,3 @@
+﻿FrmDemoProblem là frmSystem copy 1 phần staff
+
+lưu ý các hàm trong FrmStaffProfile (có cmt)

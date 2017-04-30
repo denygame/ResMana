@@ -15,6 +15,7 @@ namespace QuanLyNhaHang.GUI
 {
     public partial class FrmSystem : Form
     {
+        #region - Para -
         private Account acc;
         private int idNhanVienLogin;
         public FrmSystem(Account acc)
@@ -22,6 +23,7 @@ namespace QuanLyNhaHang.GUI
             InitializeComponent();
             this.acc = acc;
 
+            this.Text += "  -+-  Tài Khoản: " + acc.UserName;
             idNhanVienLogin =  AccountDAL.getAccount(acc.UserName).IdNhanVien;
         }
 
@@ -37,7 +39,9 @@ namespace QuanLyNhaHang.GUI
         private string testTenSanh;
         private string testTenBanAn;
 
-        #region Methods
+        #endregion
+
+        #region - Methods -
 
         #region - KHỞI TẠO -
         private void Initialize()
@@ -126,7 +130,7 @@ namespace QuanLyNhaHang.GUI
         private void bindingFood()
         {
             dataGridView_ThucAn.Columns[0].HeaderText = "ID Thức Ăn";
-            dataGridView_ThucAn.Columns[1].HeaderText = "Tên Món Ăn";
+            dataGridView_ThucAn.Columns[1].HeaderText = "Tên Thức Ăn";
             dataGridView_ThucAn.Columns[2].HeaderText = "Danh Mục";
             dataGridView_ThucAn.Columns[3].HeaderText = "Giá Tiền";
 
@@ -682,9 +686,7 @@ namespace QuanLyNhaHang.GUI
 
         #endregion
 
-
-
-
+        
         private void loadFrmStaff(string test = null)
         {
             int rowindex = dataGridView_NhanVien.CurrentCell.RowIndex;
@@ -699,15 +701,35 @@ namespace QuanLyNhaHang.GUI
                     f = new FrmStaffProfile(test);
                 else f = new FrmStaffProfile(nv);
 
-                f.Thaydoi += F_Thaydoi;
+                f.ThaydoiFrmSystem += F_Thaydoi;
                 f.ShowDialog();
             }
         }
 
+        #region - search -
+        private List<Category> searchCate(string source)
+        {
+            List<Category> list = CategoryDAL.searchCate(source);
+            return list;
+        }
+
+        private List<Sanh> searchSanh(string source)
+        {
+            List<Sanh> list = SanhDAL.searchSanh(source);
+            return list;
+        }
+
+        private List<Food> searchFood(string source)
+        {
+            List<Food> list = FoodDAL.searchFood(source);
+            return list;
+        }
 
         #endregion
 
-        #region Events
+        #endregion
+
+        #region - Events -
 
 
         #region - Phân Trang Hóa Đơn - 
@@ -1119,6 +1141,8 @@ namespace QuanLyNhaHang.GUI
 
         #endregion
 
+
+        #region - search -
         private void FrmSystem_Load(object sender, EventArgs e)
         {
             Initialize();
@@ -1142,8 +1166,46 @@ namespace QuanLyNhaHang.GUI
             }
         }
 
+        private void btnTimDanhMuc_Click(object sender, EventArgs e)
+        {
+            danhmucBinding.DataSource = searchCate(txtTimDanhMuc.Text);
+        }
+
+        private void txtTimDanhMuc_TextChanged(object sender, EventArgs e)
+        {
+            if (txtTimDanhMuc.Text == "") loadDataCategory();
+        }
+
+        private void btnTimSanh_Click(object sender, EventArgs e)
+        {
+            sanhBinding.DataSource = searchSanh(txtTimSanh.Text);
+        }
+
+        private void txtTimSanh_TextChanged(object sender, EventArgs e)
+        {
+            if (txtTimSanh.Text == "") loadDataSanh();
+        }
+
+        private void btnTimThucAn_Click(object sender, EventArgs e)
+        {
+            thucAnBinding.DataSource = searchFood(txtTimThucAn.Text);
+        }
+
+        private void txtTimThucAn_TextChanged(object sender, EventArgs e)
+        {
+            if (txtTimThucAn.Text == "") loadDataFood();
+        }
 
         #endregion
 
+        #endregion
+
+        private void demoProblemToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmDemoProblem f = new FrmDemoProblem(acc);
+            this.Hide();
+            f.ShowDialog();
+            this.Show();
+        }
     }
 }

@@ -76,5 +76,43 @@ namespace QuanLyNhaHang.DAL
         {
             return (int)DatabaseExecute.sqlExecuteScalar("StoredProcedure_layTongSoNhanVien");
         }
+
+
+
+
+
+
+
+
+
+
+
+        #region lost Update
+        public static bool waitLostUpdate(int id, string cv)
+        {
+            int result = DatabaseExecute.sqlExecuteNonQuery("SP_waitUpdate @chucVu , @id", new object[] { cv, id });
+            return result > 0;
+        }
+
+        public static bool pokeLostUpdate(int id, string cv)
+        {
+            int result = DatabaseExecute.sqlExecuteNonQuery("SP_pokeUpdate @chucVu , @id", new object[] { cv, id });
+            return result > 0;
+        }
+        #endregion
+
+
+        #region doc du lieu rac
+        public static bool insertRollBack()
+        {
+            int result = DatabaseExecute.sqlExecuteNonQuery("SP_waitInsertRollback");
+            return result > 0;
+        }
+
+        public static DataTable phanTrangDulieuRac(int page, int pageRows)
+        {
+            return DatabaseExecute.sqlQuery("SP_PhanTrangDEMOrac @page , @pageRows", new object[] { page, pageRows });
+        }
+        #endregion
     }
 }

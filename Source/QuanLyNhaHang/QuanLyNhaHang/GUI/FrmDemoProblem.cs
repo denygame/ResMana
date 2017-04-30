@@ -1,5 +1,5 @@
-﻿using DemoProblem.DAL;
-using DemoProblem.DTO;
+﻿using QuanLyNhaHang.DAL;
+using QuanLyNhaHang.DTO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,13 +12,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DemoProblem.GUI
+namespace QuanLyNhaHang.GUI
 {
-    public partial class FrmSystem : Form
+    public partial class FrmDemoProblem : Form
     {
-        public FrmSystem()
+        private Account tkDn;
+        public FrmDemoProblem(Account acc)
         {
             InitializeComponent();
+
+            this.tkDn = acc;
+            this.Text += "  -+-  Tài Khoản: " + acc.UserName;
         }
 
         private int check = -1;
@@ -70,9 +74,14 @@ namespace DemoProblem.GUI
                     f = new FrmStaffProfile(test,cbproblem);
                 else f = new FrmStaffProfile(nv,testTrans);
 
-                f.Thaydoi += F_Thaydoi;
+                f.ThaydoiFrmDemo += F_ThaydoiFrmDemo;
                 f.ShowDialog();
             }
+        }
+
+        private void F_ThaydoiFrmDemo(object sender, EventTruyenDuLieu e)
+        {
+            loadDataStaff();
         }
 
 
@@ -181,10 +190,6 @@ namespace DemoProblem.GUI
             Initialize();
         }
 
-
-
-        #endregion
-
         private void btnDemo_Click(object sender, EventArgs e)
         {
             if (check == -1)
@@ -193,7 +198,7 @@ namespace DemoProblem.GUI
                 check = 0;
                 return;
             }
-            if(check == 0)
+            if (check == 0)
             {
                 check = -1;
                 cbProblem.Enabled = false;
@@ -207,7 +212,7 @@ namespace DemoProblem.GUI
 
         private void cbProblem_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(cbProblem.SelectedIndex == 2)
+            if (cbProblem.SelectedIndex == 2)
             {
                 rB_Poke.Enabled = true;
                 rB_Wait.Enabled = true;
@@ -221,5 +226,8 @@ namespace DemoProblem.GUI
                 rB_Poke.Checked = false;
             }
         }
+
+        #endregion
+
     }
 }

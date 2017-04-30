@@ -14,12 +14,24 @@ namespace QuanLyNhaHang.DAL
         //test
         public static int login(string userName, string passWord)
         {
+            int result = -1;
             try
             {
-                return (int)DatabaseExecute.sqlExecuteScalar("SELECT COUNT(*) FROM dbo.TaiKhoan WHERE userName = @userName AND pass = @passWOrd AND checkDelete = 0", new object[] { userName, passWord });
+                result = (int)DatabaseExecute.sqlExecuteScalar("SELECT COUNT(*) FROM dbo.TaiKhoan WHERE userName = @userName AND pass = @passWOrd AND checkDelete = 0 AND checkLogin = 0", new object[] { userName, passWord });
             }
-            catch { return 0; }
+            catch { return -1; }
+
+            if (result == 0) return 0; else return 1;
         }
+
+        //chỉ 1 ip đăng nhập 1 tài khoản
+        public static bool replaceCheckLogin(string userName, int check)
+        {
+            int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("UPDATE dbo.TaiKhoan SET checkLogin = {0} WHERE userName = N'{1}'", check, userName));
+            return result > 0;
+        }
+
+
         public static Account getAccount(string userName)
         {
             DataTable data = new DataTable();

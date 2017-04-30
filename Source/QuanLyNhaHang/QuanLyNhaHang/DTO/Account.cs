@@ -11,12 +11,15 @@ namespace QuanLyNhaHang.DTO
     {
         private string userName, pass;
         private int idNhanVien, loaiTK;
+        private int checkLogin;
+
         public Account(DataRow r)
         {
             this.UserName = r["userName"].ToString();
             this.Pass = r["pass"].ToString();
             this.IdNhanVien = (int)r["idNhanVien"];
             this.LoaiTK = (int)r["loaiTK"];
+            this.CheckLogin = (int)r["checkLogin"];
         }
 
         public string Pass
@@ -68,6 +71,19 @@ namespace QuanLyNhaHang.DTO
             set
             {
                 loaiTK = value;
+            }
+        }
+
+        public int CheckLogin
+        {
+            get
+            {
+                return checkLogin;
+            }
+
+            set
+            {
+                checkLogin = value;
             }
         }
     }

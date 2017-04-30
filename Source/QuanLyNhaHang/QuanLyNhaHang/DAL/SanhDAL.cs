@@ -58,5 +58,25 @@ namespace QuanLyNhaHang.DAL
         {
             return (int)DatabaseExecute.sqlExecuteScalar("SELECT COUNT(*) FROM dbo.Sanh WHERE checkDelete = 0");
         }
+
+
+        public static List<Sanh> searchSanh(string source)
+        {
+            string name = source;
+            int id = 0;
+            if (Test.HasNumber(source) && Test.IsNumber(source))
+            {
+                id = Convert.ToInt32(source);
+                name = "";
+            }
+            List<Sanh> list = new List<Sanh>();
+            DataTable data = DatabaseExecute.sqlQuery("seachCateOrSanhOrThucAn @id , @name , @cateOrSanhOrFood ", new object[] { id, name, 1 });
+            foreach (DataRow i in data.Rows)
+            {
+                Sanh temp = new Sanh(i);
+                list.Add(temp);
+            }
+            return list;
+        }
     }
 }

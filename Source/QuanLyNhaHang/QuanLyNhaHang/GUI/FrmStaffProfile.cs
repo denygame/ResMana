@@ -18,15 +18,32 @@ namespace QuanLyNhaHang.GUI
 
         private bool checkClickTD;
 
-        private event EventHandler<EventTruyenDuLieu> thaydoi;
-        public event EventHandler<EventTruyenDuLieu> Thaydoi
+        private event EventHandler<EventTruyenDuLieu> thaydoiFrmSystem;
+        public event EventHandler<EventTruyenDuLieu> ThaydoiFrmSystem
         {
-            add { thaydoi += value; }
-            remove { thaydoi -= value; }
+            add { thaydoiFrmSystem += value; }
+            remove { thaydoiFrmSystem -= value; }
         }
+
+        private event EventHandler<EventTruyenDuLieu> thaydoiFrmDemo;
+        public event EventHandler<EventTruyenDuLieu> ThaydoiFrmDemo
+        {
+            add { thaydoiFrmDemo += value; }
+            remove { thaydoiFrmDemo -= value; }
+        }
+
+
+
 
         private string test = null;
 
+        //2 biến demo 
+        private int testTrans = -1;
+        private int problem;
+
+
+
+        #region frm system
         public FrmStaffProfile(Staff nv)
         {
             InitializeComponent();
@@ -41,6 +58,30 @@ namespace QuanLyNhaHang.GUI
             this.AcceptButton = btnCapAcc;
             load(test);
         }
+        #endregion
+
+
+
+
+        #region frm demo problem
+        public FrmStaffProfile(Staff nv, int testTrans)
+        {
+            InitializeComponent();
+            this.nv = nv;
+            this.testTrans = testTrans;
+            load();
+        }
+
+        public FrmStaffProfile(string test, int problem)
+        {
+            InitializeComponent();
+            this.test = test;
+            this.AcceptButton = btnCapAcc;
+            this.problem = problem;
+            load(test);
+        }
+        #endregion
+
 
 
 
@@ -80,6 +121,8 @@ namespace QuanLyNhaHang.GUI
             txtSDT.Text = nv.Tel;
         }
 
+
+        #region quickControls
         /// <summary>
         /// tắt readonly để có thể thay đổi dc
         /// </summary>
@@ -128,6 +171,8 @@ namespace QuanLyNhaHang.GUI
 
             return gT;
         }
+        #endregion
+
 
         private void btnThayDoi_Click(object sender, EventArgs e)
         {
@@ -149,15 +194,36 @@ namespace QuanLyNhaHang.GUI
 
                 string gT = openReadOnly();
 
-                if (StaffDAL.updateStaff(Convert.ToInt32(txtIdNhanVien.Text), txtTen.Text, dTp_NgaySinh.Value, gT, txtChucVu.Text, txtQue.Text, txtDiaChi.Text, txtSDT.Text, txtEmail.Text))
+                //frm system - k demo 
+                if (testTrans == -1)
                 {
-                    thaydoi(sender, new EventTruyenDuLieu(false));
+                    if (StaffDAL.updateStaff(Convert.ToInt32(txtIdNhanVien.Text), txtTen.Text, dTp_NgaySinh.Value, gT, txtChucVu.Text, txtQue.Text, txtDiaChi.Text, txtSDT.Text, txtEmail.Text))
+                    {
+                        thaydoiFrmSystem(sender, new EventTruyenDuLieu(false));
+                    }
+                    else
+                    {
+                        MessageBox.Show("Có lỗi khi sửa nhân viên", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        this.txtTen.Focus();
+                    }
+                    return;
                 }
-                else
+
+
+                #region demo lost updated khi testTrans != -1
+                //tức là frm demo 
+                if (testTrans == 0)
                 {
-                    MessageBox.Show("Có lỗi khi sửa nhân viên", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    this.txtTen.Focus();
+                    StaffDAL.waitLostUpdate(Convert.ToInt32(txtIdNhanVien.Text), txtChucVu.Text);
                 }
+                if (testTrans == 1)
+                {
+                    StaffDAL.pokeLostUpdate(Convert.ToInt32(txtIdNhanVien.Text), txtChucVu.Text);
+                }
+
+                thaydoiFrmDemo(sender, new EventTruyenDuLieu(false));
+
+                #endregion
             }
         }
 
@@ -168,16 +234,37 @@ namespace QuanLyNhaHang.GUI
                 string gt = "";
                 if (cbGT.SelectedIndex == 0) gt = "Nam"; else gt = "Nữ";
 
-                if (StaffDAL.insertStaff(txtTen.Text, dTp_NgaySinh.Value, gt, txtChucVu.Text, txtQue.Text, txtDiaChi.Text, txtSDT.Text, txtEmail.Text))
+                // nếu k phải demo
+                if (problem == -1)
                 {
-                    thaydoi(sender, new EventTruyenDuLieu(false));
-                    this.Close();
+                    if (StaffDAL.insertStaff(txtTen.Text, dTp_NgaySinh.Value, gt, txtChucVu.Text, txtQue.Text, txtDiaChi.Text, txtSDT.Text, txtEmail.Text))
+                    {
+                        thaydoiFrmSystem(sender, new EventTruyenDuLieu(false));
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Có lỗi khi thêm nhân viên", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        this.txtTen.Focus();
+                    }
+                    return;
                 }
-                else
+
+                #region demo problem dirty với ghost
+                if (problem == 0)
                 {
-                    MessageBox.Show("Có lỗi khi thêm nhân viên", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    this.txtTen.Focus();
+                    //doc du lieu rac
+                    StaffDAL.insertRollBack();
                 }
+
+                if (problem == 1)
+                {
+                    //bóng ma
+                    StaffDAL.insertStaff(txtTen.Text, dTp_NgaySinh.Value, gt, txtChucVu.Text, txtQue.Text, txtDiaChi.Text, txtSDT.Text, txtEmail.Text);
+                }
+                thaydoiFrmDemo(sender, new EventTruyenDuLieu(false));
+                this.Close();
+                #endregion
             }
             else
             {
@@ -189,7 +276,7 @@ namespace QuanLyNhaHang.GUI
 
         private void F_EvFromAddAccount(object sender, EventArgs e)
         {
-            thaydoi(this, new EventTruyenDuLieu(true));
+            thaydoiFrmSystem(this, new EventTruyenDuLieu(true));
         }
     }
 }
