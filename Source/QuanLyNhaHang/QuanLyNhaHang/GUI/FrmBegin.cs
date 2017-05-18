@@ -43,6 +43,16 @@ namespace QuanLyNhaHang
             txt.KeyPress += Txt_KeyPress;
             return txt;
         }
+
+        private bool testAcc()
+        {
+            if (tkDangNhap.LoaiTK == 1)
+            {
+                MessageBox.Show("Tài khoản của bạn không đủ quyền để thực hiện hành động này!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            return true;
+        }
         #endregion
 
         #region - Events -
@@ -67,6 +77,7 @@ namespace QuanLyNhaHang
 
         private void btnSystem_Click(object sender, EventArgs e)
         {
+            if (!testAcc()) return;
             FrmSystem f = new FrmSystem(tkDangNhap);
             this.Hide();
             f.ShowDialog();
@@ -104,6 +115,7 @@ namespace QuanLyNhaHang
 
         private void btnDisconnect_Click(object sender, EventArgs e)
         {
+            if (!testAcc()) return;
             if (testDisconnect())
             {
                 IPConnectionDAL.deleteIP(GetIPconnectSql.getIP());
@@ -154,6 +166,6 @@ namespace QuanLyNhaHang
 
         #endregion
 
-
+       
     }
 }
