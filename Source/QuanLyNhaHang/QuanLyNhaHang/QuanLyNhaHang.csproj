@@ -119,6 +119,12 @@
     <Compile Include="GUI\FrmAddFood.Designer.cs">
       <DependentUpon>FrmAddFood.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\FrmBillCheckOut.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmBillCheckOut.Designer.cs">
+      <DependentUpon>FrmBillCheckOut.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\FrmBookTable.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -181,6 +187,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmAddFood.resx">
       <DependentUpon>FrmAddFood.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmBillCheckOut.resx">
+      <DependentUpon>FrmBillCheckOut.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmBookTable.resx">
       <DependentUpon>FrmBookTable.cs</DependentUpon>
@@ -247,7 +256,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="KyThuat\Bitmap.txt" />
-    <Content Include="KyThuat\CodeDeleteFile.txt" />
     <Content Include="KyThuat\CodeExecuteFileSqlOnWinforms.txt" />
     <Content Include="KyThuat\CreateAndManageManySameControls.txt" />
     <Content Include="KyThuat\CreateConnectionSqlAndSaveInClientForFirstTime.txt" />

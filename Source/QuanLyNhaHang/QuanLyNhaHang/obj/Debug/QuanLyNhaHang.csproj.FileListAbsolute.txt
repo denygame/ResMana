@@ -116,3 +116,4 @@ E:\QLNHhqtcsdl\Source\QuanLyNhaHang\QuanLyNhaHang\obj\Debug\QuanLyNhaHang.GUI.Fr
 E:\QLNHhqtcsdl\Source\QuanLyNhaHang\QuanLyNhaHang\obj\Debug\QuanLyNhaHang.GUI.FrmStaffProfile.resources
 E:\QLNHhqtcsdl\Source\QuanLyNhaHang\QuanLyNhaHang\obj\Debug\QuanLyNhaHang.GUI.FrmAccountProfile.resources
 E:\QLNHhqtcsdl\Source\QuanLyNhaHang\QuanLyNhaHang\obj\Debug\QuanLyNhaHang.GUI.FrmDemoProblem.resources
+E:\QLNHhqtcsdl\Source\QuanLyNhaHang\QuanLyNhaHang\obj\Debug\QuanLyNhaHang.GUI.FrmBillCheckOut.resources

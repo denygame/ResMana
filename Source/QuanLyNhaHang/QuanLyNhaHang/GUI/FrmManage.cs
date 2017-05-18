@@ -107,7 +107,13 @@ namespace QuanLyNhaHang
                 MessageBox.Show("Hãy chọn bàn cần thanh toán!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            int idBill = BillDAL.getIdBillUncheckByIdTable((dataGridView_HDtheoBan.Tag as Table).IdBanAn);
+            string name = SanhDAL.getSanh((cbSanh.SelectedItem as Sanh).IdSanh).TenSanh+" -  "+TableDAL.getTable((dataGridView_HDtheoBan.Tag as Table).IdBanAn).TenBan;
+            FrmBillCheckOut f = new FrmBillCheckOut(name, tkDangNhap, (dataGridView_HDtheoBan.Tag as Table).IdBanAn);
+            f.Truyen += F_Truyen;
+            f.ShowDialog();
+
+
+            /*int idBill = BillDAL.getIdBillUncheckByIdTable((dataGridView_HDtheoBan.Tag as Table).IdBanAn);
 
             int discount = (int)nUdGiamGia.Value;
 
@@ -132,7 +138,15 @@ namespace QuanLyNhaHang
 
                     resetTagTable();
                 }
-            }
+            }*/
+        }
+
+        private void F_Truyen(object sender, EventArgs e)
+        {
+            showBill((dataGridView_HDtheoBan.Tag as Table).IdBanAn);
+            loadTableWithIdSanh((cbSanh.SelectedItem as Sanh).IdSanh);
+
+            resetTagTable();
         }
 
         //load bàn theo cbSanh
