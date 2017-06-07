@@ -688,7 +688,11 @@ BEGIN
 	DECLARE @count INT = 0
 	SELECT @count = COUNT(*) FROM dbo.HoaDon WHERE idBanAn = @idTable AND trangThai = N'Chưa thanh toán'
 	IF(@count = 0)
+	BEGIN
 		UPDATE dbo.BanAn SET trangThai = N'Bàn Trống' WHERE idBanAn = @idTable
+		INSERT dbo.testLoadTableCsharp( id ) VALUES  ( @idTable )
+	END
+		
 END
 GO
 
@@ -721,6 +725,13 @@ VALUES  ( N'Nguyễn Thanh Huy' , -- tenNhanVien - nvarchar(100)
 INSERT dbo.TaiKhoan
         ( userName, pass, idNhanVien, loaiTK )
 VALUES  ( N'denygame', -- userName - nvarchar(100)
+          N'2ksadjhq1592cb962ac#->87@o{}9ksadjhq159leuleu#->87@o{}b964bksadjhq159leuleuute#->87@o{}2d234bleuleuksadjhq159qwsxaczdervhdsfuebfewpof5jgikngdHSsSFfdspofjsdoifuiegtfweg6514fds65f85sd1fffd65xf', -- pass - nvarchar(1000)
+          1, -- idNhanVien - int
+          2  -- loaiTK - int
+          )
+INSERT dbo.TaiKhoan
+        ( userName, pass, idNhanVien, loaiTK )
+VALUES  ( N'denygame1', -- userName - nvarchar(100)
           N'2ksadjhq1592cb962ac#->87@o{}9ksadjhq159leuleu#->87@o{}b964bksadjhq159leuleuute#->87@o{}2d234bleuleuksadjhq159qwsxaczdervhdsfuebfewpof5jgikngdHSsSFfdspofjsdoifuiegtfweg6514fds65f85sd1fffd65xf', -- pass - nvarchar(1000)
           1, -- idNhanVien - int
           2  -- loaiTK - int

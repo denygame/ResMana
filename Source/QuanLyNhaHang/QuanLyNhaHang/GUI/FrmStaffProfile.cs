@@ -37,8 +37,9 @@ namespace QuanLyNhaHang.GUI
 
         private string test = null;
 
-        //2 biến demo 
+        //3 biến demo 
         private int testTrans = -1;
+        private int unread = -1;
         private int problem;
 
 
@@ -64,11 +65,16 @@ namespace QuanLyNhaHang.GUI
 
 
         #region frm demo problem
-        public FrmStaffProfile(Staff nv, int testTrans)
+        public FrmStaffProfile(Staff nv, int testTrans, string docLai = null)
         {
             InitializeComponent();
             this.nv = nv;
-            this.testTrans = testTrans;
+            if (docLai != null)
+            {
+                this.testTrans = -1; //k doc lai
+                this.unread = 0;
+            }
+            else this.testTrans = testTrans;//mất dữ liệu
             load();
         }
 
@@ -194,12 +200,13 @@ namespace QuanLyNhaHang.GUI
 
                 string gT = openReadOnly();
 
-                //frm system - k demo 
+                //frm system - k demo hoặc demo khong doc lai
                 if (testTrans == -1)
                 {
                     if (StaffDAL.updateStaff(Convert.ToInt32(txtIdNhanVien.Text), txtTen.Text, dTp_NgaySinh.Value, gT, txtChucVu.Text, txtQue.Text, txtDiaChi.Text, txtSDT.Text, txtEmail.Text))
                     {
-                        thaydoiFrmSystem(sender, new EventTruyenDuLieu(false));
+                        if (unread == 0) thaydoiFrmDemo(sender, new EventTruyenDuLieu(false));
+                        else thaydoiFrmSystem(sender, new EventTruyenDuLieu(false));
                     }
                     else
                     {
@@ -209,21 +216,25 @@ namespace QuanLyNhaHang.GUI
                     return;
                 }
 
-
-                #region demo lost updated khi testTrans != -1
-                //tức là frm demo 
-                if (testTrans == 0)
+                if (testTrans != -1)
                 {
-                    StaffDAL.waitLostUpdate(Convert.ToInt32(txtIdNhanVien.Text), txtChucVu.Text);
-                }
-                if (testTrans == 1)
-                {
-                    StaffDAL.pokeLostUpdate(Convert.ToInt32(txtIdNhanVien.Text), txtChucVu.Text);
+                    #region demo lost updated khi testTrans != -1
+                    //tức là frm demo 
+                    if (testTrans == 0)
+                    {
+                        StaffDAL.waitLostUpdate(Convert.ToInt32(txtIdNhanVien.Text), txtChucVu.Text);
+                    }
+                    if (testTrans == 1)
+                    {
+                        StaffDAL.pokeLostUpdate(Convert.ToInt32(txtIdNhanVien.Text), txtChucVu.Text);
+                    }
+
+                    thaydoiFrmDemo(sender, new EventTruyenDuLieu(false));
+
+                    #endregion
                 }
 
-                thaydoiFrmDemo(sender, new EventTruyenDuLieu(false));
-
-                #endregion
+                
             }
         }
 

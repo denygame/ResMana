@@ -37,8 +37,16 @@ namespace QuanLyNhaHang.GUI
             }
             if (lo == 0)
             {
-                MessageBox.Show("Tài Khoản đã được đăng nhập", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                if (AccountDAL.getCheckLogin(txtUserName.Text))
+                {
+                    MessageBox.Show("Tài Khoản đã được đăng nhập", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                else
+                {
+                    MessageBox.Show("Sai tài khoản hoặc mật khẩu", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
             }
             else
             {
@@ -55,7 +63,7 @@ namespace QuanLyNhaHang.GUI
 
         private void checkBoxPass_CheckedChanged(object sender, EventArgs e)
         {
-            if(checkBoxPass.Checked == true)
+            if (checkBoxPass.Checked == true)
             {
                 checkBoxPass.ForeColor = Color.Red;
                 txtPassWord.UseSystemPasswordChar = false;

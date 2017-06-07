@@ -1204,8 +1204,15 @@ namespace QuanLyNhaHang.GUI
         {
             FrmDemoProblem f = new FrmDemoProblem(acc);
             this.Hide();
+            f.Truyen += F_Truyen;
             f.ShowDialog();
             this.Show();
+        }
+
+        private void F_Truyen(object sender, EventArgs e)
+        {
+            loadDataStaff();
+            loadDataAccount();
         }
     }
 }

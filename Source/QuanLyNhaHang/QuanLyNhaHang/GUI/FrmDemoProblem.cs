@@ -16,6 +16,14 @@ namespace QuanLyNhaHang.GUI
 {
     public partial class FrmDemoProblem : Form
     {
+        private event EventHandler truyen;
+        public event EventHandler Truyen
+        {
+            add { truyen += value; }
+            remove { truyen -= value; }
+        }
+
+
         private Account tkDn;
         public FrmDemoProblem(Account acc)
         {
@@ -44,7 +52,7 @@ namespace QuanLyNhaHang.GUI
             dataGridView_NhanVien.DataSource = StaffDAL.GetStaffListANDpage(Convert.ToInt32(txtTrangNhanVien.Text), Constant.phanTrangNV);
         }
 
-        
+
 
         #endregion
 
@@ -71,8 +79,12 @@ namespace QuanLyNhaHang.GUI
                 FrmStaffProfile f;
                 Staff nv = StaffDAL.getStaff(Convert.ToInt32(result));
                 if (test != null)
-                    f = new FrmStaffProfile(test,cbproblem);
-                else f = new FrmStaffProfile(nv,testTrans);
+                    f = new FrmStaffProfile(test, cbproblem); //bong ma, du lieu rac
+                else
+                {
+                    if (cbproblem == 2) f = new FrmStaffProfile(nv, testTrans); //mat du lieu
+                    else f = new FrmStaffProfile(nv, testTrans, "khong the doc lai"); //k doc lai
+                }
 
                 f.ThaydoiFrmDemo += F_ThaydoiFrmDemo;
                 f.ShowDialog();
@@ -124,12 +136,12 @@ namespace QuanLyNhaHang.GUI
 
 
         #region - Event thêm xóa sửa -
-       
+
 
 
         private void btnXemNhanVien_Click(object sender, EventArgs e)
         {
-            if(check == -1)
+            if (check == -1)
             {
                 loadDataStaff();
                 return;
@@ -141,7 +153,7 @@ namespace QuanLyNhaHang.GUI
             }
 
             // k dùng dc stored procedure, k thể chạy song song ? test
-            if(cbProblem.SelectedIndex == 1)
+            if (cbProblem.SelectedIndex == 1 || cbProblem.SelectedIndex == 3)
             {
                 dataGridView_NhanVien.DataSource = StaffDAL.GetStaffListANDpage(Convert.ToInt32(txtTrangNhanVien.Text), Constant.phanTrangNV);
                 Thread.Sleep(3000);
@@ -158,10 +170,14 @@ namespace QuanLyNhaHang.GUI
             string result = dataGridView_NhanVien.Rows[rowindex].Cells[0].Value.ToString();
             if (result != null)
             {
-               if (StaffDAL.deleteStaff(Convert.ToInt32(result)))
-               {
-                     loadDataStaff();
-               }
+                if (result != tkDn.IdNhanVien.ToString())
+                {
+                    if (StaffDAL.deleteStaff(Convert.ToInt32(result)))
+                    {
+                        loadDataStaff();
+                    }
+                }
+                else MessageBox.Show("Không thể xóa!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -171,22 +187,20 @@ namespace QuanLyNhaHang.GUI
         }
 
 
-       
+
 
         private void dataGridView_NhanVien_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             loadFrmStaff();
         }
 
-        private void F_Thaydoi(object sender, EventTruyenDuLieu e)
-        {
-            loadDataStaff();
-        }
 
         #endregion
 
         private void FrmSystem_Load(object sender, EventArgs e)
         {
+            dataGridView_NhanVien.Visible = false;
+            panel48.Visible = false;
             Initialize();
         }
 
@@ -195,6 +209,8 @@ namespace QuanLyNhaHang.GUI
             if (check == -1)
             {
                 cbProblem.Enabled = true;
+                dataGridView_NhanVien.Visible = true;
+                panel48.Visible = true;
                 check = 0;
                 return;
             }
@@ -202,6 +218,8 @@ namespace QuanLyNhaHang.GUI
             {
                 check = -1;
                 cbProblem.Enabled = false;
+                dataGridView_NhanVien.Visible = false;
+                panel48.Visible = false;
                 rB_Poke.Enabled = false;
                 rB_Wait.Enabled = false;
                 rB_Wait.Checked = false;
@@ -229,5 +247,9 @@ namespace QuanLyNhaHang.GUI
 
         #endregion
 
+        private void FrmDemoProblem_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            truyen(this, new EventArgs());
+        }
     }
 }

@@ -41,6 +41,13 @@ namespace QuanLyNhaHang.DAL
             return null;
         }
 
+        public static bool getCheckLogin(string userName)
+        {
+            Account r = getAccount(userName);
+            if (r.CheckLogin == 1) return true;
+            return false;
+        }
+
         public static DataTable getListAccount()
         {
             DataTable data = DatabaseExecute.sqlQuery("SELECT userName, idNhanVien, loaiTK from dbo.TaiKhoan WHERE checkDelete = 0");
@@ -79,6 +86,7 @@ namespace QuanLyNhaHang.DAL
 
         public static bool deleteAccByIdStaff(int id)
         {
+            DatabaseExecute.sqlExecuteNonQuery("UPDATE dbo.TaiKhoan SET checkLogin = 0 WHERE idNhanVien = " + id);
             int result = DatabaseExecute.sqlExecuteNonQuery("UPDATE dbo.TaiKhoan SET checkDelete = 1 WHERE idNhanVien = " + id);
             return result > 0;
         }
