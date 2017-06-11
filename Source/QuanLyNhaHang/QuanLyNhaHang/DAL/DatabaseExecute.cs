@@ -129,5 +129,40 @@ namespace QuanLyNhaHang.DAL
                 return 0;
             }
         }
+
+
+
+
+        private static string stringPrint = "";
+
+
+        public static string returnPrint(string query, object[] bienSoTruyenVao = null)
+        {
+            int traVe = -1;
+            SqlCommand comm = new SqlCommand(query, conn);
+            conn.Open();
+            if (bienSoTruyenVao != null)
+            {
+                string[] listBienSo = query.Split(' ');
+                int i = 0;
+                foreach (string text in listBienSo)
+                {
+                    if (text.Contains("@"))
+                    {
+                        comm.Parameters.AddWithValue(text, bienSoTruyenVao[i]);
+                        i++;
+                    }
+                }
+            }
+            conn.InfoMessage += Conn_InfoMessage;
+            traVe = comm.ExecuteNonQuery();
+            conn.Close();
+            return stringPrint;
+        }
+
+        private static void Conn_InfoMessage(object sender, SqlInfoMessageEventArgs e)
+        {
+            stringPrint = e.Message;
+        }
     }
 }

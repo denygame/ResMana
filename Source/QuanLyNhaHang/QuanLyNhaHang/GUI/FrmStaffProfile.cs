@@ -15,6 +15,7 @@ namespace QuanLyNhaHang.GUI
     public partial class FrmStaffProfile : Form
     {
         Staff nv;
+        Account acc;
 
         private bool checkClickTD;
 
@@ -38,10 +39,11 @@ namespace QuanLyNhaHang.GUI
         private string test = null;
 
         //3 biến demo 
-        private int testTrans = -1;
+        private int matDulieu = -1;
         private int unread = -1;
-        private int problem;
+        private int problem = -1;
 
+        private bool fixMatDuLieu;
 
 
         #region frm system
@@ -65,23 +67,26 @@ namespace QuanLyNhaHang.GUI
 
 
         #region frm demo problem
-        public FrmStaffProfile(Staff nv, int testTrans, string docLai = null)
+        public FrmStaffProfile(Staff nv, int testTrans, Account acc, bool fixOrNot, string docLai = null)
         {
             InitializeComponent();
             this.nv = nv;
+            this.acc = acc;
+            this.fixMatDuLieu = fixOrNot;
             if (docLai != null)
             {
-                this.testTrans = -1; //k doc lai
+                this.matDulieu = -1; //k doc lai
                 this.unread = 0;
             }
-            else this.testTrans = testTrans;//mất dữ liệu
+            else this.matDulieu = testTrans;//mất dữ liệu
             load();
         }
 
-        public FrmStaffProfile(string test, int problem)
+        public FrmStaffProfile(string test, int problem, Account acc)
         {
             InitializeComponent();
             this.test = test;
+            this.acc = acc;
             this.AcceptButton = btnCapAcc;
             this.problem = problem;
             load(test);
@@ -201,7 +206,7 @@ namespace QuanLyNhaHang.GUI
                 string gT = openReadOnly();
 
                 //frm system - k demo hoặc demo khong doc lai
-                if (testTrans == -1)
+                if (matDulieu == -1)
                 {
                     if (StaffDAL.updateStaff(Convert.ToInt32(txtIdNhanVien.Text), txtTen.Text, dTp_NgaySinh.Value, gT, txtChucVu.Text, txtQue.Text, txtDiaChi.Text, txtSDT.Text, txtEmail.Text))
                     {
@@ -216,15 +221,15 @@ namespace QuanLyNhaHang.GUI
                     return;
                 }
 
-                if (testTrans != -1)
+                if (matDulieu != -1)
                 {
                     #region demo lost updated khi testTrans != -1
                     //tức là frm demo 
-                    if (testTrans == 0)
+                    if (matDulieu == 0)
                     {
                         StaffDAL.waitLostUpdate(Convert.ToInt32(txtIdNhanVien.Text), txtChucVu.Text);
                     }
-                    if (testTrans == 1)
+                    if (matDulieu == 1)
                     {
                         StaffDAL.pokeLostUpdate(Convert.ToInt32(txtIdNhanVien.Text), txtChucVu.Text);
                     }
@@ -234,7 +239,7 @@ namespace QuanLyNhaHang.GUI
                     #endregion
                 }
 
-                
+
             }
         }
 
@@ -261,7 +266,7 @@ namespace QuanLyNhaHang.GUI
                     return;
                 }
 
-                #region demo problem dirty với ghost
+                #region demo problem dirty với bóng ma
                 if (problem == 0)
                 {
                     //doc du lieu rac
@@ -288,6 +293,52 @@ namespace QuanLyNhaHang.GUI
         private void F_EvFromAddAccount(object sender, EventArgs e)
         {
             thaydoiFrmSystem(this, new EventTruyenDuLieu(true));
+        }
+
+
+
+        //khi load không có trong bảng lock thì mới show button
+        private void FrmStaffProfile_Load(object sender, EventArgs e)
+        {
+            if (nv != null && acc != null)
+            {
+                if (matDulieu != -1)//mat du lieu
+                {
+                    if (fixMatDuLieu)
+                    {
+                        int count = StaffDAL.getCountLockLU_withUser(nv.IdNhanVien, acc.UserName);
+                        //MessageBox.Show(count.ToString());
+                        if (count == 1)
+                        {
+                            btnThayDoi.Visible = true;
+                        }
+                        else
+                        {
+                            btnThayDoi.Visible = false;
+                        }
+                    }
+                    else
+                    {
+                        btnThayDoi.Visible = true;
+                    }
+                }
+            }
+        }
+
+        private void FrmStaffProfile_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (nv != null)
+            {
+                if (matDulieu != -1)//mat du lieu
+                {
+                    int count = StaffDAL.getCountLockLU(nv.IdNhanVien);
+                    //MessageBox.Show(count.ToString());
+                    if (count == 1)
+                    {
+                        StaffDAL.deleteLockLostUpdate(nv.IdNhanVien);
+                    }
+                }
+            }
         }
     }
 }

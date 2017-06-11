@@ -38,12 +38,13 @@
             this.btnXoaNhanVien = new System.Windows.Forms.Button();
             this.btnXemNhanVien = new System.Windows.Forms.Button();
             this.panel47 = new System.Windows.Forms.Panel();
-            this.btnDemo = new System.Windows.Forms.Button();
+            this.btnHuy = new System.Windows.Forms.Button();
+            this.btnFix = new System.Windows.Forms.Button();
             this.cbProblem = new System.Windows.Forms.ComboBox();
-            this.rB_Poke = new System.Windows.Forms.RadioButton();
-            this.rB_Wait = new System.Windows.Forms.RadioButton();
             this.dataGridView_NhanVien = new System.Windows.Forms.DataGridView();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -51,21 +52,26 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.dEMOToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rB_Poke = new System.Windows.Forms.RadioButton();
+            this.rB_Wait = new System.Windows.Forms.RadioButton();
+            this.btnTongNhanVien = new System.Windows.Forms.Button();
+            this.btnKtheDocLai = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabNhanVien.SuspendLayout();
             this.panel48.SuspendLayout();
             this.panel47.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_NhanVien)).BeginInit();
             this.tabPage1.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabNhanVien);
             this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Location = new System.Drawing.Point(12, 12);
+            this.tabControl1.Location = new System.Drawing.Point(12, 27);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(837, 479);
@@ -170,64 +176,55 @@
             // 
             // panel47
             // 
-            this.panel47.Controls.Add(this.btnDemo);
-            this.panel47.Controls.Add(this.cbProblem);
+            this.panel47.Controls.Add(this.btnKtheDocLai);
+            this.panel47.Controls.Add(this.btnTongNhanVien);
             this.panel47.Controls.Add(this.rB_Poke);
             this.panel47.Controls.Add(this.rB_Wait);
+            this.panel47.Controls.Add(this.btnHuy);
+            this.panel47.Controls.Add(this.btnFix);
+            this.panel47.Controls.Add(this.cbProblem);
             this.panel47.Controls.Add(this.dataGridView_NhanVien);
             this.panel47.Location = new System.Drawing.Point(0, 0);
             this.panel47.Name = "panel47";
             this.panel47.Size = new System.Drawing.Size(829, 392);
             this.panel47.TabIndex = 0;
             // 
-            // btnDemo
+            // btnHuy
             // 
-            this.btnDemo.BackColor = System.Drawing.Color.Silver;
-            this.btnDemo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDemo.ForeColor = System.Drawing.Color.Red;
-            this.btnDemo.Location = new System.Drawing.Point(41, 13);
-            this.btnDemo.Name = "btnDemo";
-            this.btnDemo.Size = new System.Drawing.Size(129, 28);
-            this.btnDemo.TabIndex = 5;
-            this.btnDemo.Text = "DEMO";
-            this.btnDemo.UseVisualStyleBackColor = false;
-            this.btnDemo.Click += new System.EventHandler(this.btnDemo_Click);
+            this.btnHuy.BackColor = System.Drawing.Color.Silver;
+            this.btnHuy.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnHuy.ForeColor = System.Drawing.Color.Red;
+            this.btnHuy.Location = new System.Drawing.Point(92, 13);
+            this.btnHuy.Name = "btnHuy";
+            this.btnHuy.Size = new System.Drawing.Size(59, 28);
+            this.btnHuy.TabIndex = 6;
+            this.btnHuy.Text = "Hủy";
+            this.btnHuy.UseVisualStyleBackColor = false;
+            this.btnHuy.Click += new System.EventHandler(this.btnHuy_Click);
+            // 
+            // btnFix
+            // 
+            this.btnFix.BackColor = System.Drawing.Color.Silver;
+            this.btnFix.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFix.ForeColor = System.Drawing.Color.Red;
+            this.btnFix.Location = new System.Drawing.Point(27, 13);
+            this.btnFix.Name = "btnFix";
+            this.btnFix.Size = new System.Drawing.Size(59, 28);
+            this.btnFix.TabIndex = 5;
+            this.btnFix.Text = "FIX";
+            this.btnFix.UseVisualStyleBackColor = false;
+            this.btnFix.Click += new System.EventHandler(this.btnFix_Click);
             // 
             // cbProblem
             // 
             this.cbProblem.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbProblem.Enabled = false;
             this.cbProblem.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbProblem.FormattingEnabled = true;
-            this.cbProblem.Location = new System.Drawing.Point(236, 13);
+            this.cbProblem.Location = new System.Drawing.Point(212, 13);
             this.cbProblem.Name = "cbProblem";
             this.cbProblem.Size = new System.Drawing.Size(304, 28);
             this.cbProblem.TabIndex = 4;
             this.cbProblem.SelectedIndexChanged += new System.EventHandler(this.cbProblem_SelectedIndexChanged);
-            // 
-            // rB_Poke
-            // 
-            this.rB_Poke.AutoSize = true;
-            this.rB_Poke.Enabled = false;
-            this.rB_Poke.Location = new System.Drawing.Point(695, 19);
-            this.rB_Poke.Name = "rB_Poke";
-            this.rB_Poke.Size = new System.Drawing.Size(87, 17);
-            this.rB_Poke.TabIndex = 3;
-            this.rB_Poke.TabStop = true;
-            this.rB_Poke.Text = "Thread Poke";
-            this.rB_Poke.UseVisualStyleBackColor = true;
-            // 
-            // rB_Wait
-            // 
-            this.rB_Wait.AutoSize = true;
-            this.rB_Wait.Enabled = false;
-            this.rB_Wait.Location = new System.Drawing.Point(590, 19);
-            this.rB_Wait.Name = "rB_Wait";
-            this.rB_Wait.Size = new System.Drawing.Size(84, 17);
-            this.rB_Wait.TabIndex = 2;
-            this.rB_Wait.TabStop = true;
-            this.rB_Wait.Text = "Thread Wait";
-            this.rB_Wait.UseVisualStyleBackColor = true;
             // 
             // dataGridView_NhanVien
             // 
@@ -261,6 +258,29 @@
             this.tabPage1.Text = "Hướng Dẫn";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.Color.Blue;
+            this.label9.Location = new System.Drawing.Point(534, 380);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(184, 20);
+            this.label9.TabIndex = 8;
+            this.label9.Text = "Vấn đề không thể đọc lại";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(22, 339);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(474, 100);
+            this.label8.TabIndex = 7;
+            this.label8.Text = "+ Mở 2 chương trình, chọn Vấn đề không thể đọc lại\r\n\r\n+ 1 chương trình click Khôn" +
+    "g Đọc Lại ( hàm show 2 lần tên cùa nv )\r\n\r\n+ 1 chương trình trong lúc đó update " +
+    "tên nhân viên của Staff đó";
+            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -287,20 +307,19 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(22, 129);
+            this.label4.Location = new System.Drawing.Point(22, 118);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(549, 100);
+            this.label4.Size = new System.Drawing.Size(407, 100);
             this.label4.TabIndex = 4;
-            this.label4.Text = "+ Mở 2 chương trình, chọn Vấn đề bóng ma dữ liệu\r\n\r\n+ 1 chương trình xem Staff ( " +
-    "load Staff xong  hàm nghỉ 3 giây sẽ tiếp tục load)\r\n\r\n+ 1 chương trình trong lúc" +
-    " đó thêm vào Staff";
+            this.label4.Text = "+ Mở 2 chương trình, chọn Vấn đề bóng ma dữ liệu\r\n\r\n+ 1 chương trình click TổngNV" +
+    " ( hàm show 2 lần tổng nv )\r\n\r\n+ 1 chương trình trong lúc đó thêm vào Staff";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.Blue;
-            this.label5.Location = new System.Drawing.Point(605, 170);
+            this.label5.Location = new System.Drawing.Point(534, 156);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(176, 20);
             this.label5.TabIndex = 3;
@@ -339,36 +358,80 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Hướng Dẫn Demo Problem";
             // 
-            // label8
+            // menuStrip1
             // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(22, 339);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(549, 100);
-            this.label8.TabIndex = 7;
-            this.label8.Text = "+ Mở 2 chương trình, chọn Vấn đề không thể đọc lại\r\n\r\n+ 1 chương trình xem Staff " +
-    "( load Staff xong  hàm nghỉ 3 giây sẽ tiếp tục load)\r\n\r\n+ 1 chương trình trong l" +
-    "úc đó update 1 Staff";
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dEMOToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(861, 24);
+            this.menuStrip1.TabIndex = 1;
+            this.menuStrip1.Text = "menuStrip1";
             // 
-            // label9
+            // dEMOToolStripMenuItem
             // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.ForeColor = System.Drawing.Color.Blue;
-            this.label9.Location = new System.Drawing.Point(597, 379);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(184, 20);
-            this.label9.TabIndex = 8;
-            this.label9.Text = "Vấn đề không thể đọc lại";
+            this.dEMOToolStripMenuItem.Name = "dEMOToolStripMenuItem";
+            this.dEMOToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.dEMOToolStripMenuItem.Text = "DEMO";
+            this.dEMOToolStripMenuItem.Click += new System.EventHandler(this.dEMOToolStripMenuItem_Click_1);
+            // 
+            // rB_Poke
+            // 
+            this.rB_Poke.AutoSize = true;
+            this.rB_Poke.Location = new System.Drawing.Point(705, 35);
+            this.rB_Poke.Name = "rB_Poke";
+            this.rB_Poke.Size = new System.Drawing.Size(87, 17);
+            this.rB_Poke.TabIndex = 8;
+            this.rB_Poke.TabStop = true;
+            this.rB_Poke.Text = "Thread Poke";
+            this.rB_Poke.UseVisualStyleBackColor = true;
+            // 
+            // rB_Wait
+            // 
+            this.rB_Wait.AutoSize = true;
+            this.rB_Wait.Location = new System.Drawing.Point(705, 6);
+            this.rB_Wait.Name = "rB_Wait";
+            this.rB_Wait.Size = new System.Drawing.Size(84, 17);
+            this.rB_Wait.TabIndex = 7;
+            this.rB_Wait.TabStop = true;
+            this.rB_Wait.Text = "Thread Wait";
+            this.rB_Wait.UseVisualStyleBackColor = true;
+            // 
+            // btnTongNhanVien
+            // 
+            this.btnTongNhanVien.BackColor = System.Drawing.Color.Silver;
+            this.btnTongNhanVien.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTongNhanVien.ForeColor = System.Drawing.Color.Red;
+            this.btnTongNhanVien.Location = new System.Drawing.Point(538, 3);
+            this.btnTongNhanVien.Name = "btnTongNhanVien";
+            this.btnTongNhanVien.Size = new System.Drawing.Size(74, 49);
+            this.btnTongNhanVien.TabIndex = 9;
+            this.btnTongNhanVien.Text = "Tổng NV";
+            this.btnTongNhanVien.UseVisualStyleBackColor = false;
+            this.btnTongNhanVien.Click += new System.EventHandler(this.btnTongNhanVien_Click);
+            // 
+            // btnKtheDocLai
+            // 
+            this.btnKtheDocLai.BackColor = System.Drawing.Color.Silver;
+            this.btnKtheDocLai.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnKtheDocLai.ForeColor = System.Drawing.Color.Red;
+            this.btnKtheDocLai.Location = new System.Drawing.Point(618, 3);
+            this.btnKtheDocLai.Name = "btnKtheDocLai";
+            this.btnKtheDocLai.Size = new System.Drawing.Size(74, 49);
+            this.btnKtheDocLai.TabIndex = 10;
+            this.btnKtheDocLai.Text = "Không Đọc Lại";
+            this.btnKtheDocLai.UseVisualStyleBackColor = false;
+            this.btnKtheDocLai.Click += new System.EventHandler(this.btnKtheDocLai_Click);
             // 
             // FrmDemoProblem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(861, 503);
+            this.ClientSize = new System.Drawing.Size(861, 524);
             this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "FrmDemoProblem";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -384,7 +447,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_NhanVien)).EndInit();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -401,10 +467,7 @@
         private System.Windows.Forms.Button btnTrangTruocNhanVien;
         private System.Windows.Forms.Button btnTrangSauNhanVien;
         private System.Windows.Forms.DataGridView dataGridView_NhanVien;
-        private System.Windows.Forms.RadioButton rB_Poke;
-        private System.Windows.Forms.RadioButton rB_Wait;
         private System.Windows.Forms.ComboBox cbProblem;
-        private System.Windows.Forms.Button btnDemo;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
@@ -415,5 +478,13 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem dEMOToolStripMenuItem;
+        private System.Windows.Forms.Button btnFix;
+        private System.Windows.Forms.Button btnHuy;
+        private System.Windows.Forms.RadioButton rB_Poke;
+        private System.Windows.Forms.RadioButton rB_Wait;
+        private System.Windows.Forms.Button btnTongNhanVien;
+        private System.Windows.Forms.Button btnKtheDocLai;
     }
 }

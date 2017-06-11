@@ -414,6 +414,8 @@
             this.Name = "FrmStaffProfile";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Thông Tin Nhân Viên";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmStaffProfile_FormClosing);
+            this.Load += new System.EventHandler(this.FrmStaffProfile_Load);
             this.panel1.ResumeLayout(false);
             this.panel10.ResumeLayout(false);
             this.panel10.PerformLayout();

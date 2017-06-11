@@ -475,11 +475,65 @@ BEGIN
 END
 GO
 
+-- search
+CREATE PROC seachCateOrSanhOrThucAn
+@id INT, @name NVARCHAR(100), @cateOrSanhOrFood INT
+AS
+BEGIN
+	IF @cateOrSanhOrFood = 0
+		SELECT * FROM dbo.DanhMuc WHERE ( idMenu = @id OR @id = 0 ) AND ( dbo.fChuyenCoDauThanhKhongDau(tenMenu) LIKE (N'%'+ dbo.fChuyenCoDauThanhKhongDau(@name) + N'%') OR @name = '') AND checkDelete = 0
+	IF @cateOrSanhOrFood = 1 
+		SELECT * FROM dbo.Sanh WHERE ( idSanh = @id OR @id = 0 ) AND ( dbo.fChuyenCoDauThanhKhongDau(tenSanh) LIKE (N'%'+ dbo.fChuyenCoDauThanhKhongDau(@name) + N'%') OR @name = '') AND checkDelete = 0
+	IF @cateOrSanhOrFood = 2
+		SELECT * FROM dbo.ThucAn WHERE (idThucAn = @id OR @id = 0) AND (dbo.fChuyenCoDauThanhKhongDau(tenThucAn) LIKE (N'%'+dbo.fChuyenCoDauThanhKhongDau(@name) +N'%') OR @name = '') AND ThucAn.checkDelete = 0
+END
+GO
 
 
 
---------------- Demo Transaction ---------------
-/*lost updated - mất dữ liệu đã cập nhật*/
+
+
+
+
+
+
+--------------- Demo 4 Truong hop ---------------
+
+-- fix lost updated bằng table lock
+CREATE TABLE lock_lostUpdate (idNhanVien INT, userName VARCHAR(100))
+GO
+
+CREATE PROC SP_insertLockLU @idNhanVien INT, @userName VARCHAR(100)
+AS
+BEGIN
+	INSERT dbo.lock_lostUpdate ( idNhanVien, userName )VALUES  ( @idNhanVien, @userName )
+END
+GO
+
+CREATE PROC SP_deleteLockLU @idNhanVien INT
+AS
+BEGIN
+	DELETE dbo.lock_lostUpdate WHERE idNhanVien = @idNhanVien
+END
+GO
+
+CREATE PROC SP_countLockLU @idNhanVien INT
+AS
+BEGIN
+	SELECT COUNT(*) FROM dbo.lock_lostUpdate WHERE idNhanVien = @idNhanVien
+END
+GO
+
+CREATE PROC SP_countLockLU_withUser @idNhanVien INT, @userName VARCHAR(100)
+AS
+BEGIN
+	SELECT COUNT(*) FROM dbo.lock_lostUpdate WHERE idNhanVien = @idNhanVien AND userName = @userName
+END
+GO
+--fix lost update ./.
+
+
+/*demo lost updated - mất dữ liệu đã cập nhật*/
 CREATE PROC SP_waitUpdate
 @chucVu NVARCHAR(100),@id INT
 AS
@@ -501,7 +555,9 @@ BEGIN
 	COMMIT TRAN
 	END
 GO
-/*lost updated*/
+/*demo lost updated*/
+
+
 
 /*du lieu rac*/
 --reset hàm lại
@@ -510,7 +566,7 @@ AS
 BEGIN
 	BEGIN TRAN
 		INSERT dbo.NhanVien ( tenNhanVien ,ngaySinh ,gioiTinh ,chucVu ,queQuan ,email ,diaChi ,tel)
-		VALUES  ( N'Nguyễn' , GETDATE() , N'Nữ' , N'Bảo Trì' , N'Hà Tĩnh' , 'asss@gmail.com' , N'dsadm' ,'51515')
+		VALUES  ( N'TEST Rollback' , GETDATE() , N'Nữ' , N'Bảo Trì' , N'Hà Tĩnh' , 'sss@gmail.com' , N'dsadm' ,'51515')
 		WAITFOR DELAY '00:00:05.000';
 	ROLLBACK
 END
@@ -522,7 +578,7 @@ AS
 BEGIN
 	SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED; -- dùng cho demo problem doc du lieu rac 
 	DECLARE @exceptRows INT = (@page - 1) * @pageRows
--- tạo 1 table tạm cách khác
+-- tạo 1 table tạm
 	;WITH IdNV AS (SELECT idNhanVien AS [ID Nhân Viên], tenNhanVien AS [Tên Nhân Viên], ngaySinh AS [Ngày Sinh], gioiTinh AS [Giới Tính], chucVu AS [Chức Vụ]
 	 FROM dbo.NhanVien
 	 WHERE checkDelete = 0)
@@ -530,15 +586,82 @@ BEGIN
 	SELECT TOP (@pageRows) * FROM IdNV WHERE IdNV.[ID Nhân Viên] NOT IN (SELECT TOP (@exceptRows) IdNV.[ID Nhân Viên] FROM IdNV)
 END
 GO
+
 /*du lieu rac*/
 
-CREATE PROC SP_InsertBongMa
+
+
+/*region Bóng Ma*/
+CREATE PROC SP_tongNV_phantom
 AS
 BEGIN
 	BEGIN TRAN
-		INSERT dbo.NhanVien ( tenNhanVien ,ngaySinh ,gioiTinh ,chucVu ,queQuan ,email ,diaChi ,tel)
-		VALUES  ( N'Nguyễn' , GETDATE() , N'Nữ' , N'Bảo Trì' , N'Hà Tĩnh' , 'asss@gmail.com' , N'dsadm' ,'51515');
+		DECLARE @c1 INT
+		DECLARE @c2 INT
+
+		SELECT @c1 = COUNT(*) FROM dbo.NhanVien WHERE checkDelete = 0;
+		WAITFOR DELAY '00:00:05.000';
+		SELECT @c2 = COUNT(*) FROM dbo.NhanVien WHERE checkDelete = 0;
+		
+		PRINT N'Lần 1: ' + CAST(@c1 AS NVARCHAR(1000)) + N' nhân viên';
+		PRINT N'Lần 2: ' + CAST(@c2 AS NVARCHAR(1000)) + N' nhân viên';
 	COMMIT TRAN
+END
+GO
+
+
+CREATE PROC SP_tongNV_phantomFix
+AS
+BEGIN
+	SET TRAN ISOLATION LEVEL SERIALIZABLE;
+	BEGIN TRAN
+		DECLARE @c1 INT
+		DECLARE @c2 INT
+
+		SELECT @c1 = COUNT(*) FROM dbo.NhanVien WHERE checkDelete = 0;
+		WAITFOR DELAY '00:00:05.000';
+		SELECT @c2 = COUNT(*) FROM dbo.NhanVien WHERE checkDelete = 0;
+		
+		PRINT N'Lần 1: ' + CAST(@c1 AS NVARCHAR(1000)) + N' nhân viên';
+		PRINT N'Lần 2: ' + CAST(@c2 AS NVARCHAR(1000)) + N' nhân viên';
+	COMMIT TRAN
+END
+GO
+/*endregion Bóng Ma*/
+
+
+CREATE PROC SP_kTheDocLai @idNhanVien INT
+AS
+BEGIN
+	BEGIN TRAN
+		DECLARE @t1 NVARCHAR(100);
+		DECLARE @t2 NVARCHAR(100);
+
+		SELECT @t1 = tenNhanVien FROM dbo.NhanVien WHERE checkDelete = 0 AND idNhanVien = @idNhanVien
+		WAITFOR DELAY '00:00:05.000';
+		SELECT @t2 = tenNhanVien FROM dbo.NhanVien WHERE checkDelete = 0 AND idNhanVien = @idNhanVien
+
+		PRINT N'Lần 1: Tên nhân viên là '+ @t1;
+		PRINT N'Lần 2: Tên nhân viên là '+ @t2;
+	COMMIT TRAN	
+END
+GO
+
+CREATE PROC SP_kTheDocLaiFix @idNhanVien INT
+AS
+BEGIN
+	SET TRAN ISOLATION LEVEL REPEATABLE READ;
+	BEGIN TRAN
+		DECLARE @t1 NVARCHAR(100);
+		DECLARE @t2 NVARCHAR(100);
+
+		SELECT @t1 = tenNhanVien FROM dbo.NhanVien WHERE checkDelete = 0 AND idNhanVien = @idNhanVien
+		WAITFOR DELAY '00:00:05.000';
+		SELECT @t2 = tenNhanVien FROM dbo.NhanVien WHERE checkDelete = 0 AND idNhanVien = @idNhanVien
+
+		PRINT N'Lần 1: Tên nhân viên là '+ @t1;
+		PRINT N'Lần 2: Tên nhân viên là '+ @t2;
+	COMMIT TRAN	
 END
 GO
 -------------------------------------------------
@@ -547,18 +670,8 @@ GO
 
 
 
-CREATE PROC seachCateOrSanhOrThucAn
-@id INT, @name NVARCHAR(100), @cateOrSanhOrFood INT
-AS
-BEGIN
-	IF @cateOrSanhOrFood = 0
-		SELECT * FROM dbo.DanhMuc WHERE ( idMenu = @id OR @id = 0 ) AND ( dbo.fChuyenCoDauThanhKhongDau(tenMenu) LIKE (N'%'+ dbo.fChuyenCoDauThanhKhongDau(@name) + N'%') OR @name = '') AND checkDelete = 0
-	IF @cateOrSanhOrFood = 1 
-		SELECT * FROM dbo.Sanh WHERE ( idSanh = @id OR @id = 0 ) AND ( dbo.fChuyenCoDauThanhKhongDau(tenSanh) LIKE (N'%'+ dbo.fChuyenCoDauThanhKhongDau(@name) + N'%') OR @name = '') AND checkDelete = 0
-	IF @cateOrSanhOrFood = 2
-		SELECT * FROM dbo.ThucAn WHERE (idThucAn = @id OR @id = 0) AND (dbo.fChuyenCoDauThanhKhongDau(tenThucAn) LIKE (N'%'+dbo.fChuyenCoDauThanhKhongDau(@name) +N'%') OR @name = '') AND ThucAn.checkDelete = 0
-END
-GO
+
+
 
 
 
@@ -695,6 +808,26 @@ BEGIN
 		
 END
 GO
+
+
+
+
+
+
+------------------ stored procedure cua cac class ---------------------
+
+CREATE PROC SP_checkLogin @userName VARCHAR(100), @passWord VARCHAR(1000) AS
+BEGIN
+	SELECT COUNT(*) FROM dbo.TaiKhoan WHERE userName = @userName AND pass = @passWOrd AND checkDelete = 0 AND checkLogin = 0
+END
+GO
+
+
+
+
+
+
+
 
 
 

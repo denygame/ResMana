@@ -17,7 +17,7 @@ namespace QuanLyNhaHang.DAL
             int result = -1;
             try
             {
-                result = (int)DatabaseExecute.sqlExecuteScalar("SELECT COUNT(*) FROM dbo.TaiKhoan WHERE userName = @userName AND pass = @passWOrd AND checkDelete = 0 AND checkLogin = 0", new object[] { userName, passWord });
+                result = (int)DatabaseExecute.sqlExecuteScalar("SP_checkLogin @userName , @passWord", new object[] { userName, passWord });
             }
             catch { return -1; }
 

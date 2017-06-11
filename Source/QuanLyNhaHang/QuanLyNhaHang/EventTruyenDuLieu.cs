@@ -50,6 +50,7 @@ namespace QuanLyNhaHang
             }
         }
 
+
         public EventTruyenDuLieu(Account t)
         {
             this.Tk = t;
@@ -68,5 +69,7 @@ namespace QuanLyNhaHang
         {
             this.CapTaiKhoan = capTaiKhoan;
         }
+
+        
     }
 }

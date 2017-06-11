@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -86,8 +87,31 @@ namespace QuanLyNhaHang.DAL
 
 
 
-
         #region lost Update
+
+        #region fix
+        public static void insertLockLostUpdate(int idNhanVien, string userName)
+        {
+            DatabaseExecute.sqlQuery("SP_insertLockLU @idNhanVien , @userName", new object[] { idNhanVien, userName });
+        }
+
+        public static void deleteLockLostUpdate(int idNhanVien)
+        {
+            DatabaseExecute.sqlQuery("SP_deleteLockLU @idNhanVien", new object[] { idNhanVien });
+        }
+
+        public static int getCountLockLU(int idNhanVien)
+        {
+            return (int)DatabaseExecute.sqlExecuteScalar("SP_countLockLU @idNhanVien", new object[] { idNhanVien });
+        }
+
+        public static int getCountLockLU_withUser(int idNhanVien, string userName)
+        {
+            return (int)DatabaseExecute.sqlExecuteScalar("SP_countLockLU_withUser @idNhanVien , @userName", new object[] { idNhanVien , userName});
+        }
+        #endregion
+
+
         public static bool waitLostUpdate(int id, string cv)
         {
             int result = DatabaseExecute.sqlExecuteNonQuery("SP_waitUpdate @chucVu , @id", new object[] { cv, id });
@@ -99,6 +123,8 @@ namespace QuanLyNhaHang.DAL
             int result = DatabaseExecute.sqlExecuteNonQuery("SP_pokeUpdate @chucVu , @id", new object[] { cv, id });
             return result > 0;
         }
+
+
         #endregion
 
 
@@ -112,6 +138,38 @@ namespace QuanLyNhaHang.DAL
         public static DataTable phanTrangDulieuRac(int page, int pageRows)
         {
             return DatabaseExecute.sqlQuery("SP_PhanTrangDEMOrac @page , @pageRows", new object[] { page, pageRows });
+        }
+
+        public static DataTable phanTrangDulieuRacFix(int page, int pageRows)
+        {
+            return DatabaseExecute.sqlQuery("StoredProcedure_PhanTrangNhanVien @page , @pageRows", new object[] { page, pageRows });
+        }
+
+
+        #endregion
+
+
+        #region demo phantom
+        public static string getTotalStaffPhantom()
+        {
+            return DatabaseExecute.returnPrint("SP_tongNV_phantom");
+        }
+
+        public static string getTotalStaffPhantomAndFix()
+        {
+            return DatabaseExecute.returnPrint("SP_tongNV_phantomFix");
+        }
+        #endregion
+
+        #region khong the doc lai
+        public static string getNameKTheDoclai(int idNhanVien)
+        {
+            return DatabaseExecute.returnPrint("SP_kTheDocLai @idNhanVien", new object[] { idNhanVien });
+        }
+
+        public static string getNameKTheDoclaiFix(int idNhanVien)
+        {
+            return DatabaseExecute.returnPrint("SP_kTheDocLaiFix @idNhanVien", new object[] { idNhanVien });
         }
         #endregion
     }

@@ -34,6 +34,7 @@ namespace QuanLyNhaHang.GUI
         }
 
         private int check = -1;
+        private bool fixLoi = false;
 
         #region Methods
 
@@ -61,12 +62,12 @@ namespace QuanLyNhaHang.GUI
 
         private void loadFrmStaff(string test = null)
         {
-            int testTrans = -1;
+            int matDulieu = -1;
             int cbproblem = -1;
             if (check == 0)
             {
-                if (rB_Wait.Checked == true) testTrans = 0;
-                if (rB_Poke.Checked == true) testTrans = 1;
+                if (rB_Wait.Checked == true) matDulieu = 0;
+                if (rB_Poke.Checked == true) matDulieu = 1;
                 cbproblem = cbProblem.SelectedIndex;
             }
 
@@ -79,11 +80,15 @@ namespace QuanLyNhaHang.GUI
                 FrmStaffProfile f;
                 Staff nv = StaffDAL.getStaff(Convert.ToInt32(result));
                 if (test != null)
-                    f = new FrmStaffProfile(test, cbproblem); //bong ma, du lieu rac
+                    f = new FrmStaffProfile(test, cbproblem, tkDn); //insert bong ma, du lieu rac
                 else
                 {
-                    if (cbproblem == 2) f = new FrmStaffProfile(nv, testTrans); //mat du lieu
-                    else f = new FrmStaffProfile(nv, testTrans, "khong the doc lai"); //k doc lai
+                    if (cbproblem == 2)//mat du lieu
+                    {
+                        if (fixLoi) f = new FrmStaffProfile(nv, matDulieu, tkDn, true);
+                        else f = new FrmStaffProfile(nv, matDulieu, tkDn, false);
+                    }
+                    else f = new FrmStaffProfile(nv, matDulieu, tkDn, false, "khong the doc lai"); //k doc lai
                 }
 
                 f.ThaydoiFrmDemo += F_ThaydoiFrmDemo;
@@ -135,7 +140,7 @@ namespace QuanLyNhaHang.GUI
         #endregion
 
 
-        #region - Event thêm xóa sửa -
+        #region - Event thêm xóa sửa (demo) -
 
 
 
@@ -147,20 +152,17 @@ namespace QuanLyNhaHang.GUI
                 return;
             }
 
+            // du lieu rac
             if (cbProblem.SelectedIndex == 0)
             {
-                dataGridView_NhanVien.DataSource = StaffDAL.phanTrangDulieuRac(Convert.ToInt32(txtTrangNhanVien.Text), Constant.phanTrangNV);
+                if (!fixLoi)
+                    dataGridView_NhanVien.DataSource = StaffDAL.phanTrangDulieuRac(Convert.ToInt32(txtTrangNhanVien.Text), Constant.phanTrangNV);
+                else
+                    dataGridView_NhanVien.DataSource = StaffDAL.phanTrangDulieuRacFix(Convert.ToInt32(txtTrangNhanVien.Text), Constant.phanTrangNV);
+                return;
             }
 
-            // k dùng dc stored procedure, k thể chạy song song ? test
-            if (cbProblem.SelectedIndex == 1 || cbProblem.SelectedIndex == 3)
-            {
-                dataGridView_NhanVien.DataSource = StaffDAL.GetStaffListANDpage(Convert.ToInt32(txtTrangNhanVien.Text), Constant.phanTrangNV);
-                Thread.Sleep(3000);
-                dataGridView_NhanVien.DataSource = StaffDAL.GetStaffListANDpage(Convert.ToInt32(txtTrangNhanVien.Text), Constant.phanTrangNV);
-            }
-
-
+            dataGridView_NhanVien.DataSource = StaffDAL.GetStaffListANDpage(Convert.ToInt32(txtTrangNhanVien.Text), Constant.phanTrangNV);
         }
 
         private void btnXoaNhanVien_Click(object sender, EventArgs e)
@@ -191,6 +193,17 @@ namespace QuanLyNhaHang.GUI
 
         private void dataGridView_NhanVien_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (fixLoi)
+            {
+                int rowindex = dataGridView_NhanVien.CurrentCell.RowIndex;
+                //int columnindex = dataGridView_NhanVien.CurrentCell.ColumnIndex;
+                string result = dataGridView_NhanVien.Rows[rowindex].Cells[0].Value.ToString();
+                if (result != null)
+                {
+                    if (StaffDAL.getCountLockLU(int.Parse(result)) != 1)
+                        StaffDAL.insertLockLostUpdate(int.Parse(result), tkDn.UserName);
+                }
+            }
             loadFrmStaff();
         }
 
@@ -199,50 +212,35 @@ namespace QuanLyNhaHang.GUI
 
         private void FrmSystem_Load(object sender, EventArgs e)
         {
-            dataGridView_NhanVien.Visible = false;
+            panel47.Visible = false;
             panel48.Visible = false;
+            btnHuy.Visible = false;
+            btnTongNhanVien.Visible = false;
+            btnKtheDocLai.Visible = false;
             Initialize();
-        }
-
-        private void btnDemo_Click(object sender, EventArgs e)
-        {
-            if (check == -1)
-            {
-                cbProblem.Enabled = true;
-                dataGridView_NhanVien.Visible = true;
-                panel48.Visible = true;
-                check = 0;
-                return;
-            }
-            if (check == 0)
-            {
-                check = -1;
-                cbProblem.Enabled = false;
-                dataGridView_NhanVien.Visible = false;
-                panel48.Visible = false;
-                rB_Poke.Enabled = false;
-                rB_Wait.Enabled = false;
-                rB_Wait.Checked = false;
-                rB_Poke.Checked = false;
-                return;
-            }
         }
 
         private void cbProblem_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbProblem.SelectedIndex == 2)
             {
-                rB_Poke.Enabled = true;
-                rB_Wait.Enabled = true;
+                rB_Poke.Visible = true;
+                rB_Wait.Visible = true;
                 rB_Wait.Checked = true;
             }
             else
             {
-                rB_Poke.Enabled = false;
-                rB_Wait.Enabled = false;
+                rB_Poke.Visible = false;
+                rB_Wait.Visible = false;
                 rB_Wait.Checked = false;
                 rB_Poke.Checked = false;
             }
+
+            if (cbProblem.SelectedIndex == 1) btnTongNhanVien.Visible = true;
+            else btnTongNhanVien.Visible = false;
+
+            if (cbProblem.SelectedIndex == 3) btnKtheDocLai.Visible = true;
+            else btnKtheDocLai.Visible = false;
         }
 
         #endregion
@@ -250,6 +248,78 @@ namespace QuanLyNhaHang.GUI
         private void FrmDemoProblem_FormClosing(object sender, FormClosingEventArgs e)
         {
             truyen(this, new EventArgs());
+        }
+
+        private void btnFix_Click(object sender, EventArgs e)
+        {
+            fixLoi = true;
+            btnHuy.Visible = true;
+            btnFix.Enabled = false;
+        }
+
+        private void btnHuy_Click(object sender, EventArgs e)
+        {
+            fixLoi = false;
+            btnHuy.Visible = false;
+            btnFix.Enabled = true;
+        }
+
+        private void dEMOToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            if (check == -1)
+            {
+                panel47.Visible = true;
+                panel48.Visible = true;
+                check = 0;
+                return;
+            }
+            if (check == 0)
+            {
+                check = -1;
+                panel47.Visible = false;
+                panel48.Visible = false;
+                rB_Wait.Checked = false;
+                rB_Poke.Checked = false;
+                return;
+            }
+        }
+
+
+        //bóng ma, chú ý phải fix lỗi cả nút này lẫn thêm trong frmStaffProfile
+        private void btnTongNhanVien_Click(object sender, EventArgs e)
+        {
+            if (!fixLoi)//demo
+            {
+                MessageBox.Show(StaffDAL.getTotalStaffPhantom(), "Kết Quả", MessageBoxButtons.OK);
+            }
+            else//fix loi
+            {
+                MessageBox.Show(StaffDAL.getTotalStaffPhantomAndFix(), "Kết Quả", MessageBoxButtons.OK);
+            }
+        }
+
+
+        // không thể đọc lại 
+        private void btnKtheDocLai_Click(object sender, EventArgs e)
+        {
+            int rowindex = dataGridView_NhanVien.CurrentCell.RowIndex;
+            //int columnindex = dataGridView_NhanVien.CurrentCell.ColumnIndex;
+            string result = dataGridView_NhanVien.Rows[rowindex].Cells[0].Value.ToString();
+
+            if (!fixLoi)//demo
+            {
+                if (result != null)
+                {
+                    MessageBox.Show(StaffDAL.getNameKTheDoclai(int.Parse(result)), "Kết Quả", MessageBoxButtons.OK);
+                }
+            }
+            else
+            {
+                if (result != null)
+                {
+                    MessageBox.Show(StaffDAL.getNameKTheDoclaiFix(int.Parse(result)), "Kết Quả", MessageBoxButtons.OK);
+                }
+            }
         }
     }
 }
