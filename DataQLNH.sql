@@ -6,9 +6,10 @@ USE HQTCSDL
 GO
 
 
-
-
 --USE master DROP DATABASE HQTCSDL
+
+BEGIN --- TABLES ----
+
 CREATE TABLE NhanVien
 (
 	idNhanVien INT IDENTITY PRIMARY KEY,
@@ -114,12 +115,9 @@ CREATE TABLE IPConnectionDatabase
 (
 	ip VARCHAR(100) NOT NULL
 )
+
+END
 GO
-
-
-
-
-
 
 
 
@@ -382,7 +380,6 @@ GO
 
 --DBCC CHECKIDENT (@nameTable, RESEED, 0) -> reset id
 
-
 CREATE PROC StoredProcedure_PhanTrangHoaDonDTT
 @dateIn DATE, @dateOut DATE, @page INT, @pageRows INT
 AS
@@ -488,7 +485,6 @@ BEGIN
 		SELECT * FROM dbo.ThucAn WHERE (idThucAn = @id OR @id = 0) AND (dbo.fChuyenCoDauThanhKhongDau(tenThucAn) LIKE (N'%'+dbo.fChuyenCoDauThanhKhongDau(@name) +N'%') OR @name = '') AND ThucAn.checkDelete = 0
 END
 GO
-
 
 
 
@@ -672,19 +668,6 @@ GO
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 -- trigger cho update sửa idHoaDon (12/3/2017)  -> xem kỹ test lại
 CREATE TRIGGER TG_update_ChiTietHoaDon ON dbo.ChiTietHoaDon FOR UPDATE
 AS
@@ -816,19 +799,369 @@ GO
 
 ------------------ stored procedure cua cac class ---------------------
 
+
+
+---- test lại ------------------------------
+CREATE PROC SP_getBillByIdTable @id INT AS
+BEGIN
+	SELECT t.tenThucAn, ct.soLuong, ct.soLuong*t.giaTien AS [thanhTien] 
+	FROM dbo.ChiTietHoaDon AS ct, dbo.HoaDon AS hd, dbo.ThucAn AS t 
+	WHERE ct.idHoaDon = hd.idHoaDon AND ct.idThucAn = t.idThucAn AND hd.trangThai = N'Chưa thanh toán' AND hd.idBanAn = @id
+END
+GO
+
+CREATE PROC SP_countIpConnect AS
+BEGIN
+	SELECT COUNT(*) FROM dbo.IPConnectionDatabase
+END
+GO
+---------------------------------------------
+
+
+
+
+--- start AccountDAL: 
+
 CREATE PROC SP_checkLogin @userName VARCHAR(100), @passWord VARCHAR(1000) AS
 BEGIN
 	SELECT COUNT(*) FROM dbo.TaiKhoan WHERE userName = @userName AND pass = @passWOrd AND checkDelete = 0 AND checkLogin = 0
 END
 GO
 
+CREATE PROC SP_replaceCheckLogin @userName VARCHAR(100), @checkLogin INT AS
+BEGIN
+	UPDATE dbo.TaiKhoan SET checkLogin = @checkLogin WHERE userName = @userName	
+END
+GO
+
+CREATE PROC SP_getAccount @userName VARCHAR(100) AS
+BEGIN
+	SELECT * FROM dbo.TaiKhoan WHERE userName = @userName
+END
+GO
+
+CREATE PROC SP_getListAccount AS
+BEGIN
+	SELECT userName, idNhanVien, loaiTK from dbo.TaiKhoan WHERE checkDelete = 0	
+END
+GO
+
+CREATE PROC SP_deleteAccount @userName VARCHAR(100) AS
+BEGIN
+	UPDATE dbo.TaiKhoan SET checkDelete = 1 WHERE userName = @userName
+END
+GO
+
+CREATE PROC SP_updateAccount @userName VARCHAR(100), @loaiTK INT AS
+BEGIN
+	UPDATE dbo.TaiKhoan SET loaiTK = @loaiTK WHERE userName = @userName	
+END
+GO
+
+CREATE PROC SP_insertAccount @userName VARCHAR(100), @pass VARCHAR(1000) , @loaiTK INT, @idNhanVien INT AS
+BEGIN
+	INSERT TaiKhoan (userName, pass, idNhanVien, loaiTK) VALUES (@userName, @pass, @idNhanVien, @loaiTK )	
+END
+GO
+
+CREATE PROC SP_countAccByUserName @userName VARCHAR(100) AS
+BEGIN
+	SELECT COUNT(*) FROM dbo.TaiKhoan WHERE userName = @userName
+END
+GO
+
+CREATE PROC SP_countAccByIdStaff @idNhanVien INT AS
+BEGIN
+	SELECT COUNT(*) FROM dbo.TaiKhoan WHERE idNhanVien = @idNhanVien
+END
+GO
+
+CREATE PROC SP_checkLogin0ByStaff @idNhanVien INT AS
+BEGIN
+	UPDATE dbo.TaiKhoan SET checkLogin = 0 WHERE idNhanVien = @idNhanVien
+END
+GO
+
+CREATE PROC SP_deleteAccountByStaff @idNhanVien INT AS
+BEGIN
+	UPDATE dbo.TaiKhoan SET checkDelete = 1 WHERE idNhanVien = @idNhanVien
+END
+GO
+
+CREATE PROC SP_resetPass @userName VARCHAR(100), @pass VARCHAR(1000) AS
+BEGIN
+	UPDATE dbo.TaiKhoan SET pass = @pass WHERE userName = @userName	
+END
+GO
+
+
+--- end AccountDAL ./.
+
+
+--- start BillDAL:
+
+CREATE PROC SP_getIdBillUncheckByTable @idBanAn INT AS
+BEGIN
+	SELECT * FROM dbo.HoaDon WHERE trangThai = N'Chưa thanh toán' AND idBanAn = @idBanAn	
+END
+GO
+
+CREATE PROC SP_getLastIdBill AS
+BEGIN
+	SELECT MAX(idHoaDon) FROM dbo.HoaDon
+END
+GO
+
+CREATE PROC SP_getListUncheckBill AS
+BEGIN
+	SELECT s.tenSanh, ba.tenBan, hd.ngayDen, hd.trangThai FROM dbo.HoaDon AS hd, dbo.BanAn AS ba, dbo.Sanh AS s WHERE ba.idBanAn = hd.idBanAn AND ba.idSanh = s.idSanh AND hd.trangThai = N'Chưa thanh toán'
+END
+GO
+
+CREATE PROC SP_checkOut @idBill INT, @totalPrice FLOAT, @discount INT AS
+BEGIN
+	UPDATE dbo.HoaDon SET tongTien = @totalPrice, ngayDen = GETDATE(), trangThai = N'Đã thanh toán', discount = @discount WHERE idHoaDon = @idBill
+END
+GO
+
+--- end BillDAL ./.
+
+
+--- start CategoryDAL:
+
+CREATE PROC SP_getListCategory AS
+BEGIN
+	SELECT * FROM dbo.DanhMuc WHERE checkDelete = 0
+END
+GO
+
+CREATE PROC SP_insertCategory @tenMenu NVARCHAR(100) AS
+BEGIN
+	INSERT dbo.DanhMuc ( tenMenu ) VALUES  ( @tenMenu )
+END
+GO
+
+CREATE PROC SP_updateCategory @id INT, @ten NVARCHAR(100) AS
+BEGIN
+	UPDATE dbo.DanhMuc SET tenMenu = @ten WHERE idMenu = @id
+END
+GO
+
+CREATE PROC SP_countCategory AS
+BEGIN
+	SELECT COUNT(*) FROM DanhMuc WHERE checkDelete = 0
+END
+GO
+
+--- end CategoryDAL ./.
+
+
+--- start FoodDAL:
+
+CREATE PROC SP_getListFood AS
+BEGIN
+	SELECT idThucAn, tenThucAn, tenMenu, giaTien FROM dbo.ThucAn, dbo.DanhMuc WHERE DanhMuc.idMenu = ThucAn.idMenu AND ThucAn.checkDelete = 0
+END
+GO
+
+CREATE PROC SP_getFoodById @idThucAn INT AS
+BEGIN
+	SELECT * FROM dbo.ThucAn WHERE idThucAn = @idThucAn
+END
+GO
+
+CREATE PROC SP_getListFoodByIdCategory @idCategory INT AS
+BEGIN
+	SELECT * FROM dbo.ThucAn WHERE idMenu = @idCategory AND checkDelete = 0
+END
+GO
+
+CREATE PROC SP_insertFood @tenThucAn NVARCHAR(100), @idMenu INT, @giaTien FLOAT AS
+BEGIN
+	INSERT dbo.ThucAn ( tenThucAn, idMenu, giaTien ) VALUES  ( @tenThucAn , @idMenu ,  @giaTien )
+END
+GO
+
+CREATE PROC SP_deleteFood @idThucAn INT AS
+BEGIN
+	UPDATE dbo.ThucAn SET checkDelete = 1 WHERE idThucAn = @idThucAn
+END
+GO
+
+CREATE PROC SP_updateFood @id INT, @ten NVARCHAR(100), @idMenu INT, @gia FLOAT AS
+BEGIN
+	UPDATE dbo.ThucAn SET tenThucAn = @ten, idMenu = @idMenu, giaTien = @gia WHERE idThucAn = @id
+END
+GO
+
+CREATE PROC SP_countFood AS
+BEGIN
+	SELECT COUNT(*) FROM dbo.ThucAn WHERE checkDelete = 0
+END
+GO
+--- end FoodDAL ./.
 
 
 
+--- start SanhDAL:
+
+CREATE PROC SP_getListSanh AS
+BEGIN
+	SELECT * FROM Sanh WHERE checkDelete = 0
+END
+GO
+
+CREATE PROC SP_getSanh @id INT AS
+BEGIN
+	SELECT * FROM Sanh WHERE idSanh = @id
+END
+GO
+
+CREATE PROC SP_insertSanh @ten NVARCHAR(100) AS
+BEGIN
+	INSERT dbo.Sanh ( tenSanh ) VALUES  ( @ten )
+END
+GO
+
+CREATE PROC SP_updateSanh @idSanh INT, @tenSanh NVARCHAR(100) AS
+BEGIN
+	UPDATE dbo.Sanh SET tenSanh = @tenSanh WHERE idSanh = @idSanh
+END
+GO
+
+CREATE PROC SP_countSanh AS
+BEGIN
+	SELECT COUNT(*) FROM dbo.Sanh WHERE checkDelete = 0
+END
+GO
+
+--- end SanhDAL ./.
 
 
+--- start StaffDAL:
+
+CREATE PROC SP_getListStaffFormat AS
+BEGIN
+	SELECT idNhanVien AS [ID Nhân Viên], tenNhanVien AS [Tên Nhân Viên], ngaySinh AS [Ngày Sinh], gioiTinh AS [Giới Tính], chucVu AS [Chức Vụ] FROM dbo.NhanVien WHERE checkDelete = 0
+END
+GO
+
+CREATE PROC SP_getListStaff AS
+BEGIN
+	SELECT * FROM dbo.NhanVien WHERE checkDelete = 0
+END
+GO
+
+CREATE PROC SP_getStaff @idNhanVien INT AS
+BEGIN
+	SELECT * FROM dbo.NhanVien WHERE checkDelete = 0 AND idNhanVien = @idNhanVien
+END
+GO
+
+CREATE PROC SP_insertStaff 
+@ten NVARCHAR(100), @ngaySinh DATE, @gioiTinh NVARCHAR(3), @chucVu NVARCHAR(100), @queQuan NVARCHAR(100), @diaChi NVARCHAR(200), @tel VARCHAR(11), @mail VARCHAR(200)
+AS
+BEGIN
+	INSERT dbo.NhanVien( tenNhanVien ,ngaySinh , gioiTinh ,chucVu ,queQuan ,email ,diaChi , tel) 
+	VALUES (@ten, @ngaySinh, @gioiTinh, @chucVu, @queQuan, @mail, @diaChi, @tel)
+END
+GO
+
+CREATE PROC SP_deleteStaff @idNhanVien INT AS
+BEGIN
+	UPDATE dbo.NhanVien SET checkDelete = 1 WHERE idNhanVien = @idNhanVien
+END
+GO
+
+CREATE PROC SP_updateStaff 
+@idNhanVien INT, @ten NVARCHAR(100), @ngaySinh DATE, @gioiTinh NVARCHAR(3), @chucVu NVARCHAR(100), @queQuan NVARCHAR(100), @diaChi NVARCHAR(200), @tel VARCHAR(11), @mail VARCHAR(200)
+AS
+BEGIN
+	UPDATE dbo.NhanVien 
+	SET tenNhanVien = @ten, ngaySinh = @ngaySinh, gioiTinh = @gioiTinh, chucVu = @chucVu, queQuan = @queQuan, email = @mail, diaChi=@diaChi, tel=@tel 
+	WHERE idNhanVien = @idNhanVien
+END
+GO
+
+CREATE PROC SP_getMaxIdStaff AS
+BEGIN
+	SELECT MAX(idNhanVien) from dbo.NhanVien
+END
+GO
+
+--- end StaffDAL ./.
 
 
+--- start TableDAL:
+
+CREATE PROC SP_getListTableByIdSanh @idSanh INT AS
+BEGIN
+	SELECT * FROM BanAn WHERE idSanh = @idSanh AND checkDelete = 0
+END
+GO
+
+CREATE PROC SP_getListTable AS
+BEGIN
+	SELECT idBanAn, tenSanh, tenBan, trangThai  FROM dbo.BanAn, dbo.Sanh WHERE BanAn.idSanh = Sanh.idSanh AND BanAn.checkDelete = 0
+END
+GO
+
+CREATE PROC SP_getTable @idTable INT AS
+BEGIN
+	SELECT * FROM BanAn WHERE idBanAn = @idTable
+END
+GO
+
+CREATE PROC SP_insertTable @ten NVARCHAR(100), @idSanh INT, @trangThai NVARCHAR(100) AS
+BEGIN
+	INSERT dbo.BanAn(tenBan, idSanh, trangThai) VALUES (@ten, @idSanh, @trangThai)
+END
+GO
+
+CREATE PROC SP_deleteTable @idTable INT AS
+BEGIN
+	UPDATE dbo.BanAn SET checkDelete = 1 WHERE idBanAn = @idTable
+END
+GO
+
+CREATE PROC SP_updateTable @idBan INT, @ten NVARCHAR(100), @idSanh INT AS
+BEGIN
+	UPDATE dbo.BanAn SET tenBan = @ten, idSanh = @idSanh WHERE idBanAn = @idBan
+END
+GO
+
+CREATE PROC SP_countTable AS
+BEGIN
+	SELECT COUNT(*) FROM dbo.BanAn WHERE checkDelete = 0
+END
+GO
+
+--- end TableDAL ./.
+
+
+--- start TestLoadTableDAL
+
+CREATE PROC SP_getCountTableChange AS
+BEGIN
+	SELECT COUNT(*) FROM dbo.testLoadTableCsharp
+END
+GO
+
+
+CREATE PROC SP_getListIdTableChange AS
+BEGIN
+	SELECT * FROM dbo.testLoadTableCsharp
+END
+GO
+
+CREATE PROC SP_deleteTestTableinSql AS
+BEGIN
+	DELETE FROM dbo.testLoadTableCsharp
+END
+GO
+
+
+--- end TestLoadTableDAL ./.
 
 
 
@@ -858,28 +1191,28 @@ VALUES  ( N'Nguyễn Thanh Huy' , -- tenNhanVien - nvarchar(100)
 INSERT dbo.TaiKhoan
         ( userName, pass, idNhanVien, loaiTK )
 VALUES  ( N'denygame', -- userName - nvarchar(100)
-          N'2ksadjhq1592cb962ac#->87@o{}9ksadjhq159leuleu#->87@o{}b964bksadjhq159leuleuute#->87@o{}2d234bleuleuksadjhq159qwsxaczdervhdsfuebfewpof5jgikngdHSsSFfdspofjsdoifuiegtfweg6514fds65f85sd1fffd65xf', -- pass - nvarchar(1000)
+          N'2ksadjhq1592cb962ac#->87@o{}9ksadjhq159leuleu#->87@o{}b964bksadjhq159leuleuute#->87@o{}2d234bleuleuksadjhq159', -- pass - nvarchar(1000)
           1, -- idNhanVien - int
           2  -- loaiTK - int
           )
 INSERT dbo.TaiKhoan
         ( userName, pass, idNhanVien, loaiTK )
 VALUES  ( N'denygame1', -- userName - nvarchar(100)
-          N'2ksadjhq1592cb962ac#->87@o{}9ksadjhq159leuleu#->87@o{}b964bksadjhq159leuleuute#->87@o{}2d234bleuleuksadjhq159qwsxaczdervhdsfuebfewpof5jgikngdHSsSFfdspofjsdoifuiegtfweg6514fds65f85sd1fffd65xf', -- pass - nvarchar(1000)
+          N'2ksadjhq1592cb962ac#->87@o{}9ksadjhq159leuleu#->87@o{}b964bksadjhq159leuleuute#->87@o{}2d234bleuleuksadjhq159', -- pass - nvarchar(1000)
           1, -- idNhanVien - int
           2  -- loaiTK - int
           )
 INSERT dbo.TaiKhoan
         ( userName, pass, idNhanVien, loaiTK )
 VALUES  ( N'huy96', -- userName - nvarchar(100)
-          N'2ksadjhq1592cb962ac#->87@o{}9ksadjhq159leuleu#->87@o{}b964bksadjhq159leuleuute#->87@o{}2d234bleuleuksadjhq159qwsxaczdervhdsfuebfewpof5jgikngdHSsSFfdspofjsdoifuiegtfweg6514fds65f85sd1fffd65xf', -- pass - nvarchar(1000)
+          N'2ksadjhq1592cb962ac#->87@o{}9ksadjhq159leuleu#->87@o{}b964bksadjhq159leuleuute#->87@o{}2d234bleuleuksadjhq159', -- pass - nvarchar(1000)
           1, -- idNhanVien - int
           1  -- loaiTK - int
           )
 INSERT dbo.TaiKhoan
         ( userName, pass, idNhanVien, loaiTK )
 VALUES  ( N'aaaa', -- userName - nvarchar(100)
-          N'2ksadjhq1592cb962ac#->87@o{}9ksadjhq159leuleu#->87@o{}b964bksadjhq159leuleuute#->87@o{}2d234bleuleuksadjhq159qwsxaczdervhdsfuebfewpof5jgikngdHSsSFfdspofjsdoifuiegtfweg6514fds65f85sd1fffd65xf', -- pass - nvarchar(1000)
+          N'2ksadjhq1592cb962ac#->87@o{}9ksadjhq159leuleu#->87@o{}b964bksadjhq159leuleuute#->87@o{}2d234bleuleuksadjhq159', -- pass - nvarchar(1000)
           1, -- idNhanVien - int
           1  -- loaiTK - int
           )

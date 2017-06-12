@@ -13,8 +13,7 @@ namespace QuanLyNhaHang.DAL
         public static List<Category> getListCategory()
         {
             List<Category> list = new List<Category>();
-            string query = "SELECT * FROM dbo.DanhMuc WHERE checkDelete = 0";
-            DataTable data = DatabaseExecute.sqlQuery(query);
+            DataTable data = DatabaseExecute.sqlQuery("SP_getListCategory");
             foreach (DataRow i in data.Rows)
             {
                 Category d = new Category(i);
@@ -26,26 +25,26 @@ namespace QuanLyNhaHang.DAL
         public static bool insertCategory(string tenMenu)
         {
             if (tenMenu.Length > 100) return false;
-            int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("INSERT dbo.DanhMuc ( tenMenu ) VALUES  ( N'{0}')", tenMenu));
+            int result = DatabaseExecute.sqlExecuteNonQuery("SP_insertCategory @tenMenu", new object[] { tenMenu });
             return result > 0;
         }
 
         public static bool deleteCategory(int id)
         {
-            int result = DatabaseExecute.sqlExecuteNonQuery("StoredProcedure_DeleteCategory @idCategory",new object[] {id});
+            int result = DatabaseExecute.sqlExecuteNonQuery("StoredProcedure_DeleteCategory @idCategory", new object[] { id });
             return result > 0;
         }
 
         public static bool updateCategory(int id, string name)
         {
             if (name.Length > 100) return false;
-            int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("UPDATE dbo.DanhMuc SET tenMenu = N'{0}' WHERE idMenu = {1}", name, id));
+            int result = DatabaseExecute.sqlExecuteNonQuery("SP_updateCategory @id , @ten", new object[] { id, name });
             return result > 0;
         }
 
         public static int countCategory()
         {
-            return (int)DatabaseExecute.sqlExecuteScalar("SELECT COUNT(*) FROM DanhMuc WHERE checkDelete = 0");
+            return (int)DatabaseExecute.sqlExecuteScalar("SP_countCategory");
         }
 
 
@@ -59,7 +58,7 @@ namespace QuanLyNhaHang.DAL
                 name = "";
             }
             List<Category> list = new List<Category>();
-            DataTable data = DatabaseExecute.sqlQuery("seachCateOrSanhOrThucAn @id , @name , @cateOrSanhOrFood ", new object[] { id, name , 0 });
+            DataTable data = DatabaseExecute.sqlQuery("seachCateOrSanhOrThucAn @id , @name , @cateOrSanhOrFood ", new object[] { id, name, 0 });
             foreach (DataRow i in data.Rows)
             {
                 Category temp = new Category(i);

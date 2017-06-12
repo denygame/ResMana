@@ -8,3 +8,5 @@
              DatabaseExecute.conn.Close();
              if (x == 1) return true;
              return false;*/
+
+trong databaseExecute có hàm returnPrint dùng để trả về string Print trong sql server 

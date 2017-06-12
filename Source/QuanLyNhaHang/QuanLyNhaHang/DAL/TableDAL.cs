@@ -13,7 +13,7 @@ namespace QuanLyNhaHang.DAL
         public static List<Table> getListTableByIdSanh(int idSanh)
         {
             List<Table> list = new List<Table>();
-            DataTable data = DatabaseExecute.sqlQuery("SELECT * FROM BanAn WHERE idSanh = " + idSanh + " AND checkDelete = 0");
+            DataTable data = DatabaseExecute.sqlQuery("SP_getListTableByIdSanh @idSanh", new object[] { idSanh });
             foreach (DataRow i in data.Rows)
             {
                 Table test = new Table(i);
@@ -24,18 +24,15 @@ namespace QuanLyNhaHang.DAL
 
         public static DataTable getListTable()
         {
-            DataTable data = DatabaseExecute.sqlQuery("SELECT idBanAn, tenSanh, tenBan, trangThai  FROM dbo.BanAn, dbo.Sanh WHERE BanAn.idSanh = Sanh.idSanh AND BanAn.checkDelete = 0");
-            return data;
+            return DatabaseExecute.sqlQuery("SP_getListTable");
         }
 
         public static Table getTable(int idBanAn)
         {
             Table test = new Table();
-            DataTable data = DatabaseExecute.sqlQuery("SELECT * FROM BanAn WHERE idBanAn = " + idBanAn);
+            DataTable data = DatabaseExecute.sqlQuery("SP_getTable @idTable", new object[] { idBanAn });
             foreach (DataRow i in data.Rows)
-            {
                 test = new Table(i);
-            }
             return test;
         }
 
@@ -52,6 +49,7 @@ namespace QuanLyNhaHang.DAL
             }
             catch { }
         }
+
         /// <summary>
         /// gộp bàn
         /// </summary>
@@ -72,26 +70,26 @@ namespace QuanLyNhaHang.DAL
         public static bool insertTable(string tenBan, int idSanh, string trangThai)
         {
             if (tenBan.Length > 100) return false;
-            int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("INSERT dbo.BanAn(tenBan, idSanh, trangThai) VALUES(N'{0}', {1}, N'{2}')", tenBan, idSanh, trangThai));
+            int result = DatabaseExecute.sqlExecuteNonQuery("SP_insertTable @ten , @idSanh , @trangThai", new object[] { tenBan, idSanh, trangThai });
             return result > 0;
         }
 
         public static bool deleteTable(int id)
         {
-            int result = DatabaseExecute.sqlExecuteNonQuery("UPDATE dbo.BanAn SET checkDelete = 1 WHERE idBanAn = " + id);
+            int result = DatabaseExecute.sqlExecuteNonQuery("SP_deleteTable @idTable", new object[] { id });
             return result > 0;
         }
 
         public static bool updateTable(int idBan, int idSanh, string tenBan)
         {
             if (tenBan.Length > 100) return false;
-            int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("UPDATE dbo.BanAn SET tenBan = N'{0}', idSanh = {1} WHERE idBanAn = {2}", tenBan, idSanh, idBan));
+            int result = DatabaseExecute.sqlExecuteNonQuery("SP_updateTable @idBan , @ten , @idSanh", new object[] { idBan, tenBan, idSanh });
             return result > 0;
         }
 
         public static int countTable()
         {
-            return (int)DatabaseExecute.sqlExecuteScalar("SELECT COUNT(*) FROM dbo.BanAn WHERE checkDelete = 0");
+            return (int)DatabaseExecute.sqlExecuteScalar("SP_countTable");
         }
 
 

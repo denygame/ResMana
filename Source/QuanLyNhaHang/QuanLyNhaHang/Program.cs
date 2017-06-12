@@ -35,6 +35,10 @@ namespace QuanLyNhaHang
             {
                 DatabaseExecute.conn.Close();
             }
+
+
+            //debug
+            //Application.Run(new FrmBegin());
         }
     }
 }

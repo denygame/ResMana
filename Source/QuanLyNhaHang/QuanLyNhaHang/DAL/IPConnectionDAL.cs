@@ -15,7 +15,7 @@ namespace QuanLyNhaHang.DAL
 
         public static int countIPconnect()
         {
-            return (int)DatabaseExecute.sqlExecuteScalar("SELECT COUNT(*) FROM dbo.IPConnectionDatabase");
+            return (int)DatabaseExecute.sqlExecuteScalar("SP_countIpConnect");
         }
 
         public static void deleteIP(string ip)

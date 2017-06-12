@@ -38,6 +38,10 @@
             this.btnXoaNhanVien = new System.Windows.Forms.Button();
             this.btnXemNhanVien = new System.Windows.Forms.Button();
             this.panel47 = new System.Windows.Forms.Panel();
+            this.btnKtheDocLai = new System.Windows.Forms.Button();
+            this.btnTongNhanVien = new System.Windows.Forms.Button();
+            this.rB_Poke = new System.Windows.Forms.RadioButton();
+            this.rB_Wait = new System.Windows.Forms.RadioButton();
             this.btnHuy = new System.Windows.Forms.Button();
             this.btnFix = new System.Windows.Forms.Button();
             this.cbProblem = new System.Windows.Forms.ComboBox();
@@ -54,10 +58,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.dEMOToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.rB_Poke = new System.Windows.Forms.RadioButton();
-            this.rB_Wait = new System.Windows.Forms.RadioButton();
-            this.btnTongNhanVien = new System.Windows.Forms.Button();
-            this.btnKtheDocLai = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabNhanVien.SuspendLayout();
             this.panel48.SuspendLayout();
@@ -189,6 +189,54 @@
             this.panel47.Size = new System.Drawing.Size(829, 392);
             this.panel47.TabIndex = 0;
             // 
+            // btnKtheDocLai
+            // 
+            this.btnKtheDocLai.BackColor = System.Drawing.Color.Silver;
+            this.btnKtheDocLai.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnKtheDocLai.ForeColor = System.Drawing.Color.Red;
+            this.btnKtheDocLai.Location = new System.Drawing.Point(618, 3);
+            this.btnKtheDocLai.Name = "btnKtheDocLai";
+            this.btnKtheDocLai.Size = new System.Drawing.Size(74, 49);
+            this.btnKtheDocLai.TabIndex = 10;
+            this.btnKtheDocLai.Text = "Không Đọc Lại";
+            this.btnKtheDocLai.UseVisualStyleBackColor = false;
+            this.btnKtheDocLai.Click += new System.EventHandler(this.btnKtheDocLai_Click);
+            // 
+            // btnTongNhanVien
+            // 
+            this.btnTongNhanVien.BackColor = System.Drawing.Color.Silver;
+            this.btnTongNhanVien.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTongNhanVien.ForeColor = System.Drawing.Color.Red;
+            this.btnTongNhanVien.Location = new System.Drawing.Point(538, 3);
+            this.btnTongNhanVien.Name = "btnTongNhanVien";
+            this.btnTongNhanVien.Size = new System.Drawing.Size(74, 49);
+            this.btnTongNhanVien.TabIndex = 9;
+            this.btnTongNhanVien.Text = "Tổng NV";
+            this.btnTongNhanVien.UseVisualStyleBackColor = false;
+            this.btnTongNhanVien.Click += new System.EventHandler(this.btnTongNhanVien_Click);
+            // 
+            // rB_Poke
+            // 
+            this.rB_Poke.AutoSize = true;
+            this.rB_Poke.Location = new System.Drawing.Point(705, 35);
+            this.rB_Poke.Name = "rB_Poke";
+            this.rB_Poke.Size = new System.Drawing.Size(87, 17);
+            this.rB_Poke.TabIndex = 8;
+            this.rB_Poke.TabStop = true;
+            this.rB_Poke.Text = "Thread Poke";
+            this.rB_Poke.UseVisualStyleBackColor = true;
+            // 
+            // rB_Wait
+            // 
+            this.rB_Wait.AutoSize = true;
+            this.rB_Wait.Location = new System.Drawing.Point(705, 6);
+            this.rB_Wait.Name = "rB_Wait";
+            this.rB_Wait.Size = new System.Drawing.Size(84, 17);
+            this.rB_Wait.TabIndex = 7;
+            this.rB_Wait.TabStop = true;
+            this.rB_Wait.Text = "Thread Wait";
+            this.rB_Wait.UseVisualStyleBackColor = true;
+            // 
             // btnHuy
             // 
             this.btnHuy.BackColor = System.Drawing.Color.Silver;
@@ -278,7 +326,7 @@
             this.label8.Size = new System.Drawing.Size(474, 100);
             this.label8.TabIndex = 7;
             this.label8.Text = "+ Mở 2 chương trình, chọn Vấn đề không thể đọc lại\r\n\r\n+ 1 chương trình click Khôn" +
-    "g Đọc Lại ( hàm show 2 lần tên cùa nv )\r\n\r\n+ 1 chương trình trong lúc đó update " +
+    "g Đọc Lại ( hàm show 2 lần tên của nv )\r\n\r\n+ 1 chương trình trong lúc đó update " +
     "tên nhân viên của Staff đó";
             // 
             // label6
@@ -290,7 +338,7 @@
             this.label6.Size = new System.Drawing.Size(416, 100);
             this.label6.TabIndex = 6;
             this.label6.Text = "+ Mở 2 chương trình, chọn Vấn đề mất dữ liệu đã cập nhật\r\n\r\n+ 1 chọn Thread Wait," +
-    " 1 chọn Thread Poke\r\n\r\n+ 2 ct cùng update Staff ( Wait update trước )";
+    " 1 chọn Thread Poke\r\n\r\n+ 2 ct cùng update chức vụ Staff ( Wait update trước )";
             // 
             // label7
             // 
@@ -375,54 +423,6 @@
             this.dEMOToolStripMenuItem.Text = "DEMO";
             this.dEMOToolStripMenuItem.Click += new System.EventHandler(this.dEMOToolStripMenuItem_Click_1);
             // 
-            // rB_Poke
-            // 
-            this.rB_Poke.AutoSize = true;
-            this.rB_Poke.Location = new System.Drawing.Point(705, 35);
-            this.rB_Poke.Name = "rB_Poke";
-            this.rB_Poke.Size = new System.Drawing.Size(87, 17);
-            this.rB_Poke.TabIndex = 8;
-            this.rB_Poke.TabStop = true;
-            this.rB_Poke.Text = "Thread Poke";
-            this.rB_Poke.UseVisualStyleBackColor = true;
-            // 
-            // rB_Wait
-            // 
-            this.rB_Wait.AutoSize = true;
-            this.rB_Wait.Location = new System.Drawing.Point(705, 6);
-            this.rB_Wait.Name = "rB_Wait";
-            this.rB_Wait.Size = new System.Drawing.Size(84, 17);
-            this.rB_Wait.TabIndex = 7;
-            this.rB_Wait.TabStop = true;
-            this.rB_Wait.Text = "Thread Wait";
-            this.rB_Wait.UseVisualStyleBackColor = true;
-            // 
-            // btnTongNhanVien
-            // 
-            this.btnTongNhanVien.BackColor = System.Drawing.Color.Silver;
-            this.btnTongNhanVien.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTongNhanVien.ForeColor = System.Drawing.Color.Red;
-            this.btnTongNhanVien.Location = new System.Drawing.Point(538, 3);
-            this.btnTongNhanVien.Name = "btnTongNhanVien";
-            this.btnTongNhanVien.Size = new System.Drawing.Size(74, 49);
-            this.btnTongNhanVien.TabIndex = 9;
-            this.btnTongNhanVien.Text = "Tổng NV";
-            this.btnTongNhanVien.UseVisualStyleBackColor = false;
-            this.btnTongNhanVien.Click += new System.EventHandler(this.btnTongNhanVien_Click);
-            // 
-            // btnKtheDocLai
-            // 
-            this.btnKtheDocLai.BackColor = System.Drawing.Color.Silver;
-            this.btnKtheDocLai.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnKtheDocLai.ForeColor = System.Drawing.Color.Red;
-            this.btnKtheDocLai.Location = new System.Drawing.Point(618, 3);
-            this.btnKtheDocLai.Name = "btnKtheDocLai";
-            this.btnKtheDocLai.Size = new System.Drawing.Size(74, 49);
-            this.btnKtheDocLai.TabIndex = 10;
-            this.btnKtheDocLai.Text = "Không Đọc Lại";
-            this.btnKtheDocLai.UseVisualStyleBackColor = false;
-            this.btnKtheDocLai.Click += new System.EventHandler(this.btnKtheDocLai_Click);
-            // 
             // FrmDemoProblem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -435,7 +435,7 @@
             this.MaximizeBox = false;
             this.Name = "FrmDemoProblem";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Hệ Thống";
+            this.Text = "Demo Problem";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmDemoProblem_FormClosing);
             this.Load += new System.EventHandler(this.FrmSystem_Load);
             this.tabControl1.ResumeLayout(false);

@@ -22,6 +22,10 @@ namespace QuanLyNhaHang
             InitializeComponent();
 
             IPConnectionDAL.insertIP(GetIPconnectSql.getIP());
+
+
+            //in ra pass ma hoa mac dinh
+            //Constant.passDefaultEncrypted();
         }
 
         #region - Methods -
@@ -39,7 +43,7 @@ namespace QuanLyNhaHang
             txt.Location = new Point(130, 3);
             txt.Size = new Size(381, 40);
             txt.Name = "txtTest";
-            txt.ForeColor = Color.Blue;
+            txt.ForeColor = Color.DarkBlue;
             txt.KeyPress += Txt_KeyPress;
             return txt;
         }

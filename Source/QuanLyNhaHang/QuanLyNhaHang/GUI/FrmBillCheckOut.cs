@@ -38,6 +38,24 @@ namespace QuanLyNhaHang.GUI
         }
 
 
+        #region -- Methods --
+
+        private void nUd_giamgia()
+        {
+            CultureInfo culture = new CultureInfo("vi-vN");
+            if (nUdGiamGia.Value != 0)
+            {
+                int discount = (int)nUdGiamGia.Value;
+                float tongTien = totalPrice();
+                double finalPrice = tongTien - (tongTien * discount / 100);
+                txtTongTien.Text = finalPrice.ToString("c", culture);
+            }
+            else
+            {
+                txtTongTien.Text = totalPrice().ToString("c", culture);
+            }
+        }
+
         private float totalPrice()
         {
             float tongTien = 0;
@@ -85,11 +103,61 @@ namespace QuanLyNhaHang.GUI
             txtTongTien.Text = tongTien.ToString("c", culture);
         }
 
+        private double conLai()
+        {
+            int discount = (int)nUdGiamGia.Value;
+            return totalPrice() - (totalPrice() * discount / 100);
+        }
+
+        private string getDate()
+        {
+            string d, m;
+            int day = DateTime.Now.Day;
+            int month = DateTime.Now.Month;
+            int year = DateTime.Now.Year;
+            if (day < 10) d = "0" + day.ToString(); else d = day.ToString();
+            if (month < 10) m = "0" + month.ToString(); else m = month.ToString();
+
+            return "Ngày: " + d + "/" + m + "/" + year;
+        }
+
+        private string getTime()
+        {
+            string h, m, s;
+            int hour = DateTime.Now.Hour;
+            int min = DateTime.Now.Minute;
+            int se = DateTime.Now.Second;
+            if (hour < 10) h = "0" + hour.ToString(); else h = hour.ToString();
+            if (min < 10) m = "0" + min.ToString(); else m = min.ToString();
+            if (se < 10) s = "0" + se.ToString(); else s = se.ToString();
+            return "Giờ: " + h + ":" + m + ":" + s;
+        }
+
+        public static string DoiSoSangDonViTienTe(float _object)
+        {
+            try
+            {
+                CultureInfo culture = new CultureInfo("vi-vN");
+                string strThanhTien = _object.ToString("c", culture);
+
+                return strThanhTien;
+            }
+            catch (Exception)
+            {
+
+            }
+            return "0.000";
+        }
+
         private string getNameStaff()
         {
             return StaffDAL.getStaff(AccountDAL.getAccount(acc.UserName).IdNhanVien).TenNhanVien;
         }
 
+        #endregion
+
+
+        #region -- Events --
 
         private void FrmBillCheckOut_Load(object sender, EventArgs e)
         {
@@ -110,29 +178,17 @@ namespace QuanLyNhaHang.GUI
 
         private void nUdGiamGia_ValueChanged(object sender, EventArgs e)
         {
-            /*if (nUdGiamGia.Value != 0)
-            {
-                int discount = (int)nUdGiamGia.Value;
-                float tongTien = 0;
-                for (int i = 0; i < list.Count; i++)
-                    tongTien += list[i].ThanhTien;
-
-                double finalPrice = tongTien - (tongTien * discount / 100);
-
-                CultureInfo culture = new CultureInfo("vi-vN");
-                txtTongTien.Text = finalPrice.ToString("c", culture);
-            }*/
+            nUd_giamgia();
         }
 
-        private double conLai()
-        {
-            int discount = (int)nUdGiamGia.Value;
-            return totalPrice() - (totalPrice() * discount / 100);
-        }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            double finalPrice = Convert.ToDouble(totalPrice());
+            double finalPrice;
+            if (nUdGiamGia.Value == 0)
+                finalPrice = Convert.ToDouble(totalPrice());
+            else finalPrice = conLai();
+
 
             int discount = (int)nUdGiamGia.Value;
             int idBill = BillDAL.getIdBillUncheckByIdTable(idTable);
@@ -144,6 +200,7 @@ namespace QuanLyNhaHang.GUI
                 truyen(this, new EventArgs());
             }
         }
+
 
         private void btnInHoaDon_Click(object sender, EventArgs e)
         {
@@ -170,30 +227,6 @@ namespace QuanLyNhaHang.GUI
         }
 
 
-
-        private string getDate()
-        {
-            string d, m;
-            int day = DateTime.Now.Day;
-            int month = DateTime.Now.Month;
-            int year = DateTime.Now.Year;
-            if (day < 10) d = "0" + day.ToString(); else d = day.ToString();
-            if (month < 10) m = "0" + month.ToString(); else m = month.ToString();
-
-            return "Ngày: " + d + "/" + m + "/" + year;
-        }
-        private string getTime()
-        {
-            string h, m, s;
-            int hour = DateTime.Now.Hour;
-            int min = DateTime.Now.Minute;
-            int se = DateTime.Now.Second;
-            if (hour < 10) h = "0" + hour.ToString(); else h = hour.ToString();
-            if (min < 10) m = "0" + min.ToString(); else m = min.ToString();
-            if (se < 10) s = "0" + se.ToString(); else s = se.ToString();
-            return "Giờ: " + h + ":" + m + ":" + s;
-        }
-
         private void _CreateReceipt(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
             Graphics graphic = e.Graphics;
@@ -203,7 +236,7 @@ namespace QuanLyNhaHang.GUI
             int startY = 10;
             int offset = 40;
 
-            graphic.DrawString("Restaurant TEAM 8", new Font("Courier New", 18), new SolidBrush(Color.Black), startX + 100, startY);
+            graphic.DrawString("Restaurant", new Font("Courier New", 18), new SolidBrush(Color.Black), startX + 150, startY);
 
             /*string top = "Tên Sản Phẩm".PadRight(24) + "Thành Tiền";
             graphic.DrawString(top, font, new SolidBrush(Color.Black), startX, startY + offset);*/
@@ -236,7 +269,7 @@ namespace QuanLyNhaHang.GUI
             offset = offset + 15; //make some room so that the total stands out.
 
             graphic.DrawString("TỔNG CỘNG: ", new Font("Courier New", 12, FontStyle.Bold), new SolidBrush(Color.Black), startX, startY + offset);
-            graphic.DrawString(txtTongTien.Text, new Font("Courier New", 12, FontStyle.Bold), new SolidBrush(Color.Black), startX + 300, startY + offset);
+            graphic.DrawString(DoiSoSangDonViTienTe((float)totalPrice()), new Font("Courier New", 12, FontStyle.Bold), new SolidBrush(Color.Black), startX + 300, startY + offset);
 
             if (nUdGiamGia.Value != 0)
             {
@@ -246,7 +279,7 @@ namespace QuanLyNhaHang.GUI
 
                 offset = offset + (int)FontHeight + 5;
                 graphic.DrawString("CÒN LẠI: ", new Font("Courier New", 12, FontStyle.Bold), new SolidBrush(Color.Black), startX, startY + offset);
-                graphic.DrawString(conLai().ToString() , new Font("Courier New", 12, FontStyle.Bold), new SolidBrush(Color.Black), startX + 300, startY + offset);
+                graphic.DrawString(DoiSoSangDonViTienTe((float)conLai()), new Font("Courier New", 12, FontStyle.Bold), new SolidBrush(Color.Black), startX + 300, startY + offset);
             }
 
 
@@ -270,21 +303,6 @@ namespace QuanLyNhaHang.GUI
             graphic.DrawString(" QUẢN LÝ NHÀ HÀNG - NHÓM 8 ", font, new SolidBrush(Color.Black), startX + 100, startY + offset);
         }
 
-        public static string DoiSoSangDonViTienTe(float _object)
-        {
-            try
-            {
-                CultureInfo culture = new CultureInfo("vi-vN");
-                string strThanhTien = _object.ToString("c", culture);
-
-                return strThanhTien;
-            }
-            catch (Exception)
-            {
-
-            }
-            return "0.000";
-        }
 
         private void txtKhachTra_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -300,5 +318,8 @@ namespace QuanLyNhaHang.GUI
                 e.Handled = true;
             }
         }
+
+        #endregion
+
     }
 }

@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace QuanLyNhaHang.DAL
 {
@@ -27,15 +28,15 @@ namespace QuanLyNhaHang.DAL
         //chỉ 1 ip đăng nhập 1 tài khoản
         public static bool replaceCheckLogin(string userName, int check)
         {
-            int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("UPDATE dbo.TaiKhoan SET checkLogin = {0} WHERE userName = N'{1}'", check, userName));
+            int result = DatabaseExecute.sqlExecuteNonQuery("SP_replaceCheckLogin @userName , @checkLogin", new object[] { userName, check });
+
             return result > 0;
         }
-
 
         public static Account getAccount(string userName)
         {
             DataTable data = new DataTable();
-            data = DatabaseExecute.sqlQuery("select * from TaiKhoan where userName = @uN", new object[] { userName });
+            data = DatabaseExecute.sqlQuery("SP_getAccount @userName", new object[] { userName });
             foreach (DataRow row in data.Rows)
                 return new Account(row);
             return null;
@@ -44,57 +45,60 @@ namespace QuanLyNhaHang.DAL
         public static bool getCheckLogin(string userName)
         {
             Account r = getAccount(userName);
-            if (r.CheckLogin == 1) return true;
+            if (r != null)
+            {
+                if (r.CheckLogin == 1) return true;
+                else return false;
+            }
             return false;
         }
 
         public static DataTable getListAccount()
         {
-            DataTable data = DatabaseExecute.sqlQuery("SELECT userName, idNhanVien, loaiTK from dbo.TaiKhoan WHERE checkDelete = 0");
-            return data;
+            return DatabaseExecute.sqlQuery("SP_getListAccount");
         }
 
         public static bool deleteAccount(string userName)
         {
-            int result = DatabaseExecute.sqlExecuteNonQuery("UPDATE dbo.TaiKhoan SET checkDelete = 1 WHERE userName = N'" + userName + "'");
+            int result = DatabaseExecute.sqlExecuteNonQuery("SP_deleteAccount @userName", new object[] { userName });
             return result > 0;
         }
 
         public static bool updateAccount(string userName, int loaiTK)
         {
-            int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("UPDATE dbo.TaiKhoan SET loaiTK = {0} WHERE userName = N'{1}'", loaiTK, userName));
+            int result = DatabaseExecute.sqlExecuteNonQuery("SP_updateAccount @userName , @loaiTK", new object[] { userName, loaiTK });
             return result > 0;
         }
 
         public static bool insertAccount(string userName, int loaiTK, int idNhanVien)
         {
-            int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("INSERT TaiKhoan (userName, pass, idNhanVien, loaiTK) VALUES ('{0}', '{1}', {2}, {3} )", userName, "123", idNhanVien, loaiTK));
+            string pass = EncryptPassword.md5(Constant.passDefault);
+            int result = DatabaseExecute.sqlExecuteNonQuery("SP_insertAccount @userName , @pass ,  @loaiTK , @idNhanVien", new object[] { userName, pass, loaiTK, idNhanVien });
             return result > 0;
         }
 
         public static int countAccByUsername(string username)
         {
-            return (int)DatabaseExecute.sqlExecuteScalar("SELECT COUNT(*) FROM dbo.TaiKhoan WHERE userName = '" + username + "'");
+            return (int)DatabaseExecute.sqlExecuteScalar("SP_countAccByUserName @userName", new object[] { username });
         }
 
 
         public static int countAccByIdStaff(int idStaff)
         {
-            return (int)DatabaseExecute.sqlExecuteScalar("SELECT COUNT(*) FROM dbo.TaiKhoan WHERE idNhanVien = '" + idStaff + "'");
+            return (int)DatabaseExecute.sqlExecuteScalar("SP_countAccByIdStaff @idNhanVien", new object[] { idStaff });
         }
 
 
         public static bool deleteAccByIdStaff(int id)
         {
-            DatabaseExecute.sqlExecuteNonQuery("UPDATE dbo.TaiKhoan SET checkLogin = 0 WHERE idNhanVien = " + id);
-            int result = DatabaseExecute.sqlExecuteNonQuery("UPDATE dbo.TaiKhoan SET checkDelete = 1 WHERE idNhanVien = " + id);
+            DatabaseExecute.sqlExecuteNonQuery("SP_checkLogin0ByStaff @idNhanVien", new object[] { id });
+            int result = DatabaseExecute.sqlExecuteNonQuery("SP_deleteAccountByStaff @idNhanVien", new object[] { id });
             return result > 0;
         }
 
         public static bool ResetAccount(string userName)
         {
-            string query = string.Format("UPDATE dbo.TaiKhoan SET pass = N'{0}' WHERE userName = N'{1}'", EncryptPassword.md5(Constant.passDefault), userName);
-            int result = DatabaseExecute.sqlExecuteNonQuery(query);
+            int result = DatabaseExecute.sqlExecuteNonQuery("SP_resetPass @userName , @pass", new object[] { userName, EncryptPassword.md5(Constant.passDefault) });
 
             return result > 0;
         }

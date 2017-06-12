@@ -14,13 +14,13 @@ namespace QuanLyNhaHang.DAL
 
         public static DataTable getDataTableStaff()
         {
-            return DatabaseExecute.sqlQuery("SELECT idNhanVien AS [ID Nhân Viên], tenNhanVien AS [Tên Nhân Viên], ngaySinh AS [Ngày Sinh], gioiTinh AS [Giới Tính], chucVu AS [Chức Vụ] FROM dbo.NhanVien WHERE checkDelete = 0");
+            return DatabaseExecute.sqlQuery("SP_getListStaffFormat");
         }
 
         public static List<Staff> getListStaff()
         {
             List<Staff> list = new List<Staff>();
-            DataTable data = DatabaseExecute.sqlQuery("SELECT * FROM dbo.NhanVien WHERE checkDelete = 0");
+            DataTable data = DatabaseExecute.sqlQuery("SP_getListStaff");
             foreach (DataRow i in data.Rows)
             {
                 Staff test = new Staff(i);
@@ -31,7 +31,7 @@ namespace QuanLyNhaHang.DAL
 
         public static Staff getStaff(int id)
         {
-            DataTable data = DatabaseExecute.sqlQuery("SELECT * FROM dbo.NhanVien WHERE checkDelete = 0 AND idNhanVien = " + id);
+            DataTable data = DatabaseExecute.sqlQuery("SP_getStaff @idNhanVien", new object[] { id });
             foreach (DataRow i in data.Rows)
                 return new Staff(i);
             return null;
@@ -40,7 +40,7 @@ namespace QuanLyNhaHang.DAL
         public static bool insertStaff(string ten, DateTime ngSinh, string gT, string cV, string que, string dC, string tel, string email)
         {
             if (ten.Length > 100 || cV.Length > 100 || que.Length > 100 || dC.Length > 200 || email.Length > 200) return false;
-            int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("INSERT dbo.NhanVien( tenNhanVien ,ngaySinh , gioiTinh ,chucVu ,queQuan ,email ,diaChi , tel) VALUES(N'{0}', '{1}', N'{2}', N'{3}', N'{4}', '{5}', N'{6}', N'{7}')", ten, ngSinh, gT, cV, que, email, dC, tel));
+            int result = DatabaseExecute.sqlExecuteNonQuery("SP_insertStaff @ten , @ngaySinh , @gioiTinh , @chucVu , @queQuan , @diaChi , @tel , @mail", new object[] { ten, ngSinh, gT, cV, que, dC, tel, email });
             return result > 0;
         }
 
@@ -50,24 +50,24 @@ namespace QuanLyNhaHang.DAL
             if (AccountDAL.countAccByIdStaff(id) > 0)
                 try { AccountDAL.deleteAccByIdStaff(id); } catch { return false; }
 
-            int result = DatabaseExecute.sqlExecuteNonQuery("UPDATE dbo.NhanVien SET checkDelete = 1 WHERE idNhanVien = " + id);
+            int result = DatabaseExecute.sqlExecuteNonQuery("SP_deleteStaff @idNhanVien", new object[] { id });
             return result > 0;
-             
+
         }
 
         public static bool updateStaff(int id, string ten, DateTime ngSinh, string gT, string cV, string que, string dC, string tel, string email)
         {
             if (ten.Length > 100 || cV.Length > 100 || que.Length > 100 || dC.Length > 200 || email.Length > 200) return false;
-            int result = DatabaseExecute.sqlExecuteNonQuery(string.Format("UPDATE dbo.NhanVien SET tenNhanVien = N'{0}', ngaySinh = '{1}', gioiTinh = N'{2}', chucVu = N'{3}', queQuan = N'{4}', email = N'{5}', diaChi=N'{6}', tel=N'{7}' WHERE idNhanVien = {8}", ten, ngSinh, gT, cV, que, email, dC, tel, id));
+            int result = DatabaseExecute.sqlExecuteNonQuery("SP_updateStaff @idNhanVien , @ten , @ngaySinh , @gioiTinh , @chucVu , @queQuan , @diaChi , @tel , @mail", new object[] { id, ten, ngSinh, gT, cV, que, dC, tel, email });
             return result > 0;
         }
 
         public static int getLastIdStaff()
         {
-            try { return (int)DatabaseExecute.sqlExecuteScalar("select MAX(idNhanVien) from NhanVien"); }
+            try { return (int)DatabaseExecute.sqlExecuteScalar("SP_getMaxIdStaff"); }
             catch { return -1; }
         }
-        
+
         public static DataTable GetStaffListANDpage(int page, int pageRows)
         {
             return DatabaseExecute.sqlQuery("StoredProcedure_PhanTrangNhanVien @page , @pageRows", new object[] { page, pageRows });
@@ -77,11 +77,6 @@ namespace QuanLyNhaHang.DAL
         {
             return (int)DatabaseExecute.sqlExecuteScalar("StoredProcedure_layTongSoNhanVien");
         }
-
-
-
-
-
 
 
 
@@ -107,7 +102,7 @@ namespace QuanLyNhaHang.DAL
 
         public static int getCountLockLU_withUser(int idNhanVien, string userName)
         {
-            return (int)DatabaseExecute.sqlExecuteScalar("SP_countLockLU_withUser @idNhanVien , @userName", new object[] { idNhanVien , userName});
+            return (int)DatabaseExecute.sqlExecuteScalar("SP_countLockLU_withUser @idNhanVien , @userName", new object[] { idNhanVien, userName });
         }
         #endregion
 
@@ -160,6 +155,7 @@ namespace QuanLyNhaHang.DAL
             return DatabaseExecute.returnPrint("SP_tongNV_phantomFix");
         }
         #endregion
+
 
         #region khong the doc lai
         public static string getNameKTheDoclai(int idNhanVien)

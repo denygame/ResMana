@@ -12,13 +12,13 @@ namespace QuanLyNhaHang.DAL
     {
         public static int getCountTableChange()
         {
-            return (int)DatabaseExecute.sqlExecuteScalar("SELECT COUNT(*) FROM dbo.testLoadTableCsharp");
+            return (int)DatabaseExecute.sqlExecuteScalar("SP_getCountTableChange");
         }
 
         public static List<TestLoadTable> getListIdTableChange()
         {
             List<TestLoadTable> list = new List<TestLoadTable>();
-            DataTable data = DatabaseExecute.sqlQuery("SELECT * FROM dbo.testLoadTableCsharp");
+            DataTable data = DatabaseExecute.sqlQuery("SP_getListIdTableChange");
             foreach(DataRow r in data.Rows)
             {
                 TestLoadTable i = new TestLoadTable(r);
@@ -29,7 +29,7 @@ namespace QuanLyNhaHang.DAL
 
         public static void deleteTestTableinSql()
         {
-            DatabaseExecute.sqlQuery("DELETE FROM dbo.testLoadTableCsharp");
+            DatabaseExecute.sqlQuery("SP_deleteTestTableinSql");
         }
     }
 }

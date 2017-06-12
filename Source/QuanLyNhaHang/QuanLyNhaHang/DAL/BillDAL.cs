@@ -17,7 +17,7 @@ namespace QuanLyNhaHang.DAL
         /// <returns></returns>
         public static int getIdBillUncheckByIdTable(int idBanAn)
         {
-            DataTable data = DatabaseExecute.sqlQuery("select * from HoaDon where trangThai = N'Chưa thanh toán' and idBanAn = " +  idBanAn );
+            DataTable data = DatabaseExecute.sqlQuery("SP_getIdBillUncheckByTable @idBanAn", new object[] { idBanAn });
             if (data.Rows.Count > 0)
             {
                 Bill layID = new Bill(data.Rows[0]);
@@ -47,7 +47,7 @@ namespace QuanLyNhaHang.DAL
         /// <returns></returns>
         public static int getLastIdBill()
         {
-            try { return (int)DatabaseExecute.sqlExecuteScalar("select MAX(idHoaDon) from HoaDon"); }
+            try { return (int)DatabaseExecute.sqlExecuteScalar("SP_getLastIdBill"); }
             catch { return -1; }
         }
 
@@ -67,7 +67,7 @@ namespace QuanLyNhaHang.DAL
         /// <returns></returns>
         public static DataTable getListUncheckBill()
         {
-            return DatabaseExecute.sqlQuery("SELECT s.tenSanh, ba.tenBan, hd.ngayDen, hd.trangThai FROM dbo.HoaDon AS hd, dbo.BanAn AS ba, dbo.Sanh AS s WHERE ba.idBanAn = hd.idBanAn AND ba.idSanh = s.idSanh AND hd.trangThai = N'Chưa thanh toán'");
+            return DatabaseExecute.sqlQuery("SP_getListUncheckBill");
         }
 
         public static DataTable GetBillListByDateANDpage(DateTime In, DateTime Out, int page, int pageRows)
@@ -83,8 +83,7 @@ namespace QuanLyNhaHang.DAL
 
         public static void CheckOut(int idBill, int discount, float totalPrice)
         {
-            string query = "UPDATE dbo.HoaDon SET tongTien = " + totalPrice + ", ngayDen = GETDATE(), trangThai = N'Đã thanh toán', discount = " + discount + " WHERE idHoaDon = " + idBill;
-            DatabaseExecute.sqlExecuteNonQuery(query);
+            DatabaseExecute.sqlExecuteNonQuery("SP_checkOut @idBill , @totalPrice , @discount", new object[] { idBill, totalPrice, discount });
         }
 
         public static int GetNumBillByDate(DateTime from, DateTime to)

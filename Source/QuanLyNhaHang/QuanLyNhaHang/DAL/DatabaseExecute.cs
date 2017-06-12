@@ -60,7 +60,8 @@ namespace QuanLyNhaHang.DAL
             conn.Close();
             return traVe;
         }
-    //execute trả về object
+
+        //execute trả về object
         public static object sqlExecuteScalar(string query, object[] bienSoTruyenVao = null)
         {
             object traVe = -1;
@@ -132,10 +133,7 @@ namespace QuanLyNhaHang.DAL
 
 
 
-
         private static string stringPrint = "";
-
-
         public static string returnPrint(string query, object[] bienSoTruyenVao = null)
         {
             int traVe = -1;

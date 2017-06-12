@@ -1198,7 +1198,7 @@ namespace QuanLyNhaHang.GUI
 
         #endregion
 
-        #endregion
+
 
         private void demoProblemToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1214,5 +1214,8 @@ namespace QuanLyNhaHang.GUI
             loadDataStaff();
             loadDataAccount();
         }
+
+        #endregion
+
     }
 }

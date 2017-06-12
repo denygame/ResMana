@@ -95,11 +95,6 @@ namespace QuanLyNhaHang
             loadTableWithIdSanh((cbSanh.SelectedItem as Sanh).IdSanh);
         }
 
-        /// <summary>
-        /// test lai
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void btnThanhToan_Click(object sender, EventArgs e)
         {
             if (dataGridView_HDtheoBan.Tag == null)
@@ -107,38 +102,16 @@ namespace QuanLyNhaHang
                 MessageBox.Show("Hãy chọn bàn cần thanh toán!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            string name = SanhDAL.getSanh((cbSanh.SelectedItem as Sanh).IdSanh).TenSanh+" -  "+TableDAL.getTable((dataGridView_HDtheoBan.Tag as Table).IdBanAn).TenBan;
-            FrmBillCheckOut f = new FrmBillCheckOut(name, tkDangNhap, (dataGridView_HDtheoBan.Tag as Table).IdBanAn);
-            f.Truyen += F_Truyen;
-            f.ShowDialog();
 
-
-            /*int idBill = BillDAL.getIdBillUncheckByIdTable((dataGridView_HDtheoBan.Tag as Table).IdBanAn);
-
-            int discount = (int)nUdGiamGia.Value;
-
-            //đổi chuỗi
-            string[] test = txtTongTien.Text.ToString().Split(new char[] { ',', '.' });
-            string tP = "";
-            for (int i = 0; i < test.Length - 1; i++) tP += test[i];
-
-            double totalPrice = Convert.ToDouble(tP);
-
-            double finalPrice = totalPrice - (totalPrice * discount) / 100;
-
-            string tenBan = (dataGridView_HDtheoBan.Tag as Table).TenBan;
+            int idBill = BillDAL.getIdBillUncheckByIdTable((dataGridView_HDtheoBan.Tag as Table).IdBanAn);
 
             if (idBill != -1)
             {
-                if (MessageBox.Show(string.Format("Bạn có chắc thanh toán hóa đơn cho {0}\n\nTổng tiền phải trả = (Tổng tiền) X (Giảm giá)% \n => {1} X {2}% = {3}", tenBan, totalPrice, discount, finalPrice), "Xác Nhận", MessageBoxButtons.OKCancel) == DialogResult.OK)
-                {
-                    BillDAL.CheckOut(idBill, discount, (float)finalPrice);
-                    showBill((dataGridView_HDtheoBan.Tag as Table).IdBanAn);
-                    loadTableWithIdSanh((cbSanh.SelectedItem as Sanh).IdSanh);
-
-                    resetTagTable();
-                }
-            }*/
+                string name = SanhDAL.getSanh((cbSanh.SelectedItem as Sanh).IdSanh).TenSanh + " -  " + TableDAL.getTable((dataGridView_HDtheoBan.Tag as Table).IdBanAn).TenBan;
+                FrmBillCheckOut f = new FrmBillCheckOut(name, tkDangNhap, (dataGridView_HDtheoBan.Tag as Table).IdBanAn);
+                f.Truyen += F_Truyen;
+                f.ShowDialog();
+            }
         }
 
         private void F_Truyen(object sender, EventArgs e)
