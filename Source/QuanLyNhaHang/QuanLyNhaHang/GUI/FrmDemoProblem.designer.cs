@@ -333,12 +333,13 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(381, 229);
+            this.label6.Location = new System.Drawing.Point(333, 229);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(416, 100);
+            this.label6.Size = new System.Drawing.Size(448, 100);
             this.label6.TabIndex = 6;
             this.label6.Text = "+ Mở 2 chương trình, chọn Vấn đề mất dữ liệu đã cập nhật\r\n\r\n+ 1 chọn Thread Wait," +
-    " 1 chọn Thread Poke\r\n\r\n+ 2 ct cùng update chức vụ Staff ( Wait update trước )";
+    " 1 chọn Thread Poke\r\n\r\n+ 2 ct cùng update Staff ( Wait update 1 tt, Poke chừa tt" +
+    " đó ra)";
             // 
             // label7
             // 

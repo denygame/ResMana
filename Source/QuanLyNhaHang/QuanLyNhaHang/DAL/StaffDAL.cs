@@ -107,15 +107,15 @@ namespace QuanLyNhaHang.DAL
         #endregion
 
 
-        public static bool waitLostUpdate(int id, string cv)
+        public static bool waitLostUpdate(int id, string ten, DateTime ngSinh, string gT, string cV, string que, string dC, string tel, string email)
         {
-            int result = DatabaseExecute.sqlExecuteNonQuery("SP_waitUpdate @chucVu , @id", new object[] { cv, id });
+            int result = DatabaseExecute.sqlExecuteNonQuery("SP_waitUpdate @ten , @ngaySinh , @gioiTinh , @chucVu , @queQuan , @diaChi , @tel , @email , @id", new object[] { ten, ngSinh, gT, cV, que, dC, tel, email, id });
             return result > 0;
         }
 
-        public static bool pokeLostUpdate(int id, string cv)
+        public static bool pokeLostUpdate(int id, string ten, DateTime ngSinh, string gT, string cV, string que, string dC, string tel, string email)
         {
-            int result = DatabaseExecute.sqlExecuteNonQuery("SP_pokeUpdate @chucVu , @id", new object[] { cv, id });
+            int result = DatabaseExecute.sqlExecuteNonQuery("SP_pokeUpdate @ten , @ngaySinh , @gioiTinh , @chucVu , @queQuan , @diaChi , @tel , @email , @id", new object[] { ten, ngSinh, gT, cV, que, dC, tel, email, id });
             return result > 0;
         }
 

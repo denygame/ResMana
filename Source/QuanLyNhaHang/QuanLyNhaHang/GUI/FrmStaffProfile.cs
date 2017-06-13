@@ -227,11 +227,11 @@ namespace QuanLyNhaHang.GUI
                     //tức là frm demo 
                     if (matDulieu == 0)
                     {
-                        StaffDAL.waitLostUpdate(Convert.ToInt32(txtIdNhanVien.Text), txtChucVu.Text);
+                        StaffDAL.waitLostUpdate(Convert.ToInt32(txtIdNhanVien.Text), txtTen.Text, dTp_NgaySinh.Value, gT, txtChucVu.Text, txtQue.Text, txtDiaChi.Text, txtSDT.Text, txtEmail.Text);
                     }
                     if (matDulieu == 1)
                     {
-                        StaffDAL.pokeLostUpdate(Convert.ToInt32(txtIdNhanVien.Text), txtChucVu.Text);
+                        StaffDAL.pokeLostUpdate(Convert.ToInt32(txtIdNhanVien.Text), txtTen.Text, dTp_NgaySinh.Value, gT, txtChucVu.Text, txtQue.Text, txtDiaChi.Text, txtSDT.Text, txtEmail.Text);
                     }
 
                     thaydoiFrmDemo(sender, new EventTruyenDuLieu(false));

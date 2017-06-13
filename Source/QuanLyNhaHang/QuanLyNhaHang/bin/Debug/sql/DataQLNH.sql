@@ -530,24 +530,34 @@ GO
 
 
 /*demo lost updated - mất dữ liệu đã cập nhật*/
-CREATE PROC SP_waitUpdate
-@chucVu NVARCHAR(100),@id INT
+CREATE PROC SP_waitUpdate 
+@ten NVARCHAR(100), @ngaySinh DATE, @gioiTinh NVARCHAR(3), @chucVu NVARCHAR(100), 
+@queQuan NVARCHAR(100), @diaChi NVARCHAR(200), @tel VARCHAR(11), @email VARCHAR(200), @id INT
 AS
 BEGIN
 	BEGIN TRAN
-		UPDATE dbo.NhanVien SET chucVu = @chucVu WHERE idNhanVien = @id
+		UPDATE dbo.NhanVien 
+		SET tenNhanVien = @ten, ngaySinh = @ngaySinh, gioiTinh = @gioiTinh,
+			chucVu = @chucVu, queQuan = @queQuan, diaChi = @diaChi, tel = @tel, email = @email
+		WHERE idNhanVien = @id
+
 		WAITFOR DELAY '00:00:05.000'
 	COMMIT TRAN
 END
 GO
 
+
 CREATE PROC SP_pokeUpdate
-@chucVu NVARCHAR(100),@id INT
+@ten NVARCHAR(100), @ngaySinh DATE, @gioiTinh NVARCHAR(3), @chucVu NVARCHAR(100), 
+@queQuan NVARCHAR(100), @diaChi NVARCHAR(200), @tel VARCHAR(11), @email VARCHAR(200), @id INT
 AS
 BEGIN
-	SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+	SET TRAN ISOLATION LEVEL READ UNCOMMITTED
 	BEGIN TRAN
-		UPDATE dbo.NhanVien SET chucVu = @chucVu WHERE idNhanVien = @id
+		UPDATE dbo.NhanVien 
+		SET tenNhanVien = @ten, ngaySinh = @ngaySinh, gioiTinh = @gioiTinh,
+			chucVu = @chucVu, queQuan = @queQuan, diaChi = @diaChi, tel = @tel, email = @email
+		WHERE idNhanVien = @id
 	COMMIT TRAN
 	END
 GO
